@@ -49,7 +49,7 @@ certified without independent evidence.
 
 ## Measurement protocol
 
-`scripts/stress_irregular_resources.py` generates anonymous, quarter-turned
+`benchmarks/stress_irregular_resources.py` generates anonymous, quarter-turned
 irregular masks on an independently generated smooth random RGB field.
 Adjacent masks share irregular pixel edges. Each size uses seed 827 and
 nominal tile 36 px. No layout or labels are provided to matching. After the
@@ -116,14 +116,14 @@ damaged real-world artifacts.
 
 ```sh
 python scripts/build_native.py
-PYTHONPATH=src python scripts/stress_irregular_resources.py --count 8192 --tile 36
-PYTHONPATH=src python scripts/stress_irregular_resources.py --count 65536 --tile 36
-PYTHONPATH=src python scripts/stress_irregular_resources.py --count 100000 --tile 36
-PYTHONPATH=src python scripts/stress_irregular_resources.py --count 8192 --tile 36 --workflow
-PYTHONPATH=src python scripts/stress_irregular_resources.py --count 4096 --tile 36 --workflow --browser-limits
-PYTHONPATH=src python scripts/stress_irregular_resources.py --count 131072 --tile 36
-PYTHONPATH=src python scripts/benchmark_sparse_scan.py --count 4096 --tile 36 --cut jagged
-PYTHONPATH=src python scripts/benchmark_sparse_scan.py --count 144 --tile 70 --cut random --angle-mode continuous --erosion 2 --missing .05
+PYTHONPATH=src python benchmarks/stress_irregular_resources.py --count 8192 --tile 36
+PYTHONPATH=src python benchmarks/stress_irregular_resources.py --count 65536 --tile 36
+PYTHONPATH=src python benchmarks/stress_irregular_resources.py --count 100000 --tile 36
+PYTHONPATH=src python benchmarks/stress_irregular_resources.py --count 8192 --tile 36 --workflow
+PYTHONPATH=src python benchmarks/stress_irregular_resources.py --count 4096 --tile 36 --workflow --browser-limits
+PYTHONPATH=src python benchmarks/stress_irregular_resources.py --count 131072 --tile 36
+PYTHONPATH=src python benchmarks/benchmark_sparse_scan.py --count 4096 --tile 36 --cut jagged
+PYTHONPATH=src python benchmarks/benchmark_sparse_scan.py --count 144 --tile 70 --cut random --angle-mode continuous --erosion 2 --missing .05
 ```
 
 For the full measured rows and resource-abstention diagnostics, see

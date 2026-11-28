@@ -17,10 +17,10 @@ jobs:
       - name: Build C++20 native kernels
         run: python scripts/build_native.py
       - name: Algorithm regression (C++ backend)
-        run: python -m unittest discover -s tests/v2
+        run: python -m unittest discover -s tests/algorithms -t .
       - name: Web build regression
-        run: python -m unittest discover -s tests/workflow
+        run: python -m unittest discover -s tests/integration -t .
       - name: Reference backend parity / fallback
         env:
           SHARDELIX_CORE: python
-        run: python -m unittest discover -s tests/v2
+        run: python -m unittest discover -s tests/algorithms -t .

@@ -1,6 +1,6 @@
 """Paired synthetic physical strip stress test on composed DocDataset crops.
 
-Run: PYTHONPATH=src python scripts/benchmark_scan_stress.py DocDataset.zip --out result.json
+Run: PYTHONPATH=src python benchmarks/benchmark_scan_stress.py DocDataset.zip --out result.json
 The eight deterministic development cases combine paper shadows, eroded edges,
 relative translations, unknown quarter turns and uneven strip widths. Only
 anonymized scanned pixels enter the solver; truth is used for evaluation only.

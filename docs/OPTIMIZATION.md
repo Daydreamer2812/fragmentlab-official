@@ -118,15 +118,15 @@ so the result is correctly labeled ambiguous, not 100% accurate.
 ```sh
 python -m pip install -e '.[reference]'
 python scripts/build_native.py
-python -m unittest discover -s tests/v2
-SHARDELIX_CORE=python python -m unittest discover -s tests/v2
-python -m unittest discover -s tests/workflow
-python scripts/benchmark_scanned_strips.py DocDataset.zip --profile balanced
-python scripts/benchmark_indexed_dafne.py 00.zip result00 --case 2019-2-19_14.55.4 --engine auto
-python scripts/benchmark_indexed_dafne.py 24.zip result24 --case 2019-2-28_13.56.11 --engine auto
+python -m unittest discover -s tests/algorithms
+SHARDELIX_CORE=python python -m unittest discover -s tests/algorithms
+python -m unittest discover -s tests/integration
+python benchmarks/benchmark_scanned_strips.py DocDataset.zip --profile balanced
+python benchmarks/benchmark_indexed_dafne.py 00.zip result00 --case 2019-2-19_14.55.4 --engine auto
+python benchmarks/benchmark_indexed_dafne.py 24.zip result24 --case 2019-2-28_13.56.11 --engine auto
 python -m shardelix reconstruct DAFNE_Resurrection_102.zip --out blind
-python scripts/evaluate_dafne_components.py DAFNE_Resurrection_102.zip truth.zip blind
-python scripts/benchmark_scale_v8.py --count 4096 --tile 16 --out grid4096
+python benchmarks/evaluate_dafne_components.py DAFNE_Resurrection_102.zip truth.zip blind
+python benchmarks/benchmark_scale_v8.py --count 4096 --tile 16 --out grid4096
 ```
 
 Original datasets and truth archives are not included. Blind evaluation

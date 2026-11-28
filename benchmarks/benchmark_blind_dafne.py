@@ -1,6 +1,6 @@
 """Run one official DAFNE variant in blind mode, without source artwork.
 
-Usage: PYTHONPATH=src python scripts/benchmark_blind_dafne.py ARCHIVE.zip \
+Usage: PYTHONPATH=src python benchmarks/benchmark_blind_dafne.py ARCHIVE.zip \
        --case CASE_SUFFIX --out OUTPUT_DIRECTORY
 
 Only fragment PNGs enter the solver. Annotation text is accessed AFTER the

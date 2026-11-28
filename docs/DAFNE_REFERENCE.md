@@ -78,7 +78,7 @@ The static web build includes the same explicit mode in its worker:
 ## Repeat the independent measurement
 
 ```bash
-python scripts/benchmark_reference_dafne.py \
+python benchmarks/benchmark_reference_dafne.py \
   /path/to/input/DAFNE_Resurrection_102.zip \
   /path/to/PierodellaFrancesca_Resurrezione_730x826.JPG \
   /path/to/ground_truth/DAFNE_Resurrection_102.zip \

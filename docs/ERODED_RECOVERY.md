@@ -84,7 +84,7 @@ There is no claim of 65,000-piece support for irregular eroded data.
 Run the reproducible synthetic benchmark (randomly rotated textured curved
 pieces, 3/5/8 px erosion, missing pieces and a distractor):
 ```sh
-PYTHONPATH=src python scripts/benchmark_eroded.py
+PYTHONPATH=src python benchmarks/benchmark_eroded.py
 ```
 The script scores relative pose only after assembly (10 px center tolerance,
 10 degree angle tolerance), with no credit for singleton anchors. The raw
@@ -160,7 +160,7 @@ Pass `deep_recovery: "always"` or `false` to override the policy in the API.
 
 Reproducible synthetic comparisons with the previous solver:
 ```sh
-PYTHONPATH=src python scripts/benchmark_classical.py
+PYTHONPATH=src python benchmarks/benchmark_classical.py
 ```
 Raw results: [classical_benchmark.json](../reports/classical_benchmark.json).
 In the historical run, the selected main result was unchanged on these 11 fixtures; alternate
@@ -206,7 +206,7 @@ To reproduce the external evaluation with the separate dataset-pack truth
 archive, unzip the solver's result ZIP and run:
 
 ```sh
-python scripts/evaluate_dafne_components.py INPUT.zip TRUTH.zip RESULT_DIR
+python benchmarks/evaluate_dafne_components.py INPUT.zip TRUTH.zip RESULT_DIR
 ```
 
 The evaluator accepts the DAFNE dataset-pack annotation JSON convention,
@@ -248,7 +248,7 @@ global restoration or increased genuine-pose recall.
 To reproduce a variant from a downloaded [official DAFNE archive](https://vision.unipv.it/DAFchallenge/DAFNE_dataset/dataset_download.html), without extracting or matching the source image:
 
 ```sh
-PYTHONPATH=src python scripts/benchmark_blind_dafne.py ARCHIVE.zip \
+PYTHONPATH=src python benchmarks/benchmark_blind_dafne.py ARCHIVE.zip \
   --case 2019-2-20_16.30.25 --out results/blind_dafne
 ```
 

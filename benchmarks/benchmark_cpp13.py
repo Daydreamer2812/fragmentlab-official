@@ -17,7 +17,7 @@ def measure(case,output,profile):
     d=result["diagnostics"]
     print(json.dumps(dict(backend=backend(),solver_seconds=d["runtime_seconds"],solve_export_seconds=elapsed,placed=m["placed"],dpa=m["direct_position_accuracy"],f1=m["adjacency_f1"],collision_pixels=m["collision_pixels"],pass_95=m["pass_95"],index_query_seconds=d.get("index_query_seconds"),rerank_seconds=d.get("rerank_seconds"),assembly_seconds=d.get("assembly_seconds"),fast_rescue=d.get("fast_rescue_v13"))))
 def main():
-    p=argparse.ArgumentParser();p.add_argument("--out",type=Path,default=Path("reports/v13/paired.json"));p.add_argument("--counts",default="4096,16384")
+    p=argparse.ArgumentParser();p.add_argument("--out",type=Path,default=Path("outputs/benchmarks/v13/paired.json"));p.add_argument("--counts",default="4096,16384")
     p.add_argument("--measure",nargs=3);a=p.parse_args()
     if a.measure:measure(Path(a.measure[0]),Path(a.measure[1]),a.measure[2]);return
     rows=[]

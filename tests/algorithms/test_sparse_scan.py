@@ -2,8 +2,8 @@
 import unittest
 import numpy as np
 
-from scripts.benchmark_sparse_scan import trial
-from scripts.benchmark_eroded import eroded_fixture
+from benchmarks.benchmark_sparse_scan import trial
+from benchmarks.benchmark_eroded import eroded_fixture
 from shardelix.reconstruction.common import Fragment
 from shardelix.reconstruction.irregular.scan import _shape,_overlap,_descriptor,_indexed_pairs,_pair,_pair_vectorized
 from shardelix.reconstruction.irregular.large_scan import merge_spatial,strict_lattice_overlap,filter_continuous

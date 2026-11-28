@@ -31,6 +31,6 @@ for source in ('document','texture'):
                      angle_mae_deg=float(np.mean(errors)),direct_position_accuracy=score,
                      collision_pixels=result['diagnostics']['collision_pixels'],runtime_seconds=result['diagnostics']['runtime_seconds'])
             rows.append(row);print(json.dumps(row),flush=True)
-out=ROOT/'reports/v12/document_continuous.csv';out.parent.mkdir(exist_ok=True)
+out=ROOT/'outputs/benchmarks/v12/document_continuous.csv';out.parent.mkdir(parents=True,exist_ok=True)
 with out.open('w',newline='') as f:
     w=csv.DictWriter(f,fieldnames=list(rows[0]));w.writeheader();w.writerows(rows)

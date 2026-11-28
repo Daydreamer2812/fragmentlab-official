@@ -60,7 +60,7 @@ compiler and machine. In each checkout, run:
 ```sh
 python -m pip install -e .
 python scripts/build_native.py
-PYTHONPATH=src python scripts/stress_irregular_resources.py --count 4096 --tile 36 --seed 827 --memory-mib 512 --out run.json
+PYTHONPATH=src python benchmarks/stress_irregular_resources.py --count 4096 --tile 36 --seed 827 --memory-mib 512 --out run.json
 ```
 
 Alternate revisions, repeat at least three times, and report run-level data

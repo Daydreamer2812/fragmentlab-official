@@ -66,11 +66,11 @@ detected-piece limit, before reconstruction.
 - [Full per-case inventory and result CSV](../reports/dafne_official_cases.csv)
 - [Aggregate and per-archive data](../reports/dafne_official_benchmark.json)
 - [Official URLs and source dimensions](../reports/dafne_official_catalog.json)
-- [Resumable benchmark runner](../scripts/benchmark_official_dafne.py)
+- [Resumable benchmark runner](../benchmarks/benchmark_official_dafne.py)
 
 ```bash
 python -m pip install -e .
-python scripts/benchmark_official_dafne.py --archive-dir /path/to/archives \
+python benchmarks/benchmark_official_dafne.py --archive-dir /path/to/archives \
     --out /path/to/benchmark_results --download --workers 4
 ```
 

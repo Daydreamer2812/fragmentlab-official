@@ -1,7 +1,7 @@
 """Compare the previous gap solver with the high-quality classical stage.
 
 Ground truth is used ONLY by the evaluator after reconstruct() returns.
-Run: PYTHONPATH=src python scripts/benchmark_classical.py
+Run: PYTHONPATH=src python benchmarks/benchmark_classical.py
 """
 from __future__ import annotations
 import argparse
@@ -16,7 +16,7 @@ from shardelix.reconstruction.irregular.scan import reconstruct
 
 def main():
     parser=argparse.ArgumentParser()
-    parser.add_argument("--output",type=Path,default=Path("reports/classical_benchmark.json"))
+    parser.add_argument("--output",type=Path,default=Path("outputs/benchmarks/classical_benchmark.json"))
     args=parser.parse_args()
     rows=[]
     cases=[(seed,erosion,(0,1,2,3,4,6,7)) for seed in (3,9,17) for erosion in (3,5,8)]

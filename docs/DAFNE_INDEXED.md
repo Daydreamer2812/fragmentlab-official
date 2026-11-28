@@ -57,10 +57,10 @@ Native guardrails: 8192 fragments, 64 MP reference, 330 MP decoded input. Browse
 Download official input and (for DB2) solution ZIPs from the publisher. Do not upload solutions to Studio.
 
 ```sh
-python scripts/benchmark_indexed_dafne.py input.zip results --solution solution.zip --keep
-python scripts/benchmark_indexed_dafne.py db1.zip results --all-cases --resume
-python scripts/benchmark_indexed_dafne.py db1.zip auto --case 2019-2-19_14.55.4 --engine auto
-python scripts/benchmark_indexed_dafne.py db1.zip deep --case 2019-2-19_14.55.4 --engine indexed-deep
+python benchmarks/benchmark_indexed_dafne.py input.zip results --solution solution.zip --keep
+python benchmarks/benchmark_indexed_dafne.py db1.zip results --all-cases --resume
+python benchmarks/benchmark_indexed_dafne.py db1.zip auto --case 2019-2-19_14.55.4 --engine auto
+python benchmarks/benchmark_indexed_dafne.py db1.zip deep --case 2019-2-19_14.55.4 --engine indexed-deep
 ```
 
 The runner exports per-case JSON, independent pose metrics at 10° and 5°, and optionally images. Each case is checked after matching; it exits nonzero if any strict case fails. To resume use a dedicated output directory for each engine/input. The older benchmark scripts explicitly select FFT for reproducibility. No official artwork or solution files are redistributed in this repository.

@@ -165,7 +165,7 @@ required in physical mode.
   estimated bounding box, not original-page coverage, and DPA/F1 are not
   computed on physical scans without independently registered truth.
 
-The reproducible simulation `PYTHONPATH=src python scripts/benchmark_scan.py`
+The reproducible simulation `PYTHONPATH=src python benchmarks/benchmark_scan.py`
 includes rotated noisy JPEGs, a 2-D wavy partition and one-pixel erosion.
 `reports/scan_simulation.json` reports per-piece center and rotation errors
 after a common rigid gauge (the first placed piece defines the gauge).
@@ -227,7 +227,7 @@ language-independent, but cannot resolve all ambiguous text seams or
 guarantee global upright orientation.
 
 Reproduce the real-strip benchmark using
-`PYTHONPATH=src python scripts/benchmark_scanned_strips.py /path/to/DocDataset.zip`.
+`PYTHONPATH=src python benchmarks/benchmark_scanned_strips.py /path/to/DocDataset.zip`.
 The original [DocDataset](https://people.tamu.edu/~xinli/DocReassembly/) is
 not redistributed. The script anonymizes inputs before reconstruction, then
 reads the answer ordering only after the pixel-only solver finishes. See

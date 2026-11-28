@@ -27,7 +27,7 @@ cases, not universal accuracy guarantees.
 
 ## Paired recovery holdouts
 
-Run `PYTHONPATH=src python scripts/benchmark_v12.py --help` for reproduction
+Run `PYTHONPATH=src python benchmarks/benchmark_v12.py --help` for reproduction
 against the V11 source tree. The cases below were not used to develop the
 multi-gap algorithm. Both versions solved exactly the same shuffled inputs.
 Strict pass = DPA and adjacency F1 at least 95%, with no collisions.

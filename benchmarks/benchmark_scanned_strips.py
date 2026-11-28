@@ -2,7 +2,7 @@
 
 Download the archive from the original research page:
 https://people.tamu.edu/~xinli/DocReassembly/data/DocDataset.zip
-Run PYTHONPATH=src python scripts/benchmark_scanned_strips.py /path/DocDataset.zip
+Run PYTHONPATH=src python benchmarks/benchmark_scanned_strips.py /path/DocDataset.zip
 Images and truth are not distributed with this repository. The ordering
 file is read only after the pixel-only solution is computed.
 """

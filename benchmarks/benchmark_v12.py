@@ -45,7 +45,7 @@ evaluate_case(c,o)
     m=json.loads((out/"metrics.json").read_text());d=json.loads((out/"diagnostics.json").read_text())
     return {**{k:m[k] for k in ("direct_position_accuracy","adjacency_f1","available_piece_recovery","coverage","collision_pixels","pass_95","runtime_seconds")},**{k:d.get(k) for k in ("algorithm","thin_gap_status","multigap_status","multigap_accepted","frame_anchor_status")}}
 def main():
-    p=argparse.ArgumentParser();p.add_argument("--baseline-src",type=Path);p.add_argument("--out",type=Path,default=Path("reports/v12/recovery.csv"));a=p.parse_args()
+    p=argparse.ArgumentParser();p.add_argument("--baseline-src",type=Path);p.add_argument("--out",type=Path,default=Path("outputs/benchmarks/v12/recovery.csv"));a=p.parse_args()
     root=Path(__file__).resolve().parents[1];variants=[("V12",root/"src")]
     if a.baseline_src:variants.insert(0,("V11",a.baseline_src.resolve()))
     rows=[]

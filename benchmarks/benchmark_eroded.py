@@ -1,6 +1,6 @@
 """Reproducible blind benchmark: erased boundaries, missing tiles, rotations, distractor.
 
-Run from repository root: PYTHONPATH=src python scripts/benchmark_eroded.py
+Run from repository root: PYTHONPATH=src python benchmarks/benchmark_eroded.py
 The fixture labels are only passed to evaluation after solve.
 """
 import argparse
@@ -77,7 +77,7 @@ def trial(seed,erosion,keep):
 
 def main():
     parser=argparse.ArgumentParser()
-    parser.add_argument("--output",type=Path,default=Path("reports/eroded_benchmark.json"))
+    parser.add_argument("--output",type=Path,default=Path("outputs/benchmarks/eroded_benchmark.json"))
     args=parser.parse_args()
     rows=[]
     for seed in (3,9,17):

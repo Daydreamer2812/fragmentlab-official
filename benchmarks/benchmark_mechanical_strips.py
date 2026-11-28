@@ -1,7 +1,7 @@
 """Evaluate mechanically shredded pages from Paixão et al. (PR 2020).
 
 Dataset: https://github.com/thiagopx/deeprec-pr20 (scripts/get_dataset.sh)
-Run PYTHONPATH=src python scripts/benchmark_mechanical_strips.py /path/datasets --out result.json
+Run PYTHONPATH=src python benchmarks/benchmark_mechanical_strips.py /path/datasets --out result.json
 Only the individual strip pixels and optional supplied foreground masks are
 read by reconstruction. Sequential IDs are decoded for scoring after solving.
 No intact pages or model weights are used. Timings measure rectification and

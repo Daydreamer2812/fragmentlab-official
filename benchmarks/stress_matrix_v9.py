@@ -1,6 +1,6 @@
 """Bounded per-case stress suite, with wall-clock timeout and no forced pass.
 
-Run from repo root: PYTHONPATH=src python scripts/stress_matrix_v9.py
+Run from repo root: PYTHONPATH=src python benchmarks/stress_matrix_v9.py
 --preset scale --out outputs/stress_v9 --jobs 1 --timeout 240
 
 Each worker owns a new directory. All partial failures/timeouts remain in the
@@ -44,7 +44,7 @@ def main():
     def worker(v):
         cut,n,angle,sampling,missing,tile=v;name=f"{cut}_{n}_{angle}_s{sampling}_m{int(missing*100)}_t{tile}"
         out=a.out/name;log=a.out/(name+".log")
-        cmd=[sys.executable,str(root/"scripts/stress_v9.py"),"--out",str(out),"--cut",cut,"--count",str(n),"--angle",angle,"--sampling",str(sampling),"--missing",str(missing),"--tile",str(tile),"--seed",str(a.seed),"--source",a.source]
+        cmd=[sys.executable,str(root/"benchmarks/stress_v9.py"),"--out",str(out),"--cut",cut,"--count",str(n),"--angle",angle,"--sampling",str(sampling),"--missing",str(missing),"--tile",str(tile),"--seed",str(a.seed),"--source",a.source]
         env={**os.environ,"PYTHONPATH":str(root/"src"),"OPENBLAS_NUM_THREADS":"1","OMP_NUM_THREADS":"1"}
         t=time.monotonic();status="ok"
         with log.open("wb") as f:

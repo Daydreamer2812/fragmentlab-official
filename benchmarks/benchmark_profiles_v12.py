@@ -7,7 +7,7 @@ from scipy.ndimage import gaussian_filter
 from PIL import Image
 from shardelix.workflow import run_job
 def main():
-    p=argparse.ArgumentParser();p.add_argument("--out",type=Path,default=Path("reports/v12/profiles.csv"));a=p.parse_args()
+    p=argparse.ArgumentParser();p.add_argument("--out",type=Path,default=Path("outputs/benchmarks/v12/profiles.csv"));a=p.parse_args()
     with TemporaryDirectory() as t:
         root=Path(t);(root/"upload").mkdir()
         src=np.clip(127+480*gaussian_filter(np.random.default_rng(2287).normal(size=(256,256,3)),(1.4,1.4,0)),0,255).astype(np.uint8)

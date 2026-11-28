@@ -1,6 +1,6 @@
 """Scaling protocol. Independent source generation, blind solve, then evaluation.
 
-Run from repository root: PYTHONPATH=src python scripts/benchmark_scale_v8.py ...
+Run from repository root: PYTHONPATH=src python benchmarks/benchmark_scale_v8.py ...
 Elapsed solver includes the blind route; I/O and evaluation measured separately.
 """
 import argparse,csv,json,os,platform,sys,time

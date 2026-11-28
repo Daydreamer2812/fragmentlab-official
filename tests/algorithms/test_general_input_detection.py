@@ -143,7 +143,7 @@ class GeneralInputTests(unittest.TestCase):
             self.assertEqual(d["render_collision_pixels"],0)
 
     def test_256_irregular_masks_budget(self):
-        from test_irregular_auto_import import fixture_archive
+        from tests.algorithms.test_irregular_auto_import import fixture_archive
         with tempfile.TemporaryDirectory() as t:
             r=self.root(t);fixture_archive(r/"upload"/"large.zip",256,size=18)
             d=run(r)["diagnostics"]

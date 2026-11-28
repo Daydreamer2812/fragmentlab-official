@@ -1,6 +1,6 @@
 """Additional damaged-fragment checks with continuous rotation.
 
-Run from repository root: PYTHONPATH=src python scripts/benchmark_damage_stress.py --out stress.json
+Run from repository root: PYTHONPATH=src python benchmarks/benchmark_damage_stress.py --out stress.json
 The deterministic generator uses the existing synthetic curved partition,
 then applies continuous rotations. The evaluator receives truth only after
 reconstruct() finishes. Each independent component has its own SE(2) gauge.

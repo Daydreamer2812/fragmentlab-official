@@ -1,6 +1,6 @@
 """Evaluate DAFNE reference mode with independent truth opened only after solve.
 
-Usage: python scripts/benchmark_reference_dafne.py INPUT.zip SOURCE.jpg TRUTH.zip OUTPUT
+Usage: python benchmarks/benchmark_reference_dafne.py INPUT.zip SOURCE.jpg TRUTH.zip OUTPUT
 Input/annotation archives follow the separated Shardelix research dataset format.
 """
 from __future__ import annotations

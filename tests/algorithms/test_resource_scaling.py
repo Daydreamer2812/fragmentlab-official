@@ -3,7 +3,7 @@ import unittest
 from unittest.mock import patch
 import numpy as np
 
-from scripts.stress_irregular_resources import fixture
+from benchmarks.stress_irregular_resources import fixture
 from shardelix.native_core import arc_votes,arc_votes_available,lattice_contact
 from shardelix.reconstruction.irregular.lattice import R,propose
 from shardelix.reconstruction.common import Fragment

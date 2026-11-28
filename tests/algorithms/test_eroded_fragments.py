@@ -16,7 +16,7 @@ from shardelix.reconstruction.irregular.scan import preprocess, _shape, _merge, 
 from shardelix.workflow import run_job
 
 
-from scripts.benchmark_eroded import eroded_fixture
+from benchmarks.benchmark_eroded import eroded_fixture
 
 class ErodedFragmentTests(unittest.TestCase):
     def test_abraded_missing_rotated_with_distractor(self):

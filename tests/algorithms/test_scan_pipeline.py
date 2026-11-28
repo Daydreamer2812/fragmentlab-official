@@ -8,7 +8,7 @@ import numpy as np
 from PIL import Image
 from shardelix.reconstruction.irregular.scan import preprocess
 from shardelix.workflow import run_job
-from scripts.benchmark_scan import trial
+from benchmarks.benchmark_scan import trial
 
 
 class ScanTests(unittest.TestCase):

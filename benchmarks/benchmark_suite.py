@@ -1,6 +1,6 @@
 """Run frozen external and synthetic benchmark manifests with provenance.
 
-Example: python scripts/benchmark_suite.py --manifest benchmarks.json --out results
+Example: python benchmarks/benchmark_suite.py --manifest benchmarks.json --out results
 Each named stage runs in a separate process; errors and timeouts are recorded.
 No ground-truth or original matching image is passed to blind reconstruction.
 """
@@ -41,7 +41,7 @@ def source_digest(path):
 def engine_digest():
     h=hashlib.sha256()
     paths=[ROOT/'pyproject.toml',ROOT/'setup.py',*ROOT.glob('cpp/*.cpp'),
-           *ROOT.glob('src/shardelix/**/*.py'),*ROOT.glob('scripts/benchmark*.py')]
+           *ROOT.glob('src/shardelix/**/*.py'),*ROOT.glob('benchmarks/*.py')]
     for p in sorted(paths):
         if not p.is_file():continue
         h.update(p.relative_to(ROOT).as_posix().encode());h.update(digest(p).encode())
@@ -54,7 +54,7 @@ def command(stage, source, out):
              'scan-stress':'benchmark_scan_stress.py','damage':'benchmark_damage_stress.py',
              'dafne':'benchmark_blind_dafne.py'}
     if kind not in scripts:raise ValueError(f'Unknown benchmark kind: {kind}')
-    args=[sys.executable,str(ROOT/'scripts'/scripts[kind])]
+    args=[sys.executable,str(ROOT/'benchmarks'/scripts[kind])]
     if kind!='damage':
         if source is None:raise ValueError(f'{kind} requires source')
         args.append(str(source))

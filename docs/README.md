@@ -1,7 +1,7 @@
 # Shardelix documentation
 
 [Project overview](../README.md) · [Latest release](releases/v15.0.0.md) ·
-[Raw benchmark reports](../reports/README.md)
+[Benchmark runners](../benchmarks/README.md) · [Raw benchmark reports](../reports/README.md)
 
 ## Start here
 
@@ -13,6 +13,12 @@
 | Source code and module responsibilities | [Architecture](ARCHITECTURE.md) |
 | Coordinate frames and metric conventions | [Coordinate conventions](COORDINATE_CONVENTIONS.md) |
 | Input sizes, memory budgets and practical limits | [Resource scaling](RESOURCE_SCALING.md) |
+
+## Development
+
+- [Build and QA tools](../scripts/README.md)
+- [Benchmark runners and frozen manifest](../benchmarks/README.md)
+- [Contribution guide](../CONTRIBUTING.md)
 
 ## Algorithms and research
 
@@ -40,7 +46,7 @@ blind reconstruction. External datasets are not redistributed.
 
 - [Release notes, newest first](releases/README.md)
 - [V14](V14_RESULTS.md) · [V13](V13_RESULTS.md) · [V12](V12_RESULTS.md)
-- [Benchmark archive and reproduction tools](../reports/README.md)
+- [Benchmark archive](../reports/README.md) · [Reproduction tools](../benchmarks/README.md)
 
 Historical documents preserve original measurements and may describe
 older behavior. For the current public interfaces prefer the latest

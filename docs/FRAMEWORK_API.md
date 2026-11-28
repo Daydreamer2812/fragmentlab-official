@@ -1,8 +1,26 @@
-# Shardelix V14: framework API
+# Shardelix framework API
 
 ## Install and call
 Python 3.11+, NumPy, SciPy, Pillow. The package is a research/framework
 release candidate (alpha), not a production service. Install from the source checkout with `python -m pip install -e .`, or use `PYTHONPATH=src`.
+
+### Native and portable wheel builds
+
+```bash
+python scripts/build_native.py  # optional local C++20 accelerator
+python -m pip wheel --no-deps .
+# Linux/macOS, with a C++20 compiler:
+SHARDELIX_BUILD_NATIVE=1 python -m pip wheel --no-deps .
+```
+
+On Windows, set `$env:SHARDELIX_BUILD_NATIVE = "1"` in PowerShell and
+use a supported MinGW C++20 compiler. Native acceleration is optional;
+set `SHARDELIX_CORE=python` to force the Python fallback.
+Install `.[reference]` for optional OpenCV/SIFT reference registration or
+`.[pdf]` for native PDF support. Wheel CI targets Linux, macOS and Windows;
+PyPI publication is not configured.
+
+### Solver API
 
 ```python
 from shardelix import Solver, ResourceLimits
@@ -85,11 +103,11 @@ Full raster export may require additional ~1–2 GB for large canvases;
 the large-grid stress script saves only bounded predicted previews.
 Studio estimates a separate upload limit from available disk and multipart-parser RAM; file inputs use available disk. CLI/in-memory API is recommended
 for large datasets. Metadata-free scan import uses an adaptive working-set budget; see [resource measurements](RESOURCE_SCALING.md). Avoid holding multiple full frames at once. No real
-physical-fragment guarantee. Refer to [V14 results](V14_RESULTS.md) for current release evidence. Historical benchmarks are not V14 reruns.
+physical-fragment guarantee. Refer to the [current technical report](TECHNICAL_REPORT.md) for V15 evidence. Historical benchmarks are not new reruns.
 
 ## Development
 Install the package with `python -m pip install -e .`, then run
-`python -m unittest discover -s tests/v2` and
-`python -m unittest discover -s tests/workflow`.
+`python -m unittest discover -s tests/algorithms` and
+`python -m unittest discover -s tests/integration`.
 The integration example is `examples/framework.py`.
 Contributions should preserve blind inference and include reproducible evidence.

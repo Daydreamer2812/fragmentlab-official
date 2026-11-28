@@ -1,7 +1,7 @@
 """Evaluate a DAFNE archive after blind reconstruction.
 
 Usage:
-  python scripts/evaluate_dafne_components.py INPUT.zip TRUTH.zip RESULT_DIR
+  python benchmarks/evaluate_dafne_components.py INPUT.zip TRUTH.zip RESULT_DIR
 TRUTH.zip must contain annotations/source_metadata.json in the separate
 dataset-pack format. It is NEVER read by the reconstruction engine.
 RESULT_DIR contains component_placements.json, placements.json, scan_report.json.

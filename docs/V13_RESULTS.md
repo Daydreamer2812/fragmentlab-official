@@ -31,9 +31,9 @@ Both backends place every fragment without pixel collisions on these paired case
 ```bash
 python -m pip install -e .
 python scripts/build_native.py
-python -m unittest discover -s tests/v2
-python -m unittest discover -s tests/workflow
-SHARDELIX_CORE=python python -m unittest discover -s tests/v2
+python -m unittest discover -s tests/algorithms
+python -m unittest discover -s tests/integration
+SHARDELIX_CORE=python python -m unittest discover -s tests/algorithms
 python scripts/build_web.py --out build/pages --wasm
 ```
 

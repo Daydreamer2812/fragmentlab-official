@@ -118,14 +118,14 @@ Actual Chromium/WebAssembly smoke has not been run in the local environment.
 ```sh
 python -m pip install -e .
 python scripts/build_native.py
-python scripts/benchmark_sparse_scan.py --count 512 --tile 44 --cut jagged
-python scripts/benchmark_sparse_scan.py --count 512 --tile 44 --cut wavy --missing .15
-python scripts/benchmark_sparse_scan.py --count 1024 --tile 40 --cut random --browser-limits
-python scripts/benchmark_sparse_scan.py --count 4096 --tile 36 --cut jagged
-python scripts/benchmark_sparse_scan.py --count 144 --tile 70 --cut random --angle-mode continuous --erosion 2 --missing .05
-python -m unittest discover -s tests/v2
-SHARDELIX_CORE=python python -m unittest discover -s tests/v2
-python -m unittest discover -s tests/workflow
+python benchmarks/benchmark_sparse_scan.py --count 512 --tile 44 --cut jagged
+python benchmarks/benchmark_sparse_scan.py --count 512 --tile 44 --cut wavy --missing .15
+python benchmarks/benchmark_sparse_scan.py --count 1024 --tile 40 --cut random --browser-limits
+python benchmarks/benchmark_sparse_scan.py --count 4096 --tile 36 --cut jagged
+python benchmarks/benchmark_sparse_scan.py --count 144 --tile 70 --cut random --angle-mode continuous --erosion 2 --missing .05
+python -m unittest discover -s tests/algorithms
+SHARDELIX_CORE=python python -m unittest discover -s tests/algorithms
+python -m unittest discover -s tests/integration
 ```
 
 Measured evidence: [reports/irregular_scale.json](../reports/irregular_scale.json).

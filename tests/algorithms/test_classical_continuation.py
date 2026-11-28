@@ -6,7 +6,7 @@ from shardelix.reconstruction.common import Fragment
 from shardelix.reconstruction.irregular.scan import _shape,rotation
 from shardelix.reconstruction.irregular.continuation import make_field,pose_difference,population_weights,confidence_forest,_closed_triangles,bridge_evidence,recover,independent_consensus
 from shardelix.reconstruction.irregular.spectral_gap import fft_proposals,spectral_workspace
-from scripts.benchmark_eroded import eroded_fixture
+from benchmarks.benchmark_eroded import eroded_fixture
 
 
 class ClassicalContinuationTests(unittest.TestCase):

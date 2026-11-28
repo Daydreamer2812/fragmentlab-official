@@ -70,7 +70,7 @@
   UI routing, export or full workflow. Output canvases may exceed the
   configured application pixel budget at full source resolution.
 - Reproduce locally after extracting the external archive:
-  `PYTHONPATH=src python scripts/benchmark_mechanical_strips.py /path/datasets --out result.json`.
+  `PYTHONPATH=src python benchmarks/benchmark_mechanical_strips.py /path/datasets --out result.json`.
   Use `--cases D1/D001 D2/D007` for a subset. No raw external scan data is
   stored or redistributed in this repository.
 
@@ -92,12 +92,12 @@
 
 ## V15 frozen evaluation
 
-Use [the example manifest](benchmark-suite.example.json) and replace the
+Use [the example manifest](../benchmarks/manifest.example.json) and replace the
 source paths with locally acquired datasets:
 
 ```bash
-python scripts/benchmark_suite.py --manifest docs/benchmark-suite.example.json --out outputs/v15-suite
-python scripts/benchmark_suite.py --manifest docs/benchmark-suite.example.json --out outputs/v15-suite --resume
+python benchmarks/benchmark_suite.py --manifest benchmarks/manifest.example.json --out outputs/v15-suite
+python benchmarks/benchmark_suite.py --manifest benchmarks/manifest.example.json --out outputs/v15-suite --resume
 ```
 
 The runner provides per-stage process isolation, source/engine hashes,
