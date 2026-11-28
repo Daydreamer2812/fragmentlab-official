@@ -47,7 +47,7 @@ jobs:
           python -m pip check
           python -m unittest discover -s tests/algorithms -t .
           python -m unittest discover -s tests/integration -t .
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: shardelix-wheels-${{ matrix.os }}-py${{ matrix.python }}
           path: dist/*/*.whl
