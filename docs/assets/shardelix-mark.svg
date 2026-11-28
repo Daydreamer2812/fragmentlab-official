@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 96 96" role="img" aria-labelledby="title">
+  <title id="title">Shardelix — interlocking fragments</title>
+  <rect x="1" y="1" width="94" height="94" rx="22" fill="#111e2e" stroke="#31465b" stroke-width="2"/>
+  <g stroke-linejoin="round">
+    <path d="M19 20H43L39 33L49 44L36 52L19 47Z" fill="#e5eef8"/>
+    <path d="M19 53L35 57L46 49L55 62L48 76H19Z" fill="#8fadc5"/>
+    <path d="M55 64L50 50L65 45L77 51V76H54Z" fill="#50baaa"/>
+    <path d="M49 15L78 21L74 44L63 39L54 44L45 33Z" fill="#a6e4d5"/>
+  </g>
+</svg>
