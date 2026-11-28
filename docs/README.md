@@ -1,6 +1,6 @@
 # Shardelix documentation
 
-[Project overview](../README.md) · [Latest release](releases/v15.0.0.md) ·
+[Project overview](../README.md) · [Latest release](releases/v15.0.1.md) ·
 [Benchmark runners](../benchmarks/README.md) · [Raw benchmark reports](../reports/README.md)
 
 ## Start here

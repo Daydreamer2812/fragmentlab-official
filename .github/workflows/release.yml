@@ -50,12 +50,20 @@ jobs:
         if: steps.version.outputs.publish == 'true'
         env:
           TAG: ${{ steps.version.outputs.tag }}
+          OPENBLAS_NUM_THREADS: "1"
+          OMP_NUM_THREADS: "1"
         run: |
-          python -m pip install -e .
+          python -m pip install -e ".[dev]"
           python scripts/build_native.py
-          python -m unittest discover -s tests/algorithms -t .
-          python -m unittest discover -s tests/integration -t .
+          ruff check --select F821,F822,F823,F811 src tests benchmarks scripts examples
+          shardelix doctor --require-native
+          COVERAGE_FILE=.coverage.native python -m coverage run -m unittest discover -s tests -t .
+          SHARDELIX_CORE=python COVERAGE_FILE=.coverage.python python -m coverage run -m unittest discover -s tests -t .
+          python -m coverage combine
+          python -m coverage report
           mkdir -p dist
+          python -m build --sdist --wheel --outdir dist/packages
+          python -m twine check dist/packages/*
           git archive --format=zip --prefix="shardelix-$TAG/" -o "dist/shardelix-$TAG-source.zip" "$GITHUB_SHA"
           python scripts/build_web.py --out build/release-web --wasm
           test -s build/release-web/fl_core.wasm
@@ -72,13 +80,14 @@ jobs:
           (cd build/release-web && zip -qr "../../dist/shardelix-$TAG-web.zip" .)
           unzip -t "dist/shardelix-$TAG-source.zip"
           unzip -t "dist/shardelix-$TAG-web.zip"
-          (cd dist && sha256sum "shardelix-$TAG-source.zip" "shardelix-$TAG-web.zip" > SHA256SUMS.txt && sha256sum -c SHA256SUMS.txt)
+          cp dist/packages/*.whl dist/packages/*.tar.gz dist/
+          (cd dist && sha256sum "shardelix-$TAG-source.zip" "shardelix-$TAG-web.zip" *.whl *.tar.gz > SHA256SUMS.txt && sha256sum -c SHA256SUMS.txt)
       - name: Publish GitHub release and assets
         if: steps.version.outputs.publish == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
           TAG: ${{ steps.version.outputs.tag }}
         run: |
-          gh release create "$TAG" "dist/shardelix-$TAG-source.zip" "dist/shardelix-$TAG-web.zip" dist/SHA256SUMS.txt \
+          gh release create "$TAG" "dist/shardelix-$TAG-source.zip" "dist/shardelix-$TAG-web.zip" dist/packages/*.whl dist/packages/*.tar.gz dist/SHA256SUMS.txt \
             --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" --title "Shardelix $TAG — C++ / WebAssembly" \
             --notes-file "docs/releases/$TAG.md" --latest

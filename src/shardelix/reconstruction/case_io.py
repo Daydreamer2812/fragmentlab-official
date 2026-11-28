@@ -58,6 +58,15 @@ def evaluate_case(folder,output):
 
 def solve_external_document(folder:Path,output:Path,rotations=False,params=None,profile=None,angle_mode=None,sampling=1,max_canvas_pixels=None,color_aware=False):
     """Blind external document strips, unequal widths permitted. Input must contain only pieces."""
+    from shardelix.reconstruction.output import staged_output
+
+    with staged_output(output) as stage:
+        return _solve_external_document(folder, stage, rotations, params, profile,
+                                        angle_mode, sampling, max_canvas_pixels, color_aware)
+
+
+def _solve_external_document(folder, output, rotations, params, profile,
+                             angle_mode, sampling, max_canvas_pixels, color_aware):
     from shardelix.reconstruction.strips.ordering import solve_document_strips
     import time
     pieces=load_fragments(folder,max_fragments=1024)

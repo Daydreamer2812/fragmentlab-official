@@ -8,17 +8,22 @@ from collections import Counter
 import json
 import math
 from pathlib import Path
-import resource
 import time
 
 import numpy as np
 from shardelix.reconstruction.common import Fragment
 from shardelix.reconstruction.irregular.lattice import R
 from shardelix.reconstruction.irregular.large_scan import lattice_candidates,merge_lattice,lattice_box
-from shardelix.reconstruction.resource_budget import resource_budget,MIB
+from shardelix.reconstruction.resource_budget import resource_budget,MIB,peak_rss_mib
 
+
+def rounded_peak_rss():
+    measured=peak_rss_mib()
+    return round(measured,1) if measured is not None else None
 
 def fixture(count,tile,seed):
+    if type(count) is not int or count<1 or type(tile) is not int or tile<8:
+        raise ValueError("count must be positive and tile must be at least 8 pixels")
     rng=np.random.default_rng(seed)
     cols=math.ceil(math.sqrt(count));rows=math.ceil(count/cols)
     H,W=rows*tile,cols*tile;amp=max(2,tile//7)
@@ -53,13 +58,13 @@ def run(count,tile,seed,memory_mib=None):
     if estimated>budget.working_pixels:
         return {"count":count,"tile":tile,"status":"preflight-memory-budget","estimated_input_pixels":estimated,"budget":budget.describe()}
     t=time.perf_counter();pieces,truth,wh=fixture(count,tile,seed)
-    prepared=time.perf_counter();print(f"Fixture {count}: {prepared-t:.2f}s, RSS {resource.getrusage(resource.RUSAGE_SELF).ru_maxrss/1024:.1f} MiB",flush=True)
+    prepared=time.perf_counter();print(f"Fixture {count}: {prepared-t:.2f}s, RSS {rounded_peak_rss()} MiB",flush=True)
     try:
         c,stats=lattice_candidates(pieces,lambda s:print(s,flush=True),degree=16,budget=budget)
     except MemoryError as exc:
         return {"count":count,"tile":tile,"status":"resource-budget-exhausted","phase":"exact contour index",
                 "reason":str(exc),"fixture_seconds":round(prepared-t,3),"elapsed_seconds":round(time.perf_counter()-t,3),
-                "peak_rss_mib":round(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss/1024,1),"budget":budget.describe()}
+                "peak_rss_mib":rounded_peak_rss(),"budget":budget.describe()}
     matched=time.perf_counter();print(f"Verified {len(c)} seams in {matched-prepared:.2f}s",flush=True)
     groups,joins,spatial=merge_lattice(pieces,c,pixel_cap=budget.canvas_pixels)
     done=time.perf_counter();print(f"Assembly {len(groups[0])}/{count} in {done-matched:.2f}s",flush=True)
@@ -73,7 +78,7 @@ def run(count,tile,seed,memory_mib=None):
             gauges[fid]=key;votes[key]+=1
         if gi==0:best=votes.most_common(1)[0][1]
     correct=sum(gauges[j["a"]]==gauges[j["b"]] for j in joins)
-    return {"status":"completed","scope":"blind exact lattice solver, in-memory (not ZIP/PNG or physical scan)","count":count,"tile":tile,"seed":seed,"input_pixels":sum(p.rgba.shape[0]*p.rgba.shape[1] for p in pieces),"source_wh":wh,"placed":len(groups[0]),"exact_global_poses":best,"correct_relative_joins":correct,"accepted_joins":len(joins),"components":len(groups),"fixture_seconds":round(prepared-t,3),"match_seconds":round(matched-prepared,3),"merge_seconds":round(done-matched,3),"solver_seconds":round(done-prepared,3),"peak_rss_mib":round(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss/1024,1),"budget":budget.describe(),"index":stats,"merge":spatial}
+    return {"status":"completed","scope":"blind exact lattice solver, in-memory (not ZIP/PNG or physical scan)","count":count,"tile":tile,"seed":seed,"input_pixels":sum(p.rgba.shape[0]*p.rgba.shape[1] for p in pieces),"source_wh":wh,"placed":len(groups[0]),"exact_global_poses":best,"correct_relative_joins":correct,"accepted_joins":len(joins),"components":len(groups),"fixture_seconds":round(prepared-t,3),"match_seconds":round(matched-prepared,3),"merge_seconds":round(done-matched,3),"solver_seconds":round(done-prepared,3),"peak_rss_mib":rounded_peak_rss(),"budget":budget.describe(),"index":stats,"merge":spatial}
 
 
 
@@ -109,13 +114,15 @@ def workflow(count,tile,seed,browser=False):
             gauges[tuple(np.rint(np.r_[Q.ravel(),u]).astype(int))]+=1
         return {"status":"completed","scope":"end-to-end blind ZIP import, scan normalization, exact solver and PNG/ZIP export",
                 "count":count,"tile":tile,"seed":seed,"browser_limits":browser,"upload_bytes":archive.stat().st_size,
-                "detected":d["piece_count"],"placed":d["placed"],"exact_global_poses":gauges.most_common(1)[0][1],
+                "detected":d["piece_count"],"placed":d["placed"],"exact_global_poses":max(gauges.values(),default=0),
                 "collision_pixels":d["render_collision_pixels"],"solver_seconds":d["runtime_seconds"],
-                "workflow_seconds":round(wall,3),"peak_rss_mib":round(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss/1024,1),
+                "workflow_seconds":round(wall,3),"peak_rss_mib":rounded_peak_rss(),
                 "scan":d["scan"]}
 
 
 if __name__=="__main__":
     p=argparse.ArgumentParser(description=__doc__);p.add_argument("--count",type=int,required=True);p.add_argument("--tile",type=int,default=36);p.add_argument("--seed",type=int,default=827);p.add_argument("--memory-mib",type=int);p.add_argument("--out",type=Path);p.add_argument("--workflow",action="store_true");p.add_argument("--browser-limits",action="store_true");a=p.parse_args()
     result=workflow(a.count,a.tile,a.seed,a.browser_limits) if a.workflow else run(a.count,a.tile,a.seed,a.memory_mib);s=json.dumps(result,indent=2);print(s,flush=True)
-    if a.out:a.out.write_text(s+"\n")
+    if a.out:
+        a.out.parent.mkdir(parents=True,exist_ok=True)
+        a.out.write_text(s+"\n")

@@ -18,7 +18,9 @@ use a supported MinGW C++20 compiler. Native acceleration is optional;
 set `SHARDELIX_CORE=python` to force the Python fallback.
 Install `.[reference]` for optional OpenCV/SIFT reference registration or
 `.[pdf]` for native PDF support. Wheel CI targets Linux, macOS and Windows;
-PyPI publication is not configured.
+PyPI publication is not configured. Run `shardelix doctor` for a JSON
+runtime report, or `shardelix doctor --require-native` to require the C++
+backend (exit 1 if unavailable). `shardelix --version` reports the package version.
 
 ### Solver API
 
@@ -68,7 +70,12 @@ solver. `params` are advanced experimental internals, not stable API.
   Ambiguity reports exact normalized duplicate classes, low-texture counts,
   relative translation slack and unanchored groups; not verified accuracy.
   Continuous outputs also contain original-input → canvas affine maps.
-  Keep outputs in distinct directories for independent runs.
+  `rendered_piece_count` counts poses within canvas bounds; `not_rendered`
+  identifies predicted IDs skipped during rendering. Neither is accuracy.
+  `save`, `solve-document` and `reconstruct_files` publish completed
+  results into a new or empty directory. Non-empty destinations are rejected;
+  a failed export does not expose its staged artifacts. Do not share an
+  output path across concurrent jobs.
 - `evaluate` command is a separate post-solve evaluator, never an inference input.
 
 ## V12 execution profiles and browser runtime
@@ -84,7 +91,9 @@ total width is not identifiable in this mode.
 
 ## Failure and operational guidance
 Invalid counts/dimensions/images/strategy raise ValueError; I/O exceptions
-propagate. A partial/ambiguous result is not an exception or measured
+propagate in the Python API. The CLI reports operational errors to stderr
+with exit status 2 (use global `--debug` before the command for tracebacks).
+A partial/ambiguous result is not an exception or measured
 accuracy claim. The solver may leave fragments unplaced or output relative
 groups when global location cannot be inferred. No inpainting. Exact
 duplicate pieces can be impossible to identify. Use independent evidence
@@ -106,8 +115,8 @@ for large datasets. Metadata-free scan import uses an adaptive working-set budge
 physical-fragment guarantee. Refer to the [current technical report](TECHNICAL_REPORT.md) for V15 evidence. Historical benchmarks are not new reruns.
 
 ## Development
-Install the package with `python -m pip install -e .`, then run
-`python -m unittest discover -s tests/algorithms` and
-`python -m unittest discover -s tests/integration`.
+Install development dependencies with `python -m pip install -e ".[dev]"`.
+Run `python -m unittest discover -s tests -t .`. See the
+[contribution guide](../CONTRIBUTING.md) for regression and coverage checks.
 The integration example is `examples/framework.py`.
 Contributions should preserve blind inference and include reproducible evidence.

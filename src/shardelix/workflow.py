@@ -28,7 +28,7 @@ def profiles(conf):
     if idx!="auto":params["index_mode"]=idx
     return profile,tune,params
 
-def _generate_case(root,files,conf,update,browser=False):
+def _generate_case(root,files,conf,update,browser=False,source_preview=None):
     from shardelix.reconstruction.common import read_source,save_rgba
     from shardelix.reconstruction.generator import generate,fit_generation_canvas
     from PIL import Image
@@ -59,7 +59,7 @@ def _generate_case(root,files,conf,update,browser=False):
     if grid and min(h//grid[0],w//grid[1])<2:
         update("Generating thin cells (limited texture evidence)")
     validate_constraints(n,(h,w),cut,grid,rotations)
-    save_rgba(out/"source.png",src)
+    save_rgba(source_preview if source_preview is not None else out/"source.png",src)
     update("Generating shuffled fragments")
     generate(src,case,n,cut,int(conf.get("seed",42)),rotations,angle_mode=angle,missing=missing,sampling=sampling,grid=grid)
     del src
@@ -197,10 +197,8 @@ def _scan_case(root,files,conf,update,browser=False,truth_dir=None):
                   gap_recovery=conf.get("gap_recovery",True),deep_recovery=conf.get("deep_recovery","always" if conf.get("profile")=="accurate" else conf.get("profile")!="fast"),
                   profile=conf.get("profile") or "balanced",memory_budget=memory_budget)
     _public_archive(case,out)
-    try:
-        import resource,sys
-        peak_rss=resource.getrusage(resource.RUSAGE_SELF).ru_maxrss/(1048576 if sys.platform=="darwin" else 1024)
-    except (ImportError,AttributeError,OSError):peak_rss=None
+    from shardelix.reconstruction.resource_budget import peak_rss_mib
+    peak_rss=peak_rss_mib()
     d.update(compute_backend=backend(),workflow_elapsed_seconds=time.perf_counter()-started,performance_profile="scan-auto",
              process_peak_rss_mib=peak_rss,
              input_detection={"route":"irregular","evidence":conf.get("input_evidence",{}),"warning":conf.get("metadata_warning")})
@@ -292,7 +290,7 @@ def _digital_case(root,files,conf,update,browser=False,truth_dir=None,detected=N
     profile,tune,params=profiles(conf)
     started=time.perf_counter();import_geometry=None;layout_trials=[]
     if task=="demo":
-        meta,case,out,fit_info=_generate_case(root,files,conf,update,browser)
+        meta,case,out,fit_info=_generate_case(root,files,conf,update,browser,source_preview=root/"source-preview.png")
     elif task=="blind":
         meta=None
         if len(files)==1 and files[0].suffix.lower()==".zip":
@@ -376,6 +374,7 @@ def _digital_case(root,files,conf,update,browser=False,truth_dir=None,detected=N
         if held is not None:held.rename(case/"evaluation")
     update("Rendering and evaluating")
     if task=="demo":
+        (root/"source-preview.png").rename(out/"source.png")
         from shardelix.reconstruction.reference.evaluation import compare_reference
         metrics=evaluate_case(case,out)
         comparison=compare_reference(out,out/"source.png",allow_rotation=rotations,
@@ -404,10 +403,8 @@ def _digital_case(root,files,conf,update,browser=False,truth_dir=None,detected=N
     from shardelix.native_core import backend
     d["compute_backend"]=backend()
     # Peak RSS is the process high-water mark (not an incremental per-case value).
-    try:
-        import resource,sys
-        d["process_peak_rss_mib"]=resource.getrusage(resource.RUSAGE_SELF).ru_maxrss/(1048576 if sys.platform=="darwin" else 1024)
-    except (ImportError,AttributeError,OSError):d["process_peak_rss_mib"]=None
+    from shardelix.reconstruction.resource_budget import peak_rss_mib
+    d["process_peak_rss_mib"]=peak_rss_mib()
     json_write(out/"diagnostics.json",d)
     return d,m,out
 
@@ -479,5 +476,5 @@ def run_job(root:Path,conf,notify=lambda s:None,*,browser=False):
                         z.write(p,str(Path("cases")/directory.name/p.relative_to(directory/"result")))
     shutil.rmtree(root/"runs",ignore_errors=True)
     return {"state":"done","stage":"Benchmark complete" if batch else "Reconstruction exported",
-            "diagnostics":{k:v for k,v in d.items() if k in ("algorithm","runtime_seconds","status","placed","piece_count","coverage","collision_pixels","render_collision_pixels","identical_piece_count","sparse_high_consensus","reciprocal_seam_fraction","expected_count","missing_count","angle_mode","sampling","available_piece_recovery","normalization_seconds","index_mode","index_fallback_used","index_query_seconds","retrieval_seconds","assembly_seconds","performance_profile","process_peak_rss_mib","workflow_elapsed_seconds","frame_anchor_status","multigap_status","extra_verification","compute_backend","fast_rescue_v13","import_geometry_mode","import_geometry","input_detection","scan","matching_reference_used","accuracy_verified","matching_backend","micro_rescue","orientation_ambiguous")},
+            "diagnostics":{k:v for k,v in d.items() if k in ("algorithm","runtime_seconds","status","placed","piece_count","rendered_piece_count","not_rendered","coverage","collision_pixels","render_collision_pixels","identical_piece_count","sparse_high_consensus","reciprocal_seam_fraction","expected_count","missing_count","angle_mode","sampling","available_piece_recovery","normalization_seconds","index_mode","index_fallback_used","index_query_seconds","retrieval_seconds","assembly_seconds","performance_profile","process_peak_rss_mib","workflow_elapsed_seconds","frame_anchor_status","multigap_status","extra_verification","compute_backend","fast_rescue_v13","import_geometry_mode","import_geometry","input_detection","scan","matching_reference_used","accuracy_verified","matching_backend","micro_rescue","orientation_ambiguous")},
             "metrics":m,"comparison":json.loads((result/"comparison.json").read_text()) if (result/"comparison.json").exists() else None,"benchmark":rows if batch else None,"files":sorted(p.name for p in result.iterdir() if p.name in DOWNLOADS)}

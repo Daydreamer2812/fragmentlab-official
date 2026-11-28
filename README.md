@@ -8,7 +8,7 @@ A CPU-first computer vision framework for shuffled, rotated, irregular,
 and incomplete fragments. Blind reconstruction uses observed geometry and
 pixels — no original image, OCR, trained model, or GPU required.
 
-[![Version](https://img.shields.io/badge/version-15.0.0-2463eb?style=flat-square)](pyproject.toml)
+[![Version](https://img.shields.io/badge/version-15.0.1-2463eb?style=flat-square)](pyproject.toml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green?style=flat-square)](LICENSE)
 [![Python](https://img.shields.io/badge/Python-3.11%2B-3776ab?style=flat-square&logo=python&logoColor=white)](pyproject.toml)
 [![C++20](https://img.shields.io/badge/C%2B%2B-20-00599C?style=flat-square&logo=cplusplus)](cpp/)
@@ -68,11 +68,14 @@ python -m venv .venv
 # Linux/macOS: source .venv/bin/activate
 # Windows PowerShell: .venv\Scripts\Activate.ps1
 python -m pip install -e .
+python -m shardelix doctor
 python -m shardelix studio
 ```
 
 For native acceleration, run `python scripts/build_native.py`.
-The portable Python implementation works without it. See
+The portable Python implementation works without it. V15.0.1 is a
+[maintenance release](docs/releases/v15.0.1.md), with safer exports and
+installation checks; the V15 research results below are unchanged. See
 [installation and API](docs/FRAMEWORK_API.md) for wheel builds, optional
 dependencies and resource limits. PyPI publication is not configured.
 

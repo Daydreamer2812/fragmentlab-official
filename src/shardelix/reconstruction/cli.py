@@ -2,6 +2,7 @@
 from __future__ import annotations
 import argparse
 import json
+import sys
 import numpy as np
 from pathlib import Path
 from shardelix.reconstruction.common import read_source
@@ -27,8 +28,53 @@ def _solve_opts(p):
     p.add_argument("--params",type=json.loads,help="Explicit classical solver parameter JSON")
 
 def main(argv=None):
+    args = list(sys.argv[1:] if argv is None else argv)
+    try:
+        return _main(args)
+    except (ValueError, OSError, MemoryError, RuntimeError) as exc:
+        if "--debug" in args:
+            raise
+        print(f"shardelix: {exc}", file=sys.stderr)
+        return 2
+
+
+def _doctor(require_native=False):
+    import importlib.util
+    import platform
+    import scipy
+    import PIL
+    from shardelix import __version__
+    from shardelix.native_core import backend
+    from shardelix.reconstruction.resource_budget import peak_rss_mib, resource_budget
+
+    report = {
+        "version": __version__,
+        "python": platform.python_version(),
+        "platform": platform.system(),
+        "backend": backend(),
+        "dependencies": {"numpy": np.__version__, "scipy": scipy.__version__, "Pillow": PIL.__version__},
+        "optional_modules": {name: importlib.util.find_spec(name) is not None
+                             for name in ("cv2", "pymupdf", "fitz")},
+        "peak_process_rss_mib": peak_rss_mib(),
+    }
+    try:
+        report["resource_budget"] = resource_budget().describe()
+    except (ValueError, MemoryError) as exc:
+        report["resource_error"] = str(exc)
+    report["ready"] = "resource_error" not in report and (
+        not require_native or report["backend"] == "cpp-native")
+    print(json.dumps(report, indent=2))
+    return 0 if report["ready"] else 1
+
+
+def _main(argv):
+    from shardelix import __version__
     parser=argparse.ArgumentParser(prog="shardelix",description="Classical CPU fragment reconstruction (blind by default)")
+    parser.add_argument("--version", action="version", version=f"shardelix {__version__}")
+    parser.add_argument("--debug", action="store_true", help="Show tracebacks for operational errors")
     sub=parser.add_subparsers(dest="command",required=True)
+    p=sub.add_parser("doctor", help="Check runtime, backend and resource budget")
+    p.add_argument("--require-native", action="store_true", help="Fail unless the C++ backend is active")
     p=sub.add_parser("studio",help="Launch local browser UI");p.add_argument("--port",type=int,default=8765);p.add_argument("--no-browser",action="store_true")
     p=sub.add_parser("generate");_gen_opts(p);p.add_argument("--out",type=Path,required=True)
     p=sub.add_parser("reconstruct",help="Automatically reconstruct files or a ZIP; original image is optional")
@@ -51,6 +97,8 @@ def main(argv=None):
     p.add_argument("--holdout-source",type=Path);p.add_argument("--rotations",action="store_true")
     p.add_argument("--max-trials",type=int,default=12);p.add_argument("--require-95",action="store_true")
     a=parser.parse_args(argv)
+    if a.command=="doctor":
+        return _doctor(a.require_native)
     if a.command=="studio":
         from shardelix.studio import serve
         serve(a.port,not a.no_browser);return 0

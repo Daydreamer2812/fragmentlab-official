@@ -8,6 +8,7 @@ import hashlib
 import numpy as np
 from shardelix.reconstruction.common import Fragment,Pose,render,save_rgba,json_write,load_fragments
 from shardelix.reconstruction.overlay import write_cut_outputs
+from shardelix.reconstruction.output import require_empty_output, staged_output
 from shardelix.reconstruction.solver import solve
 from shardelix.reconstruction.limits import validate_constraints,MAX_PIXELS,ResourceLimits,max_count
 
@@ -19,11 +20,24 @@ def result_status(pieces,poses,shape,diagnostics,labels,collision,rotations):
                      for a in [p.rotated(k) for k in range(4 if rotations else 1)]) for p in pieces)
         identical=sum(v for v in keys.values() if v>1)
     coverage=float((labels>=0).mean())
+    # Match render()'s bounds test without a second scan or sorting the canvas.
+    rendered_ids = set()
+    for piece in pieces:
+        pose = poses.get(piece.id)
+        if pose is None:
+            continue
+        h, w = piece.rgba.shape[:2]
+        if pose.k % 2:
+            h, w = w, h
+        if 0 <= pose.x <= shape[1] - w and 0 <= pose.y <= shape[0] - h:
+            rendered_ids.add(piece.id)
+    not_rendered = sorted(set(poses) - rendered_ids)
     ambiguous=identical>0 or diagnostics.get("sparse_high_consensus") is False or any(diagnostics.get("anchor_translation_slack",[0,0]))
-    status="partial" if len(poses)<len(pieces) or coverage<.9999 or collision else "ambiguous" if ambiguous else "assembled"
+    status="partial" if len(poses)<len(pieces) or not_rendered or coverage<.9999 or collision else "ambiguous" if ambiguous else "assembled"
     return {"status":status,"placed":len(poses),"piece_count":len(pieces),"coverage":coverage,
             "collision_pixels":int(collision),"identical_piece_count":identical,
             "accuracy_verified":False,
+            "rendered_piece_count":len(rendered_ids), "not_rendered":not_rendered,
             "unplaced":[p.id for p in pieces if p.id not in poses],
             "note":"Completeness and seam consensus are not ground-truth accuracy."}
 
@@ -49,8 +63,17 @@ class ReconstructionResult:
         return render(self.fragments,self.poses,self.shape)
 
     def save(self,output: Path|str):
-        """Export poses, reconstructed raster, predicted seams, and diagnostics."""
-        output=Path(output);output.mkdir(parents=True,exist_ok=True)
+        """Export a complete result to a new or empty directory.
+
+        A failed export leaves no misleading partial result. Existing results
+        are never overwritten.
+        """
+        with staged_output(output) as stage:
+            result = self._save(stage)
+        return result
+
+    def _save(self, output: Path):
+        """Write artifacts within an isolated staging directory."""
         rgba,labels,coll=render(self.fragments,self.poses,self.shape)
         diag={**self.diagnostics,**result_status(self.fragments,self.poses,self.shape,self.diagnostics,labels,coll,self.rotations)}
         scale=3 if self.grid and min(self.grid)==1 and self.shape[0]*self.shape[1]*9<=MAX_PIXELS and (self.shape[1]//self.grid[1] if self.grid[0]==1 else self.shape[0]//self.grid[0])<4 else 1
@@ -68,7 +91,7 @@ class ReconstructionResult:
             diag["expected_full_count"]=diag.get("expected_count",len(self.fragments))
             diag["available_piece_recovery"]=len(self.poses)/len(self.fragments)
             # A known missing input is not a solver error; do not assert accuracy.
-            if diag.get("missing_count",0) and len(self.poses)==len(self.fragments) and not coll and not diag["identical_piece_count"] and diag.get("sparse_high_consensus") is not False and not any(diag.get("anchor_translation_slack",[0,0])):
+            if diag.get("missing_count",0) and len(self.poses)==len(self.fragments) and not coll and not diag["not_rendered"] and not diag["identical_piece_count"] and diag.get("sparse_high_consensus") is not False and not any(diag.get("anchor_translation_slack",[0,0])):
                 diag["status"]="assembled-with-holes"
             if self.input_affines is not None:
                 lookup={p.id:p for p in self.fragments}
@@ -231,9 +254,7 @@ def reconstruct_files(fragments, output, *, matching_reference=None, ground_trut
         raise ValueError("Reference/evaluation file does not exist")
     if sum(p.stat().st_size for p in files + [p for _, p in refs]) > native_upload_limit():
         raise ValueError("Combined input exceeds native upload budget")
-    output = Path(output)
-    if output.exists() and (not output.is_dir() or any(output.iterdir())):
-        raise ValueError("Choose a new or empty output directory")
+    output = require_empty_output(output)
     with tempfile.TemporaryDirectory(prefix="shardelix-") as tmp:
         root = Path(tmp)
         (root / "upload").mkdir()
@@ -245,5 +266,6 @@ def reconstruct_files(fragments, output, *, matching_reference=None, ground_trut
         state = run_job(root, {"task":"blind",
                               "input_mode":"reference" if matching_reference is not None else input_mode,
                               "auto_layout":True, "use_metadata":True, "profile":profile}, notify)
-        shutil.copytree(root / "result", output, dirs_exist_ok=True)
+        with staged_output(output) as stage:
+            shutil.copytree(root / "result", stage, dirs_exist_ok=True)
     return state

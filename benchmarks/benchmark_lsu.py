@@ -53,7 +53,6 @@ def run(folder,params=None,output=None,baseline=False):
     pred=[mapping[k] for k in sorted(poses,key=lambda k:poses[k].x)]
     if set(pred)!=set(truth):raise ValueError(f"Truth ID mismatch {folder.name}")
     direct,adj,reverse=metrics(pred,truth,rotate)
-    import hashlib
     from collections import Counter
     classes={}
     for p in pieces:

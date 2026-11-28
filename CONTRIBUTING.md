@@ -21,7 +21,12 @@ python -m pip install -e ".[dev]"
    Keep generated artifacts under `outputs/` or `data/synthetic/`.
 2. Do not expose ground truth to blind inference code.
 3. Add a regression test for bug fixes and seeded evaluation for solver changes.
-4. Run `python -m unittest discover -s tests -t .`.
+4. Run `python -m unittest discover -s tests -t .` with the optional native
+   backend and repeat with `SHARDELIX_CORE=python`.
+   Run `ruff check --select F821,F822,F823,F811 src tests benchmarks scripts examples`
+   (undefined names and accidental redefinitions). CI measures combined
+   line/branch coverage using both backends; the floor is configured in
+   `pyproject.toml`.
 5. Update relevant documentation when behavior, metrics, or limitations change.
 
 Pull requests should explain the problem, the approach, verification performed, and any known

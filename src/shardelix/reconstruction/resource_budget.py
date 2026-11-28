@@ -7,6 +7,52 @@ from pathlib import Path
 
 MIB=1024**2
 
+def _windows_peak_rss_bytes():
+    """PROCESS_MEMORY_COUNTERS.PeakWorkingSetSize from the current process."""
+    import ctypes as C
+    from ctypes import wintypes as W
+
+    class MemoryCounters(C.Structure):
+        _fields_ = [("cb", W.DWORD), ("PageFaultCount", W.DWORD)] + [
+            (name, C.c_size_t) for name in (
+                "PeakWorkingSetSize", "WorkingSetSize", "QuotaPeakPagedPoolUsage",
+                "QuotaPagedPoolUsage", "QuotaPeakNonPagedPoolUsage",
+                "QuotaNonPagedPoolUsage", "PagefileUsage", "PeakPagefileUsage",
+            )
+        ]
+
+    get_process = C.windll.kernel32.GetCurrentProcess
+    get_process.argtypes = []
+    get_process.restype = W.HANDLE
+    get_memory = C.windll.psapi.GetProcessMemoryInfo
+    get_memory.argtypes = [W.HANDLE, C.POINTER(MemoryCounters), W.DWORD]
+    get_memory.restype = W.BOOL
+    counters = MemoryCounters()
+    counters.cb = C.sizeof(counters)
+    if not get_memory(get_process(), C.byref(counters), counters.cb):
+        return None
+    return int(counters.PeakWorkingSetSize)
+
+
+def peak_rss_mib() -> float | None:
+    """Process high-water resident memory, in MiB; None when unavailable.
+
+    Linux reports KiB via getrusage, macOS reports bytes, and Windows
+    reports peak working-set bytes. No fabricated metric on WebAssembly.
+    """
+    try:
+        if sys.platform == "win32":
+            size = _windows_peak_rss_bytes()
+            return size / MIB if size is not None else None
+        if sys.platform not in ("linux", "darwin"):
+            return None
+        import resource
+        scale = MIB if sys.platform == "darwin" else 1024
+        return float(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss) / scale
+    except (ImportError, AttributeError, OSError, ValueError):
+        return None
+
+
 def available_memory():
     estimates=[]
     if sys.platform=="win32":

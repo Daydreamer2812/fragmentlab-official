@@ -2,6 +2,7 @@
 
 | Version | Main change |
 |:--|:--|
+| [15.0.1](v15.0.1.md) | Safe result publication, runtime diagnostics and installation checks |
 | [15.0.0](v15.0.0.md) | Evidence-aware physical scans, bounded pose refinement and reproducible evaluation |
 | [14.5.0](v14.5.0.md) | Robust patch phase, band-phase and ink-weighted scan matching |
 | [14.4.0](v14.4.0.md) | Faster physical scan matching and external mechanical-strip benchmarks |

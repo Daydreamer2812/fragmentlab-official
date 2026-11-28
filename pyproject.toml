@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "shardelix"
-version = "15.0.0"
+version = "15.0.1"
 description = "Classical digital image and document fragment reconstruction, blind by default"
 readme = "README.md"
 license = "MIT"
@@ -28,7 +28,7 @@ Repository = "https://github.com/Daydreamer2812/Shardelix"
 Issues = "https://github.com/Daydreamer2812/Shardelix/issues"
 
 [project.optional-dependencies]
-dev = ["pytest>=8", "ruff>=0.8"]
+dev = ["pytest>=8", "ruff>=0.8", "coverage>=7", "build>=1", "twine>=6"]
 reference = ["opencv-python-headless>=4.8"]  # optional tiled SIFT acceleration
 pdf = ["PyMuPDF>=1.23"]
 ui = []  # Studio uses the standard library
@@ -54,3 +54,11 @@ select = ["E", "F", "I", "UP", "B"]
 
 [tool.setuptools.package-data]
 shardelix = ["studio.html"]
+
+[tool.coverage.run]
+branch = true
+source = ["shardelix"]
+
+[tool.coverage.report]
+show_missing = true
+fail_under = 72
