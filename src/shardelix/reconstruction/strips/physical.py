@@ -60,7 +60,14 @@ def _rectify(path):
     # Allow extra width variation only for very elongated silhouettes;
     # the interior-hole guard below still rejects multi-piece masks.
     tolerance=.38 if len(mask)>=15*max(1,W) else .22
-    if len(mask)<4*W or W<5 or np.percentile(abs(width-W),95)>max(3,tolerance*W):
+    width_deviation=float(np.percentile(abs(width-W),95))
+    # A localized outward rim or folded scan section can inflate just a
+    # minority of rows. Keep the dominant width, with a bounded excursion
+    # and no substantial inward narrowing. Do not relax compact fragments.
+    local_rim=(len(mask)>=15*max(1,W) and
+               np.mean(abs(width-W)<=max(3,.22*W))>=.80 and
+               width.min()>=.65*W and width.max()<=1.60*W)
+    if len(mask)<4*W or W<5 or (width_deviation>max(3,tolerance*W) and not local_rim):
         raise NotDocumentStrips("Scan silhouette is not a near-uniform strip")
     if mask.sum()/max(1,width.sum())<.96:
         raise NotDocumentStrips("Strip mask has substantial interior holes or multiple pieces")
@@ -73,7 +80,8 @@ def _rectify(path):
     rgba=np.dstack([rgb,observed.astype(np.uint8)*255]);rgba[~observed]=0
     return Fragment(path.stem,rgba),{"file":path.name,"id":path.stem,
         "original_wh":original_size,"rectified_wh":[W,h],"initial_clockwise_turns":turn,
-        "masked":had_mask,"crop_xy":[x0,y0],"median_width":W,"row_width_range":[int(width.min()),int(width.max())]}
+        "masked":had_mask,"crop_xy":[x0,y0],"median_width":W,"row_width_range":[int(width.min()),int(width.max())],
+        "localized_rim":bool(local_rim and width_deviation>max(3,tolerance*W))}
 
 
 def _ink(p):
@@ -231,7 +239,10 @@ def _stroke_order(images,profile,update):
         # the local shadow estimate is most useful for interior-patch search.
         local=[_matching_scale(_local_ink(im),h,x_scale) for im in images]
         if offsets.any():local=[_shift_rows(im,int(d)) for im,d in zip(local,offsets)]
-        q=_patch_recurrence(local,half,gap)
+        # The original recurrence remains available. Reuse its predictions
+        # for robust residuals only on tall varying-width physical scans.
+        alt={} if x_scale<.99 and h>=1500 and min(im.shape[1] for im in local)>=20 else None
+        q=_patch_recurrence(local,half,gap,alternatives=alt)
         if q is not None:
             # Match a narrow stroke profile, tolerating scan registration
             # errors; broader means can erase actual interrupted strokes.
@@ -241,7 +252,8 @@ def _stroke_order(images,profile,update):
                 a=min(inset,max(0,im.shape[1]-2))
                 return gaussian_filter1d(im[:,a:a+overlap_depth].mean(1),.9)
             NL,NR=[np.asarray([narrow(im,right) for im in cleaned]) for right in (False,True)]
-            c=.30*_stroke_overlap(NL,NR)+.70*q;patch=True
+            overlap=_stroke_overlap(NL,NR)
+            c=.30*overlap+.70*q;patch=True
             # Do not force a blank margin for a cropped printed page, a
             # shadowed edge or an ambiguous interior gutter. Require clear
             # near-white evidence on both outer sides before adding a prior.
@@ -250,7 +262,8 @@ def _stroke_order(images,profile,update):
             # The extra bank is designed for high-resolution physical scans;
             # a 2–3 pixel loss model is not scale-invariant on thumbnails.
             if h>=1500 and min(im.shape[1] for im in local)>=20:
-                c,order,cut_hypotheses=select_cut_hypothesis(local,c,borders,update)
+                mixtures={name:.30*overlap+.70*matrix for name,matrix in (alt or {}).items()}
+                c,order,cut_hypotheses=select_cut_hypothesis(local,c,borders,update,alternatives=mixtures)
     np.fill_diagonal(c,np.inf)
     if order is None:order=chain(c,.5,borders=borders)
     if patch:

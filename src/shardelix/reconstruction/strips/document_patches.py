@@ -22,7 +22,7 @@ def _unit_cost(c):
     return c/max(1.e-6,float(np.median(v)))
 
 
-def _patch_recurrence(images,half,gap,*,inset=None):
+def _patch_recurrence(images,half,gap,*,inset=None,alternatives=None):
     """Classical nonparametric matching of half patches from observed pixels.
 
     Use a bounded index of interior patches of the same input page. For every
@@ -110,10 +110,63 @@ def _patch_recurrence(images,half,gap,*,inset=None):
             result[ii]=(weight[...,None]*target[nn]).sum(1)/weight.sum(1)[:,None]
         return result.reshape(query.shape)
     PL,PR=predict(a,b,R),predict(b,a,L)
-    def pair(a,b):
-        a=a.reshape(n,-1);b=b.reshape(n,-1)
-        return cdist(a,b,"sqeuclidean")/(np.square(a).sum(1)[:,None]+np.square(b).sum(1)[None,:]+1)
-    return _unit_cost(.5*(pair(PL,L)+pair(R,PR)))
+    raw=.5*(_patch_pair(PL,L)+_patch_pair(R,PR))
+    if alternatives is not None:
+        alternatives.update(_continuation_alternatives(R,L,PL,PR,raw))
+    return _unit_cost(raw)
+
+
+def _patch_pair(a,b):
+    """Normalized squared mismatch between every pair of strip descriptors."""
+    a=a.reshape(len(a),-1);b=b.reshape(len(b),-1)
+    return cdist(a,b,"sqeuclidean")/(np.square(a).sum(1)[:,None]+np.square(b).sum(1)[None,:]+1)
+
+
+def _phase_cost(R,L,PL,PR,base,scale):
+    """Use one bounded vertical phase for both directional predictions."""
+    score=base.copy()
+    for d in (1,2):
+        if PL.shape[1]<=2*d:break
+        for u,v in ((slice(d,None),slice(None,-d)),(slice(None,-d),slice(d,None))):
+            q=.5*(_patch_pair(PL[:,u],L[:,v])+_patch_pair(R[:,u],PR[:,v]))
+            score=np.minimum(score,q+.012*d*scale)
+    return score
+
+
+def _weighted_patch_pair(a,b,source):
+    # Blank source halves have little evidence about the adjacent continuation.
+    # Preserve a nonzero floor; weight both observed and predicted energy.
+    w=.15+.85*np.clip(source.max(2),0,1)
+    A=a.reshape(len(a),-1);B=b.reshape(len(b),-1)
+    W=np.repeat(w,a.shape[2],axis=1)
+    aa=(W*A*A).sum(1)[:,None];bb=W@(B*B).T
+    error=np.maximum(0,aa+bb-2*(W*A)@B.T)
+    return error/(aa+bb+1)
+
+
+def _continuation_alternatives(R,L,PL,PR,raw):
+    """Three bounded, pixel-only residuals using the SAME patch predictions.
+
+    Phase handles global vertical seam displacement. Band phase tolerates
+    small changes in displacement down the page (scan skew or waviness).
+    Ink weighting discounts ambiguous blank source patches. No extra tree
+    search or inferred pixels are required.
+    """
+    n=len(R);scale=max(1e-6,float(np.median(raw[~np.eye(n,dtype=bool)])))
+    phase=_phase_cost(R,L,PL,PR,raw,scale)
+    weighted=.5*(_weighted_patch_pair(PL,L,R)+_weighted_patch_pair(PR,R,L).T)
+    values=[];weights=[]
+    for ids in np.array_split(np.arange(PL.shape[1]),6):
+        if len(ids)<10:continue
+        a,b=ids[0],ids[-1]+1
+        r,l,pl,pr=R[:,a:b],L[:,a:b],PL[:,a:b],PR[:,a:b]
+        base=.5*(_patch_pair(pl,l)+_patch_pair(r,pr))
+        t=_phase_cost(r,l,pl,pr,base,scale)
+        energy=np.square(r).sum((1,2))[:,None]+np.square(l).sum((1,2))[None,:]+2
+        values.append(t*energy);weights.append(energy)
+    results={"phase":_unit_cost(phase),"ink-weighted":_unit_cost(weighted)}
+    if weights:results["band-phase"]=_unit_cost(np.sum(values,axis=0)/np.sum(weights,axis=0))
+    return results
 
 
 def _chain_distinctiveness(cost, order):
@@ -135,7 +188,7 @@ def _chain_distinctiveness(cost, order):
     return float(.5*np.mean(rowrank+colrank)-.5*np.mean(margin)/scale)
 
 
-def select_cut_hypothesis(images, baseline, borders, update):
+def select_cut_hypothesis(images, baseline, borders, update, *, alternatives=None):
     """Evaluate a small bank of physical gap hypotheses, select without labels.
 
     An observed seam may lose several pixels of ink. Narrow, densely sampled
@@ -162,4 +215,15 @@ def select_cut_hypothesis(images, baseline, borders, update):
             trial=candidate((1-weight)*base+weight*local,f"gap-{gap}-weight-{weight:g}")
             diagnostics.append({"hypothesis":trial[1],"distinctiveness_cost":trial[0]})
             if trial[0]<best[0]-1e-9:best=trial
+    # Only one new observed residual may replace the incumbent. A small
+    # dimensionless separation avoids changing the chain on numerical ties.
+    # A calibrated cut-gap winner uses a different physical geometry. The
+    # robustness alternatives reuse only the coarse predictions, so they
+    # must not override a calibrated gap winner with a different model.
+    if alternatives and best[1]=="coarse":
+        incumbent=best[0]
+        for name,matrix in alternatives.items():
+            trial=candidate(matrix,name)
+            diagnostics.append({"hypothesis":trial[1],"distinctiveness_cost":trial[0]})
+            if trial[0]+.03<incumbent and trial[0]<best[0]:best=trial
     return best[2],best[3],{"selected":best[1],"candidates":diagnostics}

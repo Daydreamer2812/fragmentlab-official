@@ -5,4 +5,4 @@ from shardelix.api import Solver, ReconstructionResult, reconstruct_files
 from shardelix.reconstruction.limits import ResourceLimits
 
 __all__ = ["Fragment", "Pose", "Solver", "ReconstructionResult", "ResourceLimits", "reconstruct_files"]
-__version__ = "14.4.0"
+__version__ = "14.5.0"

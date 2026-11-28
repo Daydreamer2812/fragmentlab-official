@@ -73,3 +73,19 @@
   `PYTHONPATH=src python scripts/benchmark_mechanical_strips.py /path/datasets --out result.json`.
   Use `--cases D1/D001 D2/D007` for a subset. No raw external scan data is
   stored or redistributed in this repository.
+
+### V14.5 extension
+- Recheck all 21 previously evaluated pages. The earlier additional pages
+  are now development data, not holdout.
+- The first six new S-CDIP pages (D002,D012,D032,D052,D072,D092) were
+  evaluated after choosing the initial robust-residual policy. A later
+  calibrated-gap guard was introduced following a regression on the
+  development D2/D001. Retest the affected D3/D002 page; report the
+  first-pass result separately from the final result.
+- Three further S-CDIP pages (D018,D038,D078) were evaluated after the
+  final guard was fixed, with no further tuning. Keep these results
+  separate from the development sample. All pages are selected samples,
+  not a random representative validation of the whole collection.
+- Same anonymous matching-only protocol and orientation-neutral directed
+  adjacency metric as V14.4; no model or intact document needed. See
+  [V14.5 release](releases/v14.5.0.md) for limitations.

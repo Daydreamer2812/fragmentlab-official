@@ -208,6 +208,11 @@ Native patch queries use at most four workers; WebAssembly stays single-threaded
 Matching-only scaling retains horizontal detail on equal-width strips and
 uses isotropic anti-aliased downsampling on tall varying-width scans.
 A guarded elongated-mask tolerance handles some tapered cuts.
+V14.5 reuses the same observed patch predictions to score bounded global
+vertical phase, six local bands, and ink-weighted residuals on tall varying-width
+scans. A calibrated cut-gap winner is not overridden by coarse residuals.
+A fragmented-looking local rim is admitted only with a dominant width, bounded
+outward excursion and the existing interior-hole guard.
 The exported strip pixels remain at rectified source resolution.
 Color photographs use chromatic strip matching instead. Fast skips the patch index.
 The solver optimizes a directed chain. It supports 2–128 scanned strips. For other

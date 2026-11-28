@@ -176,6 +176,74 @@ class PhysicalDocumentWorkflowTests(unittest.TestCase):
             with self.assertRaises(NotDocumentStrips):
                 _rectify(path)
 
+    def test_patch_phase_and_ink_weighted_residuals(self):
+        from shardelix.reconstruction.strips.document_patches import (
+            _patch_pair, _phase_cost, _weighted_patch_pair, _continuation_alternatives,
+        )
+        rng=np.random.default_rng(38)
+        R=rng.random((3,72,6),dtype=np.float32)
+        L=rng.random(R.shape,dtype=np.float32)
+        L[1,1:]=R[0,:-1]
+        PL=R.copy();PR=L.copy()
+        raw=.5*(_patch_pair(PL,L)+_patch_pair(R,PR))
+        result=_phase_cost(R,L,PL,PR,raw,1.)
+        self.assertLess(result[0,1],.02)
+        self.assertGreater(raw[0,1],result[0,1])
+        scores=_continuation_alternatives(R,L,PL,PR,raw)
+        self.assertEqual(set(scores),{"phase","ink-weighted","band-phase"})
+        for c in scores.values():
+            self.assertEqual(c.shape,(3,3))
+            self.assertTrue(np.isfinite(c).all())
+            self.assertGreaterEqual(float(c.min()),0)
+        W=.15+.85*R[0].max(1)
+        expected=(W[:,None]*(PL[0]-L[1])**2).sum()/(
+            (W[:,None]*(PL[0]**2+L[1]**2)).sum()+1)
+        self.assertAlmostEqual(float(_weighted_patch_pair(PL,L,R)[0,1]),float(expected),places=5)
+
+    def test_localized_rim_requires_dominant_width_and_contiguous_mask(self):
+        from shardelix.reconstruction.strips.physical import _rectify, NotDocumentStrips
+        with tempfile.TemporaryDirectory() as t:
+            path=Path(t)/"rim.png"
+            a=np.full((1000,60,4),255,np.uint8)
+            a[:,:,3]=0;a[:,:40,3]=255
+            a[400:550,40:60,3]=255
+            Image.fromarray(a).save(path)
+            piece,record=_rectify(path)
+            self.assertEqual(piece.rgba.shape,(1000,40,4))
+            self.assertTrue(record["localized_rim"])
+            a[200:700,9:19,3]=0
+            Image.fromarray(a).save(path)
+            with self.assertRaises(NotDocumentStrips):_rectify(path)
+            a[:,:,3]=0;a[:,:40,3]=255
+            a[200:550,40:60,3]=255
+            Image.fromarray(a).save(path)
+            with self.assertRaises(NotDocumentStrips):_rectify(path)
+
+    def test_alternative_hypothesis_retains_baseline_or_selects_stronger_evidence(self):
+        from shardelix.reconstruction.strips.document_patches import select_cut_hypothesis
+        rng=np.random.default_rng(24)
+        base=rng.uniform(.8,1.2,(8,8));strong=np.ones((8,8))
+        target=np.array([2,5,1,4,0,7,3,6])
+        strong[target[:-1],target[1:]]=.05
+        borders=(np.zeros(8),np.zeros(8))
+        with patch("shardelix.reconstruction.strips.document_patches._patch_recurrence",return_value=None):
+            _,order,d=select_cut_hypothesis([None]*8,base,borders,lambda _:None,
+                                            alternatives={"phase":strong})
+        np.testing.assert_array_equal(order,target)
+        self.assertEqual(d["selected"],"phase")
+        with patch("shardelix.reconstruction.strips.document_patches._patch_recurrence",return_value=None):
+            _,_,d=select_cut_hypothesis([None]*8,base,borders,lambda _:None,
+                                       alternatives={"identical":base.copy()})
+        self.assertEqual(d["selected"],"coarse")
+        # A calibrated gap winner must remain available; coarse residuals
+        # evaluate a different physical gap and cannot replace it.
+        with patch("shardelix.reconstruction.strips.document_patches._patch_recurrence",
+                   side_effect=[strong,None]):
+            _,_,d=select_cut_hypothesis([None]*8,base,borders,lambda _:None,
+                                        alternatives={"phase":strong*.001})
+        self.assertTrue(d["selected"].startswith("gap-2-"))
+        self.assertNotIn("phase",[c["hypothesis"] for c in d["candidates"]])
+
     def test_global_chain_matches_small_exhaustive_oracle(self):
         import itertools
         from shardelix.reconstruction.strips.ordering import (
