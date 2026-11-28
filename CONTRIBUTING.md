@@ -16,6 +16,8 @@ python -m pip install -e ".[dev]"
 1. Put algorithm changes in the appropriate geometry package under
    `src/shardelix/reconstruction/`; see [architecture](docs/ARCHITECTURE.md).
    Avoid version-numbered runtime modules and parallel workflow entry points.
+   Use the [script index](scripts/README.md) and [benchmark archive](reports/README.md)
+   when adding an experiment; preserve historical results.
    Keep generated artifacts under `outputs/` or `data/synthetic/`.
 2. Do not expose ground truth to blind inference code.
 3. Add a regression test for bug fixes and seeded evaluation for solver changes.
