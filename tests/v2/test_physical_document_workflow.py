@@ -86,6 +86,39 @@ class PhysicalDocumentWorkflowTests(unittest.TestCase):
         self.assertTrue(np.isfinite(c).all())
         self.assertGreaterEqual(float(c.min()),0)
         np.testing.assert_allclose(c,_patch_recurrence(images,6,0))
+        # Dense calibrated patches compare the actual pixel centers with
+        # an explicit missing-cut width, not a virtual rendered bridge.
+        for gap in (2,3):
+            d=_patch_recurrence(images,6,gap,inset=1)
+            self.assertEqual(d.shape,(4,4))
+            self.assertTrue(np.isfinite(d).all())
+            self.assertGreaterEqual(float(d.min()),0)
+            np.testing.assert_allclose(d,_patch_recurrence(images,6,gap,inset=1))
+
+    def test_cut_hypothesis_uses_observed_reciprocal_evidence(self):
+        from shardelix.reconstruction.strips.document_patches import (
+            _chain_distinctiveness, select_cut_hypothesis,
+        )
+        # No filenames, ground truth or original page enters the selector.
+        rng=np.random.default_rng(18)
+        baseline=rng.uniform(.8,1.2,(8,8))
+        strong=np.ones((8,8))
+        target=np.array([3,1,6,4,0,5,7,2])
+        strong[target[:-1],target[1:]]=.1
+        borders=(np.zeros(8),np.zeros(8))
+        with patch("shardelix.reconstruction.strips.document_patches._patch_recurrence",
+                   side_effect=[strong,None]):
+            c,order,diag=select_cut_hypothesis([None]*8,baseline,borders,lambda _:None)
+        np.testing.assert_array_equal(order,target)
+        self.assertLess(_chain_distinctiveness(c,order),0)
+        self.assertEqual(diag["selected"],"gap-2-weight-1")
+        self.assertEqual(len(diag["candidates"]),4)
+        # Unusable patches leave the prior matcher available.
+        with patch("shardelix.reconstruction.strips.document_patches._patch_recurrence",
+                   return_value=None):
+            c,order,diag=select_cut_hypothesis([None]*8,baseline,borders,lambda _:None)
+        self.assertEqual(diag["selected"],"coarse")
+        self.assertEqual(sorted(order.tolist()),list(range(8)))
 
 
     def test_local_shadow_normalization_preserves_ink(self):

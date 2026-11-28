@@ -1,0 +1,720 @@
+{
+  "baseline_version": "14.2.0",
+  "baseline_commit": "6d619f3441baf4aa2d7370f70013474a675e62e6",
+  "candidate_version": "14.3.0",
+  "scope": "native CPU, Balanced and High accuracy physical document strips",
+  "protocol": "Only anonymized physical scans and foreground masks enter reconstruction. Order labels are read after inference. The same three real development pages are rerun with two filename seeds.",
+  "baseline": {
+    "dataset": "DocDataset, physical stripes",
+    "seed": 624,
+    "profile": "balanced",
+    "results": [
+      {
+        "case": "real1_27",
+        "pixel_only": {
+          "directed_correct": 20,
+          "undirected_correct": 20,
+          "positions_correct": 14,
+          "total_joins": 26,
+          "total_pieces": 27
+        },
+        "runtime_seconds": 4.897231572999999
+      },
+      {
+        "case": "real2_56",
+        "pixel_only": {
+          "directed_correct": 55,
+          "undirected_correct": 55,
+          "positions_correct": 56,
+          "total_joins": 55,
+          "total_pieces": 56
+        },
+        "runtime_seconds": 22.299976786000002
+      },
+      {
+        "case": "real3_39",
+        "pixel_only": {
+          "directed_correct": 34,
+          "undirected_correct": 34,
+          "positions_correct": 22,
+          "total_joins": 38,
+          "total_pieces": 39
+        },
+        "runtime_seconds": 15.592681862999996
+      }
+    ]
+  },
+  "candidate_runs": [
+    {
+      "dataset": "DocDataset, physical stripes",
+      "seed": 624,
+      "profile": "balanced",
+      "source": "https://people.tamu.edu/~xinli/DocReassembly/data/DocDataset.zip",
+      "protocol": "Anonymized scan pixels + foreground masks only; truth read after reconstruction.",
+      "results": [
+        {
+          "case": "real1_27",
+          "pixel_only": {
+            "directed_correct": 26,
+            "undirected_correct": 26,
+            "positions_correct": 27,
+            "total_joins": 26,
+            "total_pieces": 27
+          },
+          "runtime_seconds": 14.592399848000014,
+          "matching": {
+            "patch_recurrence": true,
+            "edge_inset_px": 1,
+            "profile_depth_px": 2,
+            "reciprocal_top3_joins": 22,
+            "total_joins": 26,
+            "local_shadow_normalization": true,
+            "margin_prior_used": true,
+            "global_path": {
+              "method": "sparse-subtour-elimination",
+              "initial_energy": 22.949425006842674,
+              "selected_energy": 22.949425006842674,
+              "accepted": false,
+              "status": "shortlist-optimal",
+              "candidate_arcs": 321,
+              "iterations": 1
+            },
+            "vertical_registration": {
+              "applied": false,
+              "shifted_count": 0,
+              "max_abs_shift_px": 0,
+              "row_consensus": 0.8219665884971619
+            },
+            "cut_loss_hypotheses": {
+              "selected": "gap-2-weight-1",
+              "candidates": [
+                {
+                  "hypothesis": "coarse",
+                  "distinctiveness_cost": 1.969742203114686
+                },
+                {
+                  "hypothesis": "gap-2-weight-0.3",
+                  "distinctiveness_cost": 1.2463036318967022
+                },
+                {
+                  "hypothesis": "gap-2-weight-0.6",
+                  "distinctiveness_cost": 1.0467789599919124
+                },
+                {
+                  "hypothesis": "gap-2-weight-1",
+                  "distinctiveness_cost": 0.8527629324145202
+                },
+                {
+                  "hypothesis": "gap-3-weight-0.3",
+                  "distinctiveness_cost": 1.4072203933587673
+                },
+                {
+                  "hypothesis": "gap-3-weight-0.6",
+                  "distinctiveness_cost": 1.1690705880905259
+                },
+                {
+                  "hypothesis": "gap-3-weight-1",
+                  "distinctiveness_cost": 0.9045053291060472
+                }
+              ]
+            },
+            "relative_orientation_flips": 0
+          }
+        },
+        {
+          "case": "real2_56",
+          "pixel_only": {
+            "directed_correct": 55,
+            "undirected_correct": 55,
+            "positions_correct": 56,
+            "total_joins": 55,
+            "total_pieces": 56
+          },
+          "runtime_seconds": 51.8102522480001,
+          "matching": {
+            "patch_recurrence": true,
+            "edge_inset_px": 3,
+            "profile_depth_px": 4,
+            "reciprocal_top3_joins": 49,
+            "total_joins": 55,
+            "local_shadow_normalization": true,
+            "margin_prior_used": false,
+            "global_path": {
+              "method": "sparse-subtour-elimination",
+              "initial_energy": 47.78497942098457,
+              "selected_energy": 47.78497942098457,
+              "accepted": false,
+              "status": "shortlist-optimal",
+              "candidate_arcs": 724,
+              "iterations": 2
+            },
+            "vertical_registration": {
+              "applied": true,
+              "shifted_count": 29,
+              "max_abs_shift_px": 6,
+              "row_consensus": 0.526115745306015
+            },
+            "cut_loss_hypotheses": {
+              "selected": "gap-2-weight-0.6",
+              "candidates": [
+                {
+                  "hypothesis": "coarse",
+                  "distinctiveness_cost": 1.4513652013975418
+                },
+                {
+                  "hypothesis": "gap-2-weight-0.3",
+                  "distinctiveness_cost": 0.4712945204890895
+                },
+                {
+                  "hypothesis": "gap-2-weight-0.6",
+                  "distinctiveness_cost": 0.21080557583983317
+                },
+                {
+                  "hypothesis": "gap-2-weight-1",
+                  "distinctiveness_cost": 0.9811170105148433
+                },
+                {
+                  "hypothesis": "gap-3-weight-0.3",
+                  "distinctiveness_cost": 0.23272441272612548
+                },
+                {
+                  "hypothesis": "gap-3-weight-0.6",
+                  "distinctiveness_cost": 0.8444868931506604
+                },
+                {
+                  "hypothesis": "gap-3-weight-1",
+                  "distinctiveness_cost": 2.420991197908782
+                }
+              ]
+            },
+            "relative_orientation_flips": 0
+          }
+        },
+        {
+          "case": "real3_39",
+          "pixel_only": {
+            "directed_correct": 38,
+            "undirected_correct": 38,
+            "positions_correct": 39,
+            "total_joins": 38,
+            "total_pieces": 39
+          },
+          "runtime_seconds": 31.089754124000024,
+          "matching": {
+            "patch_recurrence": true,
+            "edge_inset_px": 3,
+            "profile_depth_px": 4,
+            "reciprocal_top3_joins": 34,
+            "total_joins": 38,
+            "local_shadow_normalization": true,
+            "margin_prior_used": false,
+            "global_path": {
+              "method": "sparse-subtour-elimination",
+              "initial_energy": 34.500581130639986,
+              "selected_energy": 34.500581130639986,
+              "accepted": false,
+              "status": "shortlist-optimal",
+              "candidate_arcs": 495,
+              "iterations": 2
+            },
+            "vertical_registration": {
+              "applied": false,
+              "shifted_count": 0,
+              "max_abs_shift_px": 0,
+              "row_consensus": 0.7967104315757751
+            },
+            "cut_loss_hypotheses": {
+              "selected": "gap-3-weight-0.6",
+              "candidates": [
+                {
+                  "hypothesis": "coarse",
+                  "distinctiveness_cost": 1.7320149158896334
+                },
+                {
+                  "hypothesis": "gap-2-weight-0.3",
+                  "distinctiveness_cost": 1.0900060323075609
+                },
+                {
+                  "hypothesis": "gap-2-weight-0.6",
+                  "distinctiveness_cost": 0.8289180328270314
+                },
+                {
+                  "hypothesis": "gap-2-weight-1",
+                  "distinctiveness_cost": 1.0832364985575715
+                },
+                {
+                  "hypothesis": "gap-3-weight-0.3",
+                  "distinctiveness_cost": 0.8347178440762127
+                },
+                {
+                  "hypothesis": "gap-3-weight-0.6",
+                  "distinctiveness_cost": 0.4619114166319753
+                },
+                {
+                  "hypothesis": "gap-3-weight-1",
+                  "distinctiveness_cost": 0.47233965268944983
+                }
+              ]
+            },
+            "relative_orientation_flips": 0
+          }
+        }
+      ]
+    },
+    {
+      "dataset": "DocDataset, physical stripes",
+      "seed": 2026,
+      "profile": "balanced",
+      "source": "https://people.tamu.edu/~xinli/DocReassembly/data/DocDataset.zip",
+      "protocol": "Anonymized scan pixels + foreground masks only; truth read after reconstruction.",
+      "results": [
+        {
+          "case": "real1_27",
+          "pixel_only": {
+            "directed_correct": 26,
+            "undirected_correct": 26,
+            "positions_correct": 27,
+            "total_joins": 26,
+            "total_pieces": 27
+          },
+          "runtime_seconds": 14.721149483999966,
+          "matching": {
+            "patch_recurrence": true,
+            "edge_inset_px": 1,
+            "profile_depth_px": 2,
+            "reciprocal_top3_joins": 22,
+            "total_joins": 26,
+            "local_shadow_normalization": true,
+            "margin_prior_used": true,
+            "global_path": {
+              "method": "sparse-subtour-elimination",
+              "initial_energy": 22.961456684098685,
+              "selected_energy": 22.961456684098685,
+              "accepted": false,
+              "status": "shortlist-optimal",
+              "candidate_arcs": 321,
+              "iterations": 1
+            },
+            "vertical_registration": {
+              "applied": false,
+              "shifted_count": 0,
+              "max_abs_shift_px": 0,
+              "row_consensus": 0.8219665884971619
+            },
+            "cut_loss_hypotheses": {
+              "selected": "gap-2-weight-1",
+              "candidates": [
+                {
+                  "hypothesis": "coarse",
+                  "distinctiveness_cost": 1.8559222082068023
+                },
+                {
+                  "hypothesis": "gap-2-weight-0.3",
+                  "distinctiveness_cost": 1.2865250446754266
+                },
+                {
+                  "hypothesis": "gap-2-weight-0.6",
+                  "distinctiveness_cost": 1.0680385703043187
+                },
+                {
+                  "hypothesis": "gap-2-weight-1",
+                  "distinctiveness_cost": 0.8771921790933537
+                },
+                {
+                  "hypothesis": "gap-3-weight-0.3",
+                  "distinctiveness_cost": 1.4086661992500966
+                },
+                {
+                  "hypothesis": "gap-3-weight-0.6",
+                  "distinctiveness_cost": 1.1496260993801442
+                },
+                {
+                  "hypothesis": "gap-3-weight-1",
+                  "distinctiveness_cost": 0.9977071308815133
+                }
+              ]
+            },
+            "relative_orientation_flips": 0
+          }
+        },
+        {
+          "case": "real2_56",
+          "pixel_only": {
+            "directed_correct": 55,
+            "undirected_correct": 55,
+            "positions_correct": 56,
+            "total_joins": 55,
+            "total_pieces": 56
+          },
+          "runtime_seconds": 51.485837446000005,
+          "matching": {
+            "patch_recurrence": true,
+            "edge_inset_px": 3,
+            "profile_depth_px": 4,
+            "reciprocal_top3_joins": 52,
+            "total_joins": 55,
+            "local_shadow_normalization": true,
+            "margin_prior_used": false,
+            "global_path": {
+              "method": "sparse-subtour-elimination",
+              "initial_energy": 47.75830048435318,
+              "selected_energy": 47.75830048435318,
+              "accepted": false,
+              "status": "shortlist-optimal",
+              "candidate_arcs": 718,
+              "iterations": 1
+            },
+            "vertical_registration": {
+              "applied": true,
+              "shifted_count": 29,
+              "max_abs_shift_px": 6,
+              "row_consensus": 0.526115745306015
+            },
+            "cut_loss_hypotheses": {
+              "selected": "gap-3-weight-0.3",
+              "candidates": [
+                {
+                  "hypothesis": "coarse",
+                  "distinctiveness_cost": 1.4375908969914108
+                },
+                {
+                  "hypothesis": "gap-2-weight-0.3",
+                  "distinctiveness_cost": 0.4949899121572714
+                },
+                {
+                  "hypothesis": "gap-2-weight-0.6",
+                  "distinctiveness_cost": 0.24202631256136445
+                },
+                {
+                  "hypothesis": "gap-2-weight-1",
+                  "distinctiveness_cost": 0.9073241316668331
+                },
+                {
+                  "hypothesis": "gap-3-weight-0.3",
+                  "distinctiveness_cost": 0.2034333778593144
+                },
+                {
+                  "hypothesis": "gap-3-weight-0.6",
+                  "distinctiveness_cost": 0.8969351301497321
+                },
+                {
+                  "hypothesis": "gap-3-weight-1",
+                  "distinctiveness_cost": 2.560212731591701
+                }
+              ]
+            },
+            "relative_orientation_flips": 0
+          }
+        },
+        {
+          "case": "real3_39",
+          "pixel_only": {
+            "directed_correct": 38,
+            "undirected_correct": 38,
+            "positions_correct": 39,
+            "total_joins": 38,
+            "total_pieces": 39
+          },
+          "runtime_seconds": 30.07582080499992,
+          "matching": {
+            "patch_recurrence": true,
+            "edge_inset_px": 3,
+            "profile_depth_px": 4,
+            "reciprocal_top3_joins": 33,
+            "total_joins": 38,
+            "local_shadow_normalization": true,
+            "margin_prior_used": false,
+            "global_path": {
+              "method": "sparse-subtour-elimination",
+              "initial_energy": 34.205424344300134,
+              "selected_energy": 34.205424344300134,
+              "accepted": false,
+              "status": "shortlist-optimal",
+              "candidate_arcs": 497,
+              "iterations": 2
+            },
+            "vertical_registration": {
+              "applied": false,
+              "shifted_count": 0,
+              "max_abs_shift_px": 0,
+              "row_consensus": 0.7967104315757751
+            },
+            "cut_loss_hypotheses": {
+              "selected": "gap-3-weight-1",
+              "candidates": [
+                {
+                  "hypothesis": "coarse",
+                  "distinctiveness_cost": 1.7320149158896334
+                },
+                {
+                  "hypothesis": "gap-2-weight-0.3",
+                  "distinctiveness_cost": 1.0250052479983103
+                },
+                {
+                  "hypothesis": "gap-2-weight-0.6",
+                  "distinctiveness_cost": 0.8163977578556785
+                },
+                {
+                  "hypothesis": "gap-2-weight-1",
+                  "distinctiveness_cost": 1.095174259953215
+                },
+                {
+                  "hypothesis": "gap-3-weight-0.3",
+                  "distinctiveness_cost": 0.8249094316530231
+                },
+                {
+                  "hypothesis": "gap-3-weight-0.6",
+                  "distinctiveness_cost": 0.7439252082929153
+                },
+                {
+                  "hypothesis": "gap-3-weight-1",
+                  "distinctiveness_cost": 0.4157827047096614
+                }
+              ]
+            },
+            "relative_orientation_flips": 0
+          }
+        }
+      ]
+    },
+    {
+      "dataset": "DocDataset, physical stripes",
+      "seed": 624,
+      "profile": "accurate",
+      "source": "https://people.tamu.edu/~xinli/DocReassembly/data/DocDataset.zip",
+      "protocol": "Anonymized scan pixels + foreground masks only; truth read after reconstruction.",
+      "results": [
+        {
+          "case": "real1_27",
+          "pixel_only": {
+            "directed_correct": 26,
+            "undirected_correct": 26,
+            "positions_correct": 27,
+            "total_joins": 26,
+            "total_pieces": 27
+          },
+          "runtime_seconds": 14.92294429499998,
+          "matching": {
+            "patch_recurrence": true,
+            "edge_inset_px": 1,
+            "profile_depth_px": 2,
+            "reciprocal_top3_joins": 22,
+            "total_joins": 26,
+            "local_shadow_normalization": true,
+            "margin_prior_used": true,
+            "global_path": {
+              "method": "sparse-subtour-elimination",
+              "initial_energy": 22.949425006842674,
+              "selected_energy": 22.949425006842674,
+              "accepted": false,
+              "status": "shortlist-optimal",
+              "candidate_arcs": 413,
+              "iterations": 1
+            },
+            "vertical_registration": {
+              "applied": false,
+              "shifted_count": 0,
+              "max_abs_shift_px": 0,
+              "row_consensus": 0.8219665884971619
+            },
+            "cut_loss_hypotheses": {
+              "selected": "gap-2-weight-1",
+              "candidates": [
+                {
+                  "hypothesis": "coarse",
+                  "distinctiveness_cost": 1.969742203114686
+                },
+                {
+                  "hypothesis": "gap-2-weight-0.3",
+                  "distinctiveness_cost": 1.2463036318967022
+                },
+                {
+                  "hypothesis": "gap-2-weight-0.6",
+                  "distinctiveness_cost": 1.0467789599919124
+                },
+                {
+                  "hypothesis": "gap-2-weight-1",
+                  "distinctiveness_cost": 0.8527629324145202
+                },
+                {
+                  "hypothesis": "gap-3-weight-0.3",
+                  "distinctiveness_cost": 1.4072203933587673
+                },
+                {
+                  "hypothesis": "gap-3-weight-0.6",
+                  "distinctiveness_cost": 1.1690705880905259
+                },
+                {
+                  "hypothesis": "gap-3-weight-1",
+                  "distinctiveness_cost": 0.9045053291060472
+                }
+              ]
+            },
+            "relative_orientation_flips": 0
+          }
+        },
+        {
+          "case": "real2_56",
+          "pixel_only": {
+            "directed_correct": 55,
+            "undirected_correct": 55,
+            "positions_correct": 56,
+            "total_joins": 55,
+            "total_pieces": 56
+          },
+          "runtime_seconds": 49.663132387999894,
+          "matching": {
+            "patch_recurrence": true,
+            "edge_inset_px": 3,
+            "profile_depth_px": 4,
+            "reciprocal_top3_joins": 49,
+            "total_joins": 55,
+            "local_shadow_normalization": true,
+            "margin_prior_used": false,
+            "global_path": {
+              "method": "sparse-subtour-elimination",
+              "initial_energy": 47.78497942098457,
+              "selected_energy": 47.78497942098457,
+              "accepted": false,
+              "status": "shortlist-optimal",
+              "candidate_arcs": 974,
+              "iterations": 2
+            },
+            "vertical_registration": {
+              "applied": true,
+              "shifted_count": 29,
+              "max_abs_shift_px": 6,
+              "row_consensus": 0.526115745306015
+            },
+            "cut_loss_hypotheses": {
+              "selected": "gap-2-weight-0.6",
+              "candidates": [
+                {
+                  "hypothesis": "coarse",
+                  "distinctiveness_cost": 1.4513652013975418
+                },
+                {
+                  "hypothesis": "gap-2-weight-0.3",
+                  "distinctiveness_cost": 0.4712945204890895
+                },
+                {
+                  "hypothesis": "gap-2-weight-0.6",
+                  "distinctiveness_cost": 0.21080557583983317
+                },
+                {
+                  "hypothesis": "gap-2-weight-1",
+                  "distinctiveness_cost": 0.9811170105148433
+                },
+                {
+                  "hypothesis": "gap-3-weight-0.3",
+                  "distinctiveness_cost": 0.23272441272612548
+                },
+                {
+                  "hypothesis": "gap-3-weight-0.6",
+                  "distinctiveness_cost": 0.8444868931506604
+                },
+                {
+                  "hypothesis": "gap-3-weight-1",
+                  "distinctiveness_cost": 2.420991197908782
+                }
+              ]
+            },
+            "relative_orientation_flips": 0
+          }
+        },
+        {
+          "case": "real3_39",
+          "pixel_only": {
+            "directed_correct": 38,
+            "undirected_correct": 38,
+            "positions_correct": 39,
+            "total_joins": 38,
+            "total_pieces": 39
+          },
+          "runtime_seconds": 29.709274512999855,
+          "matching": {
+            "patch_recurrence": true,
+            "edge_inset_px": 3,
+            "profile_depth_px": 4,
+            "reciprocal_top3_joins": 34,
+            "total_joins": 38,
+            "local_shadow_normalization": true,
+            "margin_prior_used": false,
+            "global_path": {
+              "method": "sparse-subtour-elimination",
+              "initial_energy": 34.500581130639986,
+              "selected_energy": 34.500581130639986,
+              "accepted": false,
+              "status": "shortlist-optimal",
+              "candidate_arcs": 682,
+              "iterations": 2
+            },
+            "vertical_registration": {
+              "applied": false,
+              "shifted_count": 0,
+              "max_abs_shift_px": 0,
+              "row_consensus": 0.7967104315757751
+            },
+            "cut_loss_hypotheses": {
+              "selected": "gap-3-weight-0.6",
+              "candidates": [
+                {
+                  "hypothesis": "coarse",
+                  "distinctiveness_cost": 1.7320149158896334
+                },
+                {
+                  "hypothesis": "gap-2-weight-0.3",
+                  "distinctiveness_cost": 1.0900060323075609
+                },
+                {
+                  "hypothesis": "gap-2-weight-0.6",
+                  "distinctiveness_cost": 0.8289180328270314
+                },
+                {
+                  "hypothesis": "gap-2-weight-1",
+                  "distinctiveness_cost": 1.0832364985575715
+                },
+                {
+                  "hypothesis": "gap-3-weight-0.3",
+                  "distinctiveness_cost": 0.8347178440762127
+                },
+                {
+                  "hypothesis": "gap-3-weight-0.6",
+                  "distinctiveness_cost": 0.4619114166319753
+                },
+                {
+                  "hypothesis": "gap-3-weight-1",
+                  "distinctiveness_cost": 0.47233965268944983
+                }
+              ]
+            },
+            "relative_orientation_flips": 0
+          }
+        }
+      ]
+    }
+  ],
+  "limitations": [
+    "The three real documents were used in development; two naming seeds test permutation robustness, not held-out generalization.",
+    "The high-resolution branch is limited to at least 8 strips, matching height >=1500 pixels, minimum width >=20 pixels. Small scans keep the previous matcher.",
+    "The two-to-three-pixel gap bank is a heuristic at the current sampling scale, not direct measurement of missing fibers.",
+    "No missing pixels are synthesized. Exact ordering does not validate subpixel physical alignment or global upright orientation.",
+    "The new bank incurs additional CPU work. Actual browser performance and independent real scan datasets are unverified."
+  ],
+  "verification": {
+    "native_algorithm_tests": {
+      "passed": 137,
+      "total": 137
+    },
+    "python_fallback_tests": {
+      "passed": 131,
+      "skipped_native_only": 6,
+      "total": 137
+    },
+    "workflow_tests": {
+      "passed": 2,
+      "total": 2
+    },
+    "native_studio_smoke": "passed"
+  }
+}

@@ -11,11 +11,11 @@ from pathlib import Path
 import numpy as np
 from PIL import Image, ImageOps, ImageDraw
 from scipy.ndimage import map_coordinates, gaussian_filter1d, gaussian_filter, grey_opening
-from scipy.spatial import cKDTree
 from scipy.spatial.distance import cdist
 
 from shardelix.reconstruction.common import Fragment, Pose, render, save_rgba, json_write
 from shardelix.reconstruction.strips.ordering import chain, _projection_cost, refine_chain_global
+from shardelix.reconstruction.strips.document_patches import _unit_cost, _patch_recurrence, select_cut_hypothesis
 from shardelix.reconstruction.rotation import _signed_tree, solve_unknown_color_strips
 from shardelix.reconstruction.overlay import write_cut_outputs
 
@@ -77,12 +77,6 @@ def _ink(p):
     v=1-(.299*a[:,:,0].astype(np.float32)+.587*a[:,:,1]+.114*a[:,:,2])/255
     v[a[:,:,3]==0]=0
     return v
-
-
-def _unit_cost(c):
-    """Scale positive score matrices without creating negative edge costs."""
-    v=c[~np.eye(len(c),dtype=bool)]
-    return c/max(1.e-6,float(np.median(v)))
 
 
 def _clean_ink(im):
@@ -185,68 +179,6 @@ def _line_cost(left,right):
     return .5*_unit_cost(a)+.5*_unit_cost(b)
 
 
-def _patch_recurrence(images,half,gap):
-    """Classical nonparametric matching of half patches from observed pixels.
-
-    Use a bounded index of interior patches of the same input page. For every
-    seam-side patch, find geometrically similar half patches in intact local
-    neighborhoods and compare their observed continuations with the opposing
-    side. No glyph labels, OCR, training, language model, or generated pixels.
-    """
-    n=len(images);h=len(images[0]);step=2
-    yoffset=np.arange(-6,7,3)
-    offset=np.arange(half-step//2,0,-step)-.5+gap
-    xoffset=np.r_[-offset,offset[::-1]]
-    # Bound both query count and corpus size; same coordinates for every strip.
-    stride=max(3,math.ceil(n*h/35_000))
-    ycenter=np.arange(6,h-6,stride)
-    if not len(ycenter) or any(im.shape[1]<half+3 for im in images):return None
-    corpus=[];edges=[]
-    stride_x=max(3,math.ceil(len(ycenter)*sum(max(0,im.shape[1]-2*(half+gap+3)) for im in images)/300_000))
-    for im in images:
-        sm=gaussian_filter(im,.6)
-        xs=np.arange(half+gap+3,im.shape[1]-half-gap-3,stride_x)
-        if len(xs):
-            Y,X=np.meshgrid(ycenter,xs,indexing="ij")
-            v=map_coordinates(sm,[Y[...,None,None]+yoffset[:,None]+np.zeros((1,len(xoffset))),
-                                  X[...,None,None]+xoffset[None,:]+np.zeros((len(yoffset),1))],
-                              order=1,mode="nearest").reshape(-1,len(yoffset),len(xoffset))
-            corpus.append(v[(v>.18).sum((1,2))>=2])
-        xL=im.shape[1]-3-np.arange(len(offset))[::-1]*step
-        xR=2+np.arange(len(offset))*step
-        Y=ycenter[:,None,None]+yoffset[None,:,None]+np.zeros((1,1,len(offset)))
-        edges.append([map_coordinates(sm,[Y,x[None,None,:]+np.zeros_like(Y)],order=1,mode="nearest")
-                      .reshape(len(ycenter),-1) for x in (xL,xR)])
-    if not corpus:return None
-    c=np.concatenate(corpus)
-    if len(c)<32:return None
-    if len(c)>50_000:c=c[np.linspace(0,len(c)-1,50_000,dtype=int)]
-    a,b=np.split(c,2,axis=2);a=a.reshape(len(c),-1);b=b.reshape(len(c),-1)
-    e=np.asarray(edges);L,R=e[:,1],e[:,0]
-    def predict(source,target,query):
-        tree=cKDTree(source)
-        q=query.reshape(-1,query.shape[-1])
-        result=np.empty_like(q)
-        # Full blank patches are identical queries. Evaluate once instead of
-        # repeatedly traversing the high-dimensional tree over blank paper.
-        nonzero=np.any(q!=0,axis=1);indices=np.flatnonzero(nonzero)
-        if not nonzero.all():
-            d,nn=tree.query(np.zeros((1,q.shape[1]),dtype=q.dtype),k=8,eps=.08)
-            weight=np.exp(-d*d/(.06+d[:,0:1]**2))
-            result[~nonzero]=(weight[...,None]*target[nn]).sum(1)/weight.sum(1)[:,None]
-        # Bound working memory, including the neighbor tensor.
-        for start in range(0,len(indices),2048):
-            ii=indices[start:start+2048];d,nn=tree.query(q[ii],k=8,eps=.08)
-            weight=np.exp(-d*d/(.06+d[:,0:1]**2))
-            result[ii]=(weight[...,None]*target[nn]).sum(1)/weight.sum(1)[:,None]
-        return result.reshape(query.shape)
-    PL,PR=predict(a,b,R),predict(b,a,L)
-    def pair(a,b):
-        a=a.reshape(n,-1);b=b.reshape(n,-1)
-        return cdist(a,b,"sqeuclidean")/(np.square(a).sum(1)[:,None]+np.square(b).sum(1)[None,:]+1)
-    return _unit_cost(.5*(pair(PL,L)+pair(R,PR)))
-
-
 def _stroke_order(images,profile,update):
     # Common-height normalized evidence; only estimation, no resizing of output.
     h=min(1800,max(map(len,images)))
@@ -269,6 +201,8 @@ def _stroke_order(images,profile,update):
     L,R=[np.asarray([side(im,right) for im in cleaned]) for right in (False,True)]
     c=_line_cost(L,R)
     patch=False;optimization={"status":"not-run"};margin_used=True
+    cut_hypotheses={"selected":"not-run","candidates":[]}
+    order=None
     l,r=L.mean(1),R.mean(1);scale=max(.02,float(np.median(np.r_[l,r])))
     borders=(3*l/scale,3*r/scale)
     if profile!="fast" and len(images)>=8 and h>=48:
@@ -298,8 +232,12 @@ def _stroke_order(images,profile,update):
             # near-white evidence on both outer sides before adding a prior.
             margin_used=bool(l.min()<.02 and r.min()<.02)
             if not margin_used:borders=(np.zeros_like(l),np.zeros_like(r))
+            # The extra bank is designed for high-resolution physical scans;
+            # a 2–3 pixel loss model is not scale-invariant on thumbnails.
+            if h>=1500 and min(im.shape[1] for im in local)>=20:
+                c,order,cut_hypotheses=select_cut_hypothesis(local,c,borders,update)
     np.fill_diagonal(c,np.inf)
-    order=chain(c,.5,borders=borders)
+    if order is None:order=chain(c,.5,borders=borders)
     if patch:
         update("Verifying a single globally consistent strip chain")
         order,optimization=refine_chain_global(c,order,borders,top_k=12 if profile=="accurate" else 8,
@@ -311,7 +249,8 @@ def _stroke_order(images,profile,update):
     return order,{"patch_recurrence":patch,"edge_inset_px":inset,"profile_depth_px":depth,
                   "reciprocal_top3_joins":int(np.count_nonzero((rowrank[a,b]<3)&(colrank[a,b]<3))),
                   "total_joins":len(a),"local_shadow_normalization":patch,
-                  "margin_prior_used":margin_used,"global_path":optimization,"vertical_registration":alignment}
+                  "margin_prior_used":margin_used,"global_path":optimization,"vertical_registration":alignment,
+                  "cut_loss_hypotheses":cut_hypotheses}
 
 
 def reconstruct_strips(paths,target:Path,out:Path,update=lambda _:None,*,pixel_cap=8_000_000,profile="balanced"):

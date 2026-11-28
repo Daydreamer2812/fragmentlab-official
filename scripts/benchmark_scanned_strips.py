@@ -28,11 +28,11 @@ def metrics(order, truth):
             "total_joins": len(truth)-1, "total_pieces": len(truth)}
 
 
-def evaluate(z, name, case, profile):
+def evaluate(z, name, case, profile, seed=624):
     prefix = f"DocDataset/stripes/{name}/"
     scans, pieces, out = (case/p for p in ("scans", "pieces", "result"))
     scans.mkdir(parents=True)
-    rng = np.random.default_rng(624)
+    rng = np.random.default_rng(seed)
     aliases = {}
     # Deterministic anonymization in archive entry order, independent of truth.
     for member in z.namelist():
@@ -55,7 +55,8 @@ def evaluate(z, name, case, profile):
     # Evaluation labels enter the process only once inference has finished.
     truth = [aliases[v] for v in z.read(prefix+"order.txt").decode().split()]
     return {"case": name, "pixel_only": metrics(order, truth),
-            "runtime_seconds": diag["runtime_seconds"]}
+            "runtime_seconds": diag["runtime_seconds"],
+            "matching": diag["scan"]["matching"]}
 
 
 def main():
@@ -63,11 +64,12 @@ def main():
     parser.add_argument("archive", type=Path)
     parser.add_argument("--out", type=Path)
     parser.add_argument("--profile", choices=("fast", "balanced", "accurate"), default="balanced")
+    parser.add_argument("--seed", type=int, default=624, help="Filename anonymization seed")
     args = parser.parse_args()
     with tempfile.TemporaryDirectory() as tmp, zipfile.ZipFile(args.archive) as z:
-        results = [evaluate(z, name, Path(tmp)/name, args.profile)
+        results = [evaluate(z, name, Path(tmp)/name, args.profile, args.seed)
                    for name in ("real1_27", "real2_56", "real3_39")]
-    data = {"dataset":"DocDataset, physical stripes", "seed":624, "profile":args.profile,
+    data = {"dataset":"DocDataset, physical stripes", "seed":args.seed, "profile":args.profile,
             "source":"https://people.tamu.edu/~xinli/DocReassembly/data/DocDataset.zip",
             "protocol":"Anonymized scan pixels + foreground masks only; truth read after reconstruction.",
             "results":results}

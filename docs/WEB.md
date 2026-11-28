@@ -198,6 +198,10 @@ ink-edge profiles, and in Balanced/High accuracy uses nearby observed interior
 patches to score likely stroke continuations without recognizing characters.
 V14.1 adds local shadow suppression, bounded vertical text-row registration,
 shift-tolerant foreground overlap and conditionally enabled page-margin priors.
+V14.3 adds a bounded explicit cut-loss hypothesis bank on high-resolution
+document strips (Balanced/High accuracy), reusing observed interior pixel
+patches. Reciprocal edge ranks and alternative-edge margins select a candidate
+chain without labels.
 A budgeted sparse global path refinement competes with the existing chain;
 it does not replace it unless the observed objective improves.
 Color photographs use chromatic strip matching instead. Fast skips the patch index.
@@ -221,8 +225,12 @@ reads the answer ordering only after the pixel-only solver finishes. See
 historical results: 90/119 correct undirected seams vs 22/119 before the optimization.
 V14.1 further improves to 109/119 (91.6%) in Balanced native runs;
 see the [paired scan report](../reports/v14/scan_document_v141.json).
-This is not 100% page-order recovery, and the stronger search costs more CPU time. These are native pixel-only results, not a claim of identical browser
-performance or verified accuracy on arbitrary uploads.
+V14.3 reaches 119/119 directed joins and 122/122 exact positions on those same
+three real development pages, for both filename seeds 624 and 2026.
+See the [V14.3 report](../reports/v14/scan_document_v143.json).
+The stronger search costs more CPU time. These are native pixel-only
+development results, not a claim of identical browser performance or verified
+accuracy on arbitrary uploads.
 
 ## Verification status
 
