@@ -46,20 +46,10 @@ def evaluate(folder, seed=624, profile="balanced"):
             heights=[len(piece.rgba) for piece in pieces]
             if max(heights)-min(heights)>max(3,.035*max(heights)):
                 raise p.NotDocumentStrips("Rectified strips lack comparable long dimensions")
-            images=[p._ink(piece) for piece in pieces]
-            if p._textlike(pieces,images):
-                same,flipped=p._projection_cost([p._clean_ink(im) for im in images])
-                signs=p._signed_tree(same,flipped,neighbors=12)
-                ims=[np.rot90(im,2) if signs[i] else im for i,im in enumerate(images)]
-                order,matching=p._stroke_order(ims,profile,lambda _:None)
-                predicted=[pieces[i].id for i in order]
-                turns=[int(signs[i]) for i in order]
-                route="physical-document"
-            else:
-                poses,matching=p.solve_unknown_color_strips(pieces)
-                predicted=sorted(poses,key=lambda a:poses[a].x)
-                turns=[poses[a].k//2 for a in predicted]
-                route="physical-color"
+            poses,matching,algorithm=p.match_rectified_strips(pieces,profile)
+            predicted=sorted(poses,key=lambda a:poses[a].x)
+            turns=[poses[a].k//2 for a in predicted]
+            route="physical-document" if algorithm.startswith("physical-document") else "physical-color"
         except (ValueError,RuntimeError) as exc:
             return {"case":f"{folder.parent.parent.name}/{folder.name}",
                     "pieces":len(files),"joins":len(files)-1,"error":str(exc),
@@ -76,7 +66,15 @@ def evaluate(folder, seed=624, profile="balanced"):
         # Keep directed score and orientation-neutral score separate.
         direct_pos=sum(a==b for a,b in zip(pred,truth))
         rev_pos=sum(a==b for a,b in zip(pred[::-1],truth))
+        # One global reversal is chosen by adjacency first, then positions;
+        # assess the selective seam marker separately from total recovery.
+        reverse_gauge=(reverse,rev_pos)>(directed,direct_pos)
+        evidence=matching.get("seam_evidence",[])
+        expected=edges if not reverse_gauge else {(b,a) for a,b in edges}
+        marked=[v for v in evidence if v["distinctive"]]
+        selective_correct=sum((aliases[v["left_id"]],aliases[v["right_id"]]) in expected for v in marked)
         return {"case":f"{folder.parent.parent.name}/{folder.name}","pieces":len(files),
+                "distinctive_seams":len(marked),"distinctive_correct":selective_correct,
                 "joins":len(files)-1,"directed_correct":directed,
                 "gauge_aligned_correct":max(directed,reverse),
                 "positions_correct":direct_pos,"gauge_aligned_positions":max(direct_pos,rev_pos),
@@ -93,7 +91,12 @@ def main():
     parser.add_argument("--profile",choices=("fast","balanced","accurate"),default="balanced")
     args=parser.parse_args()
     folders=sorted(p for p in args.root.glob("D*/mechanical/D*") if (p/"strips").is_dir())
-    if args.cases:folders=[p for p in folders if f"{p.parent.parent.name}/{p.name}" in args.cases]
+    if args.cases:
+        available={f"{p.parent.parent.name}/{p.name}":p for p in folders}
+        missing=set(args.cases)-available.keys()
+        if missing:
+            raise ValueError(f"Missing manifest cases: {', '.join(sorted(missing))}")
+        folders=[available[k] for k in sorted(set(args.cases))]
     if not folders:raise ValueError("No mechanical document folders found")
     rows=[]
     for folder in folders:

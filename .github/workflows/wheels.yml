@@ -1,0 +1,49 @@
+name: Installable platform wheels
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  wheel:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        python: ['3.11', '3.12']
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Build portable and native wheels
+        shell: bash
+        run: |
+          python -m pip install --upgrade build wheel
+          python -m build --wheel --outdir dist/portable
+          SHARDELIX_BUILD_NATIVE=1 python -m build --wheel --outdir dist/native
+      - name: Install portable wheel and verify fallback
+        shell: bash
+        run: |
+          python -m pip install dist/portable/*.whl
+          python -c "from shardelix.native_core import backend; assert backend() == 'python-reference', backend()"
+          shardelix --help
+          python -m unittest discover -s tests/v2
+      - name: Install native wheel and verify ABI
+        shell: bash
+        run: |
+          python -m pip install --force-reinstall --no-deps dist/native/*.whl
+          python -c "from shardelix.native_core import backend; assert backend() == 'cpp-native', backend()"
+          python -m unittest discover -s tests/v2
+          python -m unittest discover -s tests/workflow
+      - uses: actions/upload-artifact@v4
+        with:
+          name: shardelix-wheels-${{ matrix.os }}-py${{ matrix.python }}
+          path: dist/*/*.whl

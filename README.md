@@ -8,7 +8,7 @@ A CPU-first computer vision framework for shuffled, rotated, irregular,
 and incomplete fragments. Blind reconstruction uses observed geometry and
 pixels — no original image, OCR, trained model, or GPU required.
 
-[![Version](https://img.shields.io/badge/version-14.5.0-2463eb?style=flat-square)](pyproject.toml)
+[![Version](https://img.shields.io/badge/version-15.0.0-2463eb?style=flat-square)](pyproject.toml)
 [![Python](https://img.shields.io/badge/Python-3.11%2B-3776ab?style=flat-square&logo=python&logoColor=white)](pyproject.toml)
 [![C++20](https://img.shields.io/badge/C%2B%2B-20-00599C?style=flat-square&logo=cplusplus)](cpp/)
 [![WebAssembly](https://img.shields.io/badge/WebAssembly-SIMD-654FF0?style=flat-square&logo=webassembly)](docs/WEB.md)
@@ -80,6 +80,19 @@ python scripts/build_native.py
 python -m shardelix studio
 ```
 
+Install a portable Python wheel without a compiler, or explicitly compile
+a platform wheel:
+
+```bash
+python -m pip wheel --no-deps .
+# Linux/macOS (C++20 compiler required):
+SHARDELIX_BUILD_NATIVE=1 python -m pip wheel --no-deps .
+```
+
+On Windows set `$env:SHARDELIX_BUILD_NATIVE = "1"` in PowerShell and
+provide a MinGW C++20 compiler. Platform wheel CI covers Linux, macOS
+and Windows; PyPI distribution is not yet configured.
+
 The engine also runs with the Python fallback
 (`SHARDELIX_CORE=python`). Install `.[reference]` for optional OpenCV/SIFT
 reference registration or `.[pdf]` for native PDF generation.
@@ -121,7 +134,30 @@ print(prediction.summary())
 Measured accuracy is reported separately for each protocol. These are
 recorded experiments, not a guarantee of general-purpose reconstruction.
 
-### Physical document reconstruction — V14.5
+### Physical document reconstruction — V15.0
+
+| Dataset / evaluation | V14.5 | V15.0 |
+|:--|--:|--:|
+| DocDataset Real, three development pages (directed joins) | 119/119 | 119/119 |
+| Mechanical scans: 30 previously observed pages | 470/688 | **477/688** |
+| Mechanical scans: 7 newly held-out pages | 129/165 | 129/165 |
+| **Mechanical scans: 37 selected pages** | 599/853 (70.2%) | **606/853 (71.0%)** |
+| Simulated scan damage: adjacency, 8 cases | 73/248 | 73/248 |
+| Simulated scan damage: vertical registration MAE | 2.20 px | **0.36 px** |
+| Continuous-rotation erosion: correct/accepted relative joins, 4 cases | 7/10 | **8/9** |
+
+The new seam evidence identifies 175 correct of 184 distinctive joins on
+the mechanical sample (21.6% coverage, 95.1% observed precision).
+The scores are diagnostic, not calibrated probabilities. The complete
+chain remains provisional where seams lack evidence; independent strip
+components can now be exported. Hard damaged or ambiguous cases remain
+experimental, especially when many pieces are missing or unrelated.
+
+[Release notes](docs/releases/v15.0.0.md) ·
+[Technical report and acceptance checklist](docs/TECHNICAL_REPORT.md) ·
+[Per-case comparisons](reports/v15/) · [Data and evaluation protocols](docs/DATASETS.md)
+
+### Physical document reconstruction — historical V14.5
 
 | Dataset / evaluation | V14.4 | V14.5 |
 |:--|--:|--:|
@@ -143,7 +179,7 @@ sample is not representative of all real documents.
 - V14.4's speed-only change measured **1.69×** faster on the three real
   DocDataset scans (89.42 s → 53.05 s); no controlled V14.5 speedup is claimed.
 
-[Current release](docs/releases/v14.5.0.md) ·
+[Historical release](docs/releases/v14.5.0.md) ·
 [Per-page results](reports/v14/scan_document_v145.json) ·
 [Data and protocol](docs/DATASETS.md)
 
@@ -270,10 +306,8 @@ python -m unittest discover -s tests/workflow
 python scripts/smoke_studio.py
 ```
 
-V14.5 verification: 143 native algorithm tests passed, 137 Python-fallback
-tests passed (6 native-only skips), and 2 static web/evaluation tests passed.
-See the [release verification](docs/releases/v14.5.0.md) for the scope of
-these checks.
+See the [V15 release verification](docs/releases/v15.0.0.md) for regression,
+wheel installation and benchmark scope.
 
 ## Citation and contributing
 

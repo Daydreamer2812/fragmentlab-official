@@ -88,6 +88,43 @@ def verify_offset(a, b, fa, fb, R, t, max_gap, info):
     }
 
 
+def refine_offset(a, b, fa, fb, R, t, max_gap, info, value):
+    """Refine a verified rigid hypothesis at the moving fragment centre.
+
+    Offset contours nominate poses, but have discretization and rounding
+    error. Re-evaluate small SE(2) perturbations against the original masks
+    and observed bridge; never modify the measured raster. Keep the incumbent
+    unless a candidate strictly improves the same verification objective.
+    """
+    from shardelix.reconstruction.irregular.scan import rotation
+    center = b.points.mean(0)
+    best = (value[0], R, t, value[1])
+    for distance, angle_step in ((2., .035), (1., .0175)):
+        score, Q, u, detail = best
+        target = Q @ center + u
+        trials = [(Q, u + np.asarray(d)*distance) for d in
+                  ((1,0),(-1,0),(0,1),(0,-1))]
+        for angle in (-angle_step, angle_step):
+            P = rotation(angle) @ Q
+            trials.append((P, target-P@center))
+        for P, v in trials:
+            if _overlap(a,b,P,v) > .025:
+                continue
+            q = verify_offset(a,b,fa,fb,P,v,max_gap,info)
+            if q is None or q[0] <= best[0]*1.005:
+                continue
+            # An expanded contour encodes a physical two-sided gap estimate.
+            # Do not chase a higher photometric score by drifting AWAY from
+            # that geometry (e.g. pulling nearby texture into a false seam).
+            radius=info.get("offset_radius_px")
+            if radius is not None and "median_gap" in value[1]:
+                target=2.*radius
+                if abs(q[1]["median_gap"]-target)>abs(value[1]["median_gap"]-target)+.2:
+                    continue
+            best = (q[0],P,v,q[1])
+    return best
+
+
 def offset_recovery(shapes, fields, max_gap, budget, update=lambda _: None):
     """Budgeted multi-radius search, with global competition on each real arc."""
     from shardelix.reconstruction.irregular.continuation import pose_difference
@@ -116,7 +153,11 @@ def offset_recovery(shapes, fields, max_gap, budget, update=lambda _: None):
         for _, i, j, R, t, info in candidates:
             q = verify_offset(shapes[i], shapes[j], fields[i], fields[j], R, t, max_gap, info)
             if q:
-                verified.append((q[0], i, j, R, t, q[1]))
+                # Only already verified hypotheses receive bounded local refinement.
+                score, R, t, detail = refine_offset(
+                    shapes[i], shapes[j], fields[i], fields[j], R, t, max_gap, info, q
+                )
+                verified.append((score, i, j, R, t, {**detail, "offset_pose_refined": score > q[0]}))
     # Nearby poses at different trial radii are not independent matches.
     modes = []
     by_pair = defaultdict(list)

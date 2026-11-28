@@ -11,7 +11,7 @@ from shardelix.uploads import (IMAGE_EXT, MAX_UPLOAD, WEB_UPLOAD, WEB_COUNT, WEB
 WEB_BATCH=24
 WEB_BATCH_OUTPUT_BYTES=192*1024**2
 NATIVE_BATCH=64
-DOWNLOADS={"assembly.png","assembly_with_cuts.png","assembly_reference_aligned.png","assembly_reference_aligned_with_cuts.png","cut_lines.png","placements.json","unanchored_components.json","component_placements.json","ambiguity.json","diagnostics.json","metrics.json","source.png","result.zip","fragments.zip","benchmark.csv","benchmark.json","fragments_preview.png","ground_truth.zip","comparison.json","scan_report.json"}
+DOWNLOADS={"assembly.png","assembly_with_cuts.png","assembly_reference_aligned.png","assembly_reference_aligned_with_cuts.png","cut_lines.png","placements.json","unanchored_components.json","component_placements.json","strip_components.json","ambiguity.json","diagnostics.json","metrics.json","source.png","result.zip","fragments.zip","benchmark.csv","benchmark.json","fragments_preview.png","ground_truth.zip","comparison.json","scan_report.json"}
 
 def profiles(conf):
     profile=conf.get("profile")

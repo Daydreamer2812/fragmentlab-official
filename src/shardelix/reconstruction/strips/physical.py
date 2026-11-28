@@ -71,17 +71,37 @@ def _rectify(path):
         raise NotDocumentStrips("Scan silhouette is not a near-uniform strip")
     if mask.sum()/max(1,width.sum())<.96:
         raise NotDocumentStrips("Strip mask has substantial interior holes or multiple pieces")
+    rgba=_rectify_rows(a,left,right,W)
     h=len(mask)
-    yy=np.broadcast_to(y[:,None],(h,W))
-    xx=left[:,None]+(right-left)[:,None]*np.linspace(0,1,W)
-    rgb=np.stack([map_coordinates(a[:,:,k],(yy,xx),order=1,prefilter=False) for k in range(3)],axis=2)
-    # Preserve invalid rows as transparent rather than fabricating pixels.
-    observed=map_coordinates(mask.astype(np.uint8),(yy,xx),order=0,prefilter=False)>0
-    rgba=np.dstack([rgb,observed.astype(np.uint8)*255]);rgba[~observed]=0
     return Fragment(path.stem,rgba),{"file":path.name,"id":path.stem,
         "original_wh":original_size,"rectified_wh":[W,h],"initial_clockwise_turns":turn,
         "masked":had_mask,"crop_xy":[x0,y0],"median_width":W,"row_width_range":[int(width.min()),int(width.max())],
         "localized_rim":bool(local_rim and width_deviation>max(3,tolerance*W))}
+
+
+def _rectify_rows(a,left,right,width):
+    """Fast row-wise linear resampling with an explicit observed-pixel mask.
+
+    The vertical coordinate is integral, so a generic 2D interpolation and
+    three separate channel passes are unnecessary. RGB from invalid mask
+    pixels must not bleed into the foreground at interior holes.
+    """
+    x=left[:,None]+(right-left)[:,None]*np.linspace(0,1,width)
+    lo=np.clip(np.floor(x).astype(np.intp),0,a.shape[1]-1)
+    hi=np.minimum(lo+1,a.shape[1]-1)
+    y=np.arange(len(a))[:,None]
+    p,q=a[y,lo],a[y,hi]
+    f=x-lo
+    pm,qm=p[...,3]>=128,q[...,3]>=128
+    w0=(1-f)*pm;w1=f*qm
+    den=w0+w1
+    rgb=(p[...,:3]*w0[...,None]+q[...,:3]*w1[...,None])/np.maximum(den[...,None],1e-12)
+    observed=(np.where(f<.5,pm,qm)) & (den>0)
+    result=np.empty((len(a),width,4),np.uint8)
+    result[...,:3]=np.floor(np.clip(rgb,0,255)+.5).astype(np.uint8)
+    result[...,3]=observed.astype(np.uint8)*255
+    result[~observed]=0
+    return result
 
 
 def _ink(p):
@@ -172,8 +192,15 @@ def _align_text_rows(images):
 def _textlike(pieces,images):
     a=np.concatenate([p.rgba[p.mask][::max(1,int(p.mask.sum())//800),:3] for p in pieces])
     dark=np.concatenate([im.ravel()[::max(1,im.size//800)] for im in images])
-    return bool(len(a) and (np.ptp(a.astype(np.int16),axis=1)<35).mean()>.85
-                and np.median(dark)<.30 and .012<(dark>.40).mean()<.40)
+    if not len(a):return False
+    neutral=float((np.ptp(a.astype(np.int16),axis=1)<35).mean())
+    density=float((dark>.40).mean())
+    paper=float(np.median(dark))
+    # A very sparse monochrome page is still a document. Require a much
+    # stronger paper/neutrality prior in the extended low-density regime,
+    # rather than sending printed line art to a color seam matcher.
+    return bool(neutral>.85 and paper<.30 and .012<density<.40 or
+                neutral>.97 and paper<.12 and .002<density<=.012)
 
 
 def _line_cost(left,right):
@@ -217,6 +244,7 @@ def _stroke_order(images,profile,update):
     offsets,alignment=_align_text_rows(cleaned) if profile!="fast" else (
         np.zeros(len(cleaned),dtype=int),{"applied":False,"shifted_count":0,"max_abs_shift_px":0})
     if offsets.any():cleaned=[_shift_rows(im,int(d)) for im,d in zip(cleaned,offsets)]
+    alignment["offsets_matching_px"]=offsets.tolist()
     background=float(np.median([np.percentile(im,20) for im in images]))
     # The artifact band on gray/shadowed scans is less reliable than deeper
     # ink. A near-white scan retains more high-frequency boundary detail.
@@ -274,25 +302,48 @@ def _stroke_order(images,profile,update):
     rowrank=np.argsort(np.argsort(c,axis=1),axis=1)
     colrank=np.argsort(np.argsort(c,axis=0),axis=0)
     a,b=order[:-1],order[1:]
-    return order,{"patch_recurrence":patch,"edge_inset_px":inset,"profile_depth_px":depth,
+    evidence=chain_evidence(c,order)
+    return order,{"seam_evidence":evidence,"seam_evidence_kind":"reciprocal ranks and normalized rival margins; not probabilities","patch_recurrence":patch,"edge_inset_px":inset,"profile_depth_px":depth,
                   "reciprocal_top3_joins":int(np.count_nonzero((rowrank[a,b]<3)&(colrank[a,b]<3))),
                   "total_joins":len(a),"local_shadow_normalization":patch,
                   "margin_prior_used":margin_used,"global_path":optimization,"vertical_registration":alignment,
                   "cut_loss_hypotheses":cut_hypotheses,"matching_scale":float(match_scale),"matching_x_scale":float(x_scale)}
 
 
-def reconstruct_strips(paths,target:Path,out:Path,update=lambda _:None,*,pixel_cap=8_000_000,profile="balanced"):
-    if not 2<=len(paths)<=128:raise ValueError("Physical document mode supports 2–128 scanned strips")
-    started=time.perf_counter();pieces=[];records=[]
-    for path in paths:
-        p,r=_rectify(path);pieces.append(p);records.append(r)
-    if len({p.id for p in pieces})!=len(pieces):raise ValueError("Strip filenames must have unique stems")
-    heights=[p.rgba.shape[0] for p in pieces]
-    h=max(heights);w=sum(p.rgba.shape[1] for p in pieces)
-    if h-min(heights)>max(3,.035*h):raise NotDocumentStrips("Rectified strips lack comparable long dimensions")
-    if h*w>pixel_cap:raise ValueError("Rectified document exceeds canvas pixel budget")
-    target.mkdir(parents=True,exist_ok=True);out.mkdir(parents=True,exist_ok=True)
-    for p in pieces:save_rgba(target/(p.id+".png"),p.rgba)
+def chain_evidence(cost, order):
+    """Finite, scale-independent diagnostics; ties give zero margin.
+
+    A forced Hamiltonian path can contain unsupported seams. Report the
+    competing row/column minimum and rank for every chosen adjacency, rather
+    than pretending full placement is proof. No target labels are used.
+    """
+    if len(order)<2:return []
+    finite=cost[np.isfinite(cost)]
+    scale=max(1.e-8,float(np.median(finite))) if len(finite) else 1.
+    result=[]
+    for a,b in zip(order[:-1],order[1:]):
+        a,b=int(a),int(b)
+        selected=cost[a,b]
+        row=cost[a].copy();col=cost[:,b].copy()
+        row[b]=np.inf;col[a]=np.inf
+        rival=min(float(row.min()),float(col.min()))
+        margin=(rival-float(selected))/scale if np.isfinite(rival) and np.isfinite(selected) else None
+        result.append({"left_index":a,"right_index":b,
+            "outgoing_rank":int(1+np.count_nonzero(row<selected)),
+            "incoming_rank":int(1+np.count_nonzero(col<selected)),
+            "normalized_rival_margin":margin,
+            "distinctive":bool(margin is not None and margin>.05)})
+    return result
+
+
+def match_rectified_strips(pieces, profile="balanced", update=lambda _:None):
+    """Shared pixel-only matcher for the file API and external evaluation.
+
+    The inputs are canonical, rectified Fragment objects. Output placements
+    remain provisional regardless of component size or score margin.
+    """
+    if profile not in ("fast","balanced","accurate"):
+        raise ValueError("Unknown performance profile")
     images=[_ink(p) for p in pieces]
     update("Matching continuity along scanned strip edges")
     if _textlike(pieces,images):
@@ -307,12 +358,49 @@ def reconstruct_strips(paths,target:Path,out:Path,update=lambda _:None,*,pixel_c
         for i in order:
             p=pieces[i];poses[p.id]=Pose(x,0,2*int(signs[i]));x+=p.rgba.shape[1]
         matching["relative_orientation_flips"]=int(np.count_nonzero(signs))
+        # Convert the common-height matching shifts to actual raster pixels.
+        # Export a translated observed raster only for a strong row consensus.
+        # We never stretch or fill the missing area of the output canvas.
+        registration=matching["vertical_registration"]
+        shifts=np.rint(np.asarray(registration.pop("offsets_matching_px"))/matching["matching_scale"]).astype(int)
+        registration["suggested_shift_px"]={p.id:int(d) for p,d in zip(pieces,shifts)}
+        apply=registration["applied"] and registration.get("row_consensus",0) >= .65
+        registration["output_alignment_applied"]=bool(apply)
+        if apply:
+            shifts-=shifts.min()
+            poses={p.id:Pose(poses[p.id].x,int(shifts[i]),poses[p.id].k) for i,p in enumerate(pieces)}
         algorithm="physical-document-foreground-multiscale"
     else:
         # A long photo strip is not an ink document. Retain chromatic evidence.
         poses,color=solve_unknown_color_strips(pieces)
         matching={"patch_recurrence":False,"color_aware":True}
         algorithm="physical-color-strip-chain"
+    # Match evidence is indexed by the predicted, anonymous fragment IDs.
+    for seam in matching.get("seam_evidence", []):
+        seam["left_id"]=pieces[seam.pop("left_index")].id
+        seam["right_id"]=pieces[seam.pop("right_index")].id
+    return poses,matching,algorithm
+
+
+def reconstruct_strips(paths,target:Path,out:Path,update=lambda _:None,*,pixel_cap=8_000_000,profile="balanced"):
+    if not 2<=len(paths)<=128:raise ValueError("Physical document mode supports 2–128 scanned strips")
+    started=time.perf_counter();pieces=[];records=[]
+    for path in paths:
+        p,r=_rectify(path);pieces.append(p);records.append(r)
+    if len({p.id for p in pieces})!=len(pieces):raise ValueError("Strip filenames must have unique stems")
+    heights=[p.rgba.shape[0] for p in pieces]
+    h=max(heights);w=sum(p.rgba.shape[1] for p in pieces)
+    if h-min(heights)>max(3,.035*h):raise NotDocumentStrips("Rectified strips lack comparable long dimensions")
+    if h*w>pixel_cap:raise ValueError("Rectified document exceeds canvas pixel budget")
+    poses,matching,algorithm=match_rectified_strips(pieces,profile,update)
+    aligned_h=max(poses[p.id].y+p.rgba.shape[0] for p in pieces)
+    if aligned_h*w>pixel_cap:
+        poses={k:Pose(v.x,0,v.k) for k,v in poses.items()}
+        matching["vertical_registration"]["output_alignment_applied"]=False
+        matching["vertical_registration"]["output_alignment_reason"]="canvas pixel budget"
+    else:h=aligned_h
+    target.mkdir(parents=True,exist_ok=True);out.mkdir(parents=True,exist_ok=True)
+    for p in pieces:save_rgba(target/(p.id+".png"),p.rgba,compress_level=1)
     update("Rendering rectified scanned document")
     rgba,labels,collision=render(pieces,poses,(h,w))
     save_rgba(out/"assembly.png",rgba);write_cut_outputs(out,rgba,labels)
@@ -328,6 +416,17 @@ def reconstruct_strips(paths,target:Path,out:Path,update=lambda _:None,*,pixel_c
                   "components":1,"matching":matching,"warnings":warnings,"common_scale":1.0,"accuracy_verified":False}}
     json_write(out/"placements.json",{"mode":"blind-rectified-strips","poses":{k:v.as_dict() for k,v in poses.items()},
               "diagnostics":diag})
+    if matching.get("seam_evidence"):
+        ordered=sorted(poses,key=lambda k:poses[k].x)
+        components=[[ordered[0]]]
+        for seam in matching["seam_evidence"]:
+            if seam["distinctive"]:components[-1].append(seam["right_id"])
+            else:components.append([seam["right_id"]])
+        json_write(out/"strip_components.json",{
+            "accuracy_verified":False,
+            "note":"Provisional subchains split at non-distinctive seams; not verified pages or probabilities.",
+            "components":[{"members":ids,"poses":{k:Pose(poses[k].x-min(poses[a].x for a in ids),
+                    poses[k].y-min(poses[a].y for a in ids),poses[k].k).as_dict() for k in ids}} for ids in components]})
     json_write(out/"scan_report.json",{"input_images":len(paths),"detected_pieces":len(pieces),
         "mode":"document-strips","rectification":"per-row linear sampling between foreground mask edges",
         "pieces":records,"matching":matching,"orientation_ambiguous":True,"accuracy_verified":False,"warnings":warnings})

@@ -9,6 +9,7 @@ timing scope when adding new measurements.
 
 | Topic | Report | Protocol / notes |
 |:--|:--|:--|
+| V15.0 paired evaluation | [JSON reports](v15/) | [Technical report](../docs/TECHNICAL_REPORT.md) |
 | V14.5 physical-document scans | [JSON](v14/scan_document_v145.json) | [Release](../docs/releases/v14.5.0.md) |
 | V14.4 mechanical scans and speed | [JSON](v14/scan_document_v144.json) | [Release](../docs/releases/v14.4.0.md) |
 | V14.3 real document strips | [JSON](v14/scan_document_v143.json) | [Release](../docs/releases/v14.3.0.md) |

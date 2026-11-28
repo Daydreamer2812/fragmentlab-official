@@ -117,9 +117,9 @@ def render(pieces: Iterable[Fragment], poses: dict[str, Pose], shape: tuple[int,
     return canvas, labels, collision
 
 
-def save_rgba(path: Path, rgba: np.ndarray) -> None:
+def save_rgba(path: Path, rgba: np.ndarray, *, compress_level: int = 6) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    Image.fromarray(rgba).save(path)
+    Image.fromarray(rgba).save(path, compress_level=compress_level)
 
 
 def normalize_pose_set(pieces: list[Fragment], poses: dict[str, Pose]) -> tuple[dict[str, Pose], tuple[int, int]]:

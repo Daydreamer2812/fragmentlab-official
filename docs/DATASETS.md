@@ -89,3 +89,25 @@
 - Same anonymous matching-only protocol and orientation-neutral directed
   adjacency metric as V14.4; no model or intact document needed. See
   [V14.5 release](releases/v14.5.0.md) for limitations.
+
+## V15 frozen evaluation
+
+Use [the example manifest](benchmark-suite.example.json) and replace the
+source paths with locally acquired datasets:
+
+```bash
+python scripts/benchmark_suite.py --manifest docs/benchmark-suite.example.json --out outputs/v15-suite
+python scripts/benchmark_suite.py --manifest docs/benchmark-suite.example.json --out outputs/v15-suite --resume
+```
+
+The runner provides per-stage process isolation, source/engine hashes,
+version, backend, dependencies, seeds, thread policy, metrics checksums,
+logs, failures and timeouts. Resume requires matching provenance and a
+valid metrics checksum. A scan-stress or damage stage uses its own fixed
+case seeds. For DAFNE, add a stage with kind `dafne`, the official archive
+path, exact case name/substring, and seed 624. DAFNE aliases are assigned
+after seeded shuffle. Evaluation uses truth after blind inference; no
+external source rasters are redistributed. The seven new holdout pages
+are listed in the example and reported separately from the earlier 30.
+Measured results: [reports/v15](../reports/v15/) and
+[technical report](TECHNICAL_REPORT.md).

@@ -1,0 +1,75 @@
+{
+  "stages": [
+    {
+      "name": "physical-real",
+      "kind": "docdataset",
+      "source": "../data/external/DocDataset.zip",
+      "profile": "balanced",
+      "seed": 624
+    },
+    {
+      "name": "mechanical-previously-observed",
+      "kind": "mechanical",
+      "source": "../data/external/deeprec/datasets",
+      "cases": [
+        "D1/D001",
+        "D1/D010",
+        "D1/D021",
+        "D1/D041",
+        "D1/D061",
+        "D2/D001",
+        "D2/D007",
+        "D2/D010",
+        "D2/D014",
+        "D2/D020",
+        "D3/D002",
+        "D3/D005",
+        "D3/D012",
+        "D3/D015",
+        "D3/D018",
+        "D3/D025",
+        "D3/D032",
+        "D3/D035",
+        "D3/D038",
+        "D3/D045",
+        "D3/D050",
+        "D3/D052",
+        "D3/D055",
+        "D3/D065",
+        "D3/D072",
+        "D3/D075",
+        "D3/D078",
+        "D3/D085",
+        "D3/D092",
+        "D3/D095"
+      ],
+      "seed": 624,
+      "profile": "balanced"
+    },
+    {
+      "name": "mechanical-holdout-v15",
+      "kind": "mechanical",
+      "source": "../data/external/deeprec/datasets",
+      "cases": [
+        "D1/D007",
+        "D1/D027",
+        "D2/D004",
+        "D2/D017",
+        "D3/D022",
+        "D3/D062",
+        "D3/D082"
+      ],
+      "seed": 624,
+      "profile": "balanced"
+    },
+    {
+      "name": "scan-stress",
+      "kind": "scan-stress",
+      "source": "../data/external/DocDataset.zip"
+    },
+    {
+      "name": "continuous-erosion",
+      "kind": "damage"
+    }
+  ]
+}

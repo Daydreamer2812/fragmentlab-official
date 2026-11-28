@@ -43,12 +43,18 @@ class PhysicalDocumentWorkflowTests(unittest.TestCase):
                 self.assertFalse(d["accuracy_verified"])
                 self.assertNotIn("ocr", d["scan"])
                 self.assertIsNone(result["metrics"])
+                self.assertIn("strip_components.json", result["files"])
                 with zipfile.ZipFile(root/"result/result.zip") as z:
                     archived = json.loads(z.read("diagnostics.json"))
                     self.assertEqual(archived["algorithm"], d["algorithm"])
                     self.assertTrue(archived["orientation_ambiguous"])
                     self.assertNotIn("ocr", archived["scan"])
-                    poses.append(json.loads(z.read("placements.json"))["poses"])
+                    placements = json.loads(z.read("placements.json"))["poses"]
+                    components = json.loads(z.read("strip_components.json"))
+                    self.assertFalse(components["accuracy_verified"])
+                    members = [member for group in components["components"] for member in group["members"]]
+                    self.assertCountEqual(members, placements.keys())
+                    poses.append(placements)
         self.assertEqual(poses[0], poses[1])
 
     def test_color_strips_with_transparent_padding_auto_route(self):

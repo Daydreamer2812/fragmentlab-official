@@ -16,13 +16,14 @@ from pathlib import Path
 import tempfile
 import time
 import zipfile
+import random
 
 from benchmark_official_dafne import cases
 from evaluate_dafne_components import evaluate
 from shardelix.workflow import run_job
 
 
-def run(archive, suffix, out):
+def run(archive, suffix, out, seed=624):
     out.mkdir(parents=True, exist_ok=True)
     with zipfile.ZipFile(archive) as z:
         found = [(case, entries) for case, entries in cases(z).items()
@@ -36,8 +37,11 @@ def run(archive, suffix, out):
             inp = root / "upload" / "fragments.zip"
             mapping = {}
             with zipfile.ZipFile(inp, "w", zipfile.ZIP_DEFLATED) as fragments:
-                for member in sorted(entries):
-                    # Opaque local names are assigned by order, not labels.
+                order=sorted(entries)
+                random.Random(seed).shuffle(order)
+                for member in order:
+                    # Assign independent opaque aliases; archive order and
+                    # source sequence IDs cannot affect the matching order.
                     idx = len(mapping) + 1
                     mapping[str(idx)] = int(Path(member).stem.rsplit("_", 1)[-1])
                     fragments.writestr(f"pieces/fragment_{idx:04d}.png", z.read(member))
@@ -62,7 +66,7 @@ def run(archive, suffix, out):
             if diag.get("matching_reference_used"):
                 raise RuntimeError("Unexpected reference-assisted result")
             record = {"protocol": "blind auto/Balanced; independent SE(2) gauge per component; 10 px/10 degree tolerance",
-                      "archive": archive.name, "case": case, "input_count": len(entries),
+                      "archive": archive.name, "case": case, "input_count": len(entries), "seed":seed,
                       "wall_seconds": elapsed, "reference_used": False, **metrics,
                       "deep_recovery": diag.get("scan", {}).get("deep_recovery", {}),
                       "common_scale": diag.get("scan", {}).get("common_scale")}
@@ -76,5 +80,6 @@ if __name__ == "__main__":
     parser.add_argument("archive", type=Path)
     parser.add_argument("--case", required=True)
     parser.add_argument("--out", type=Path, required=True)
+    parser.add_argument("--seed",type=int,default=624)
     args = parser.parse_args()
-    run(args.archive, args.case, args.out)
+    run(args.archive, args.case, args.out, args.seed)

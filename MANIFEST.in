@@ -1,0 +1,7 @@
+include cpp/core.cpp
+include scripts/build_native.py
+include CITATION.cff
+include README.md
+exclude src/shardelix/_fl_core.so
+exclude src/shardelix/_fl_core.dll
+exclude src/shardelix/_fl_core.dylib

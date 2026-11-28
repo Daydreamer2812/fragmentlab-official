@@ -784,6 +784,12 @@ def recover(shapes,previous,update=lambda _:None,*,memory_budget=None,profile="b
     if prior_on:
         seeds=verify_rounded_seeds(shapes,fields,seeds,max_gap)
     groups,joins=confidence_forest(shapes,seeds,modes,fields,max_gap)
+    from shardelix.reconstruction.irregular.component_graph import merge_supported_components
+    groups,joins,graph_stats=merge_supported_components(shapes,groups,joins,seeds,_overlap)
+    if graph_stats["component_graph_merges"]:
+        from shardelix.reconstruction.irregular.eroded import rank_components
+        # Preserve the internal gauges of already reconstructed components.
+        groups=rank_components(shapes,groups,joins)
     offset_stats={"attempted":False}
     # An eroded but still curved cut can preserve an offset of its original
     # contour. Compact rounded fragments lack enough such shape evidence.
@@ -807,7 +813,7 @@ def recover(shapes,previous,update=lambda _:None,*,memory_budget=None,profile="b
            "spectral_verified":len(sr),"population_prior":prior_on,
            "population_downweighted":int(np.count_nonzero(weights<.5)),
            "pose_modes":len(modes),"seed_hypotheses":len(seeds),"seed_bridge_rejections":seed_count-len(seeds),
-           "offset_recovery":offset_stats,"accepted_joins":len(joins),
+           "offset_recovery":offset_stats,"component_graph":graph_stats,"accepted_joins":len(joins),
            "contextual_growth_joins":sum(bool(j.get("contextual_growth"))for j in joins),
            "closed_loop_joins":sum(j.get("loop_support",0)>0 for j in joins),
            "direct_bridge_joins":sum(j.get("direct_bridge_support",0)>0 for j in joins),

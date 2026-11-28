@@ -1,6 +1,6 @@
 # Shardelix documentation
 
-[Project overview](../README.md) · [Latest release](releases/v14.5.0.md) ·
+[Project overview](../README.md) · [Latest release](releases/v15.0.0.md) ·
 [Raw benchmark reports](../reports/README.md)
 
 ## Start here
@@ -18,7 +18,8 @@
 
 | Topic | Documentation |
 |:--|:--|
-| Physical documents, newest measured results | [V14 results](V14_RESULTS.md) · [V14.5 release](releases/v14.5.0.md) |
+| Latest research results and outstanding criteria | [V15 technical report](TECHNICAL_REPORT.md) · [V15 release](releases/v15.0.0.md) |
+| Physical documents, historical measurements | [V14 results](V14_RESULTS.md) |
 | Large intact irregular fragments | [Irregular scaling](IRREGULAR_SCALE.md) |
 | Eroded boundaries and missing material | [Eroded recovery](ERODED_RECOVERY.md) |
 | Optimization history | [Optimization](OPTIMIZATION.md) |

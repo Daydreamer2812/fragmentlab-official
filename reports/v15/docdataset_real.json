@@ -1,0 +1,1541 @@
+{
+  "baseline_revision": "ef975d64b94cb61c8e735dcf133ba587ac453bd8",
+  "candidate_version": "15.0.0",
+  "timing_note": "Same profile and seed, sequential runs with development jobs overlapping early baseline. Descriptive timings only.",
+  "baseline": {
+    "dataset": "DocDataset, physical stripes",
+    "seed": 624,
+    "profile": "balanced",
+    "source": "https://people.tamu.edu/~xinli/DocReassembly/data/DocDataset.zip",
+    "protocol": "Anonymized scan pixels + foreground masks only; truth read after reconstruction.",
+    "results": [
+      {
+        "case": "real1_27",
+        "pixel_only": {
+          "directed_correct": 26,
+          "undirected_correct": 26,
+          "positions_correct": 27,
+          "total_joins": 26,
+          "total_pieces": 27
+        },
+        "runtime_seconds": 8.723562134000531,
+        "matching": {
+          "patch_recurrence": true,
+          "edge_inset_px": 1,
+          "profile_depth_px": 2,
+          "reciprocal_top3_joins": 22,
+          "total_joins": 26,
+          "local_shadow_normalization": true,
+          "margin_prior_used": true,
+          "global_path": {
+            "method": "assignment-subtour-branch-and-bound",
+            "initial_energy": 22.949425006842674,
+            "selected_energy": 22.949425006842674,
+            "accepted": false,
+            "status": "shortlist-optimal",
+            "iterations": 1,
+            "candidate_arcs": 321
+          },
+          "vertical_registration": {
+            "applied": false,
+            "shifted_count": 0,
+            "max_abs_shift_px": 0,
+            "row_consensus": 0.8219665884971619
+          },
+          "cut_loss_hypotheses": {
+            "selected": "gap-2-weight-1",
+            "candidates": [
+              {
+                "hypothesis": "coarse",
+                "distinctiveness_cost": 1.969742203114686
+              },
+              {
+                "hypothesis": "gap-2-weight-0.3",
+                "distinctiveness_cost": 1.2463036318967022
+              },
+              {
+                "hypothesis": "gap-2-weight-0.6",
+                "distinctiveness_cost": 1.0467789599919124
+              },
+              {
+                "hypothesis": "gap-2-weight-1",
+                "distinctiveness_cost": 0.8527629324145202
+              },
+              {
+                "hypothesis": "gap-3-weight-0.3",
+                "distinctiveness_cost": 1.4072203933587673
+              },
+              {
+                "hypothesis": "gap-3-weight-0.6",
+                "distinctiveness_cost": 1.1690705880905259
+              },
+              {
+                "hypothesis": "gap-3-weight-1",
+                "distinctiveness_cost": 0.9045053291060472
+              }
+            ]
+          },
+          "matching_scale": 1.0,
+          "matching_x_scale": 1.0,
+          "relative_orientation_flips": 0
+        }
+      },
+      {
+        "case": "real2_56",
+        "pixel_only": {
+          "directed_correct": 55,
+          "undirected_correct": 55,
+          "positions_correct": 56,
+          "total_joins": 55,
+          "total_pieces": 56
+        },
+        "runtime_seconds": 27.127224193000075,
+        "matching": {
+          "patch_recurrence": true,
+          "edge_inset_px": 3,
+          "profile_depth_px": 4,
+          "reciprocal_top3_joins": 49,
+          "total_joins": 55,
+          "local_shadow_normalization": true,
+          "margin_prior_used": false,
+          "global_path": {
+            "method": "assignment-subtour-branch-and-bound",
+            "initial_energy": 47.78497942098457,
+            "selected_energy": 47.78497942098457,
+            "accepted": false,
+            "status": "shortlist-optimal",
+            "iterations": 35,
+            "candidate_arcs": 724
+          },
+          "vertical_registration": {
+            "applied": true,
+            "shifted_count": 29,
+            "max_abs_shift_px": 6,
+            "row_consensus": 0.526115745306015
+          },
+          "cut_loss_hypotheses": {
+            "selected": "gap-2-weight-0.6",
+            "candidates": [
+              {
+                "hypothesis": "coarse",
+                "distinctiveness_cost": 1.4513652013975418
+              },
+              {
+                "hypothesis": "gap-2-weight-0.3",
+                "distinctiveness_cost": 0.4712945204890895
+              },
+              {
+                "hypothesis": "gap-2-weight-0.6",
+                "distinctiveness_cost": 0.21080557583983317
+              },
+              {
+                "hypothesis": "gap-2-weight-1",
+                "distinctiveness_cost": 0.9811170105148433
+              },
+              {
+                "hypothesis": "gap-3-weight-0.3",
+                "distinctiveness_cost": 0.23272441272612548
+              },
+              {
+                "hypothesis": "gap-3-weight-0.6",
+                "distinctiveness_cost": 0.8444868931506604
+              },
+              {
+                "hypothesis": "gap-3-weight-1",
+                "distinctiveness_cost": 2.420991197908782
+              }
+            ]
+          },
+          "matching_scale": 1.0,
+          "matching_x_scale": 1.0,
+          "relative_orientation_flips": 0
+        }
+      },
+      {
+        "case": "real3_39",
+        "pixel_only": {
+          "directed_correct": 38,
+          "undirected_correct": 38,
+          "positions_correct": 39,
+          "total_joins": 38,
+          "total_pieces": 39
+        },
+        "runtime_seconds": 19.93815968600029,
+        "matching": {
+          "patch_recurrence": true,
+          "edge_inset_px": 3,
+          "profile_depth_px": 4,
+          "reciprocal_top3_joins": 34,
+          "total_joins": 38,
+          "local_shadow_normalization": true,
+          "margin_prior_used": false,
+          "global_path": {
+            "method": "assignment-subtour-branch-and-bound",
+            "initial_energy": 34.500581130639986,
+            "selected_energy": 34.500581130639986,
+            "accepted": false,
+            "status": "shortlist-optimal",
+            "iterations": 3,
+            "candidate_arcs": 495
+          },
+          "vertical_registration": {
+            "applied": false,
+            "shifted_count": 0,
+            "max_abs_shift_px": 0,
+            "row_consensus": 0.7967104315757751
+          },
+          "cut_loss_hypotheses": {
+            "selected": "gap-3-weight-0.6",
+            "candidates": [
+              {
+                "hypothesis": "coarse",
+                "distinctiveness_cost": 1.7320149158896334
+              },
+              {
+                "hypothesis": "gap-2-weight-0.3",
+                "distinctiveness_cost": 1.0900060323075609
+              },
+              {
+                "hypothesis": "gap-2-weight-0.6",
+                "distinctiveness_cost": 0.8289180328270314
+              },
+              {
+                "hypothesis": "gap-2-weight-1",
+                "distinctiveness_cost": 1.0832364985575715
+              },
+              {
+                "hypothesis": "gap-3-weight-0.3",
+                "distinctiveness_cost": 0.8347178440762127
+              },
+              {
+                "hypothesis": "gap-3-weight-0.6",
+                "distinctiveness_cost": 0.4619114166319753
+              },
+              {
+                "hypothesis": "gap-3-weight-1",
+                "distinctiveness_cost": 0.47233965268944983
+              }
+            ]
+          },
+          "matching_scale": 1.0,
+          "matching_x_scale": 1.0,
+          "relative_orientation_flips": 0
+        }
+      }
+    ]
+  },
+  "candidate": {
+    "dataset": "DocDataset, physical stripes",
+    "seed": 624,
+    "profile": "balanced",
+    "source": "https://people.tamu.edu/~xinli/DocReassembly/data/DocDataset.zip",
+    "protocol": "Anonymized scan pixels + foreground masks only; truth read after reconstruction.",
+    "results": [
+      {
+        "case": "real1_27",
+        "pixel_only": {
+          "directed_correct": 26,
+          "undirected_correct": 26,
+          "positions_correct": 27,
+          "total_joins": 26,
+          "total_pieces": 27
+        },
+        "runtime_seconds": 10.147600317999604,
+        "matching": {
+          "seam_evidence": [
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 1,
+              "normalized_rival_margin": 0.026029290398245086,
+              "distinctive": false,
+              "left_id": "b697ff4bb8815320",
+              "right_id": "e5f4dfd16b2583c2"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 7,
+              "normalized_rival_margin": -0.06934628055725789,
+              "distinctive": false,
+              "left_id": "e5f4dfd16b2583c2",
+              "right_id": "cc5714b6364854fe"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 1,
+              "normalized_rival_margin": 0.036130139217334656,
+              "distinctive": false,
+              "left_id": "cc5714b6364854fe",
+              "right_id": "0dfea92f517f6073"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 1,
+              "normalized_rival_margin": 0.08795455540849206,
+              "distinctive": true,
+              "left_id": "0dfea92f517f6073",
+              "right_id": "21655017033c08cb"
+            },
+            {
+              "outgoing_rank": 2,
+              "incoming_rank": 4,
+              "normalized_rival_margin": -0.02272803571958848,
+              "distinctive": false,
+              "left_id": "21655017033c08cb",
+              "right_id": "5a4c726b8a38d9fe"
+            },
+            {
+              "outgoing_rank": 2,
+              "incoming_rank": 2,
+              "normalized_rival_margin": -0.0082386476855556,
+              "distinctive": false,
+              "left_id": "5a4c726b8a38d9fe",
+              "right_id": "622f0694bfa04f10"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 1,
+              "normalized_rival_margin": 0.08920883305430505,
+              "distinctive": true,
+              "left_id": "622f0694bfa04f10",
+              "right_id": "622cf11908823f9f"
+            },
+            {
+              "outgoing_rank": 2,
+              "incoming_rank": 1,
+              "normalized_rival_margin": -0.01583656867632599,
+              "distinctive": false,
+              "left_id": "622cf11908823f9f",
+              "right_id": "6fbe87d8a0b8e6cd"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 1,
+              "normalized_rival_margin": 0.039311564883592776,
+              "distinctive": false,
+              "left_id": "6fbe87d8a0b8e6cd",
+              "right_id": "7c9cb89deebb5b84"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 1,
+              "normalized_rival_margin": 0.09574673174628034,
+              "distinctive": true,
+              "left_id": "7c9cb89deebb5b84",
+              "right_id": "12ee81c406070c15"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 1,
+              "normalized_rival_margin": 0.07060725174709903,
+              "distinctive": true,
+              "left_id": "12ee81c406070c15",
+              "right_id": "4e930387dfc85763"
+            },
+            {
+              "outgoing_rank": 3,
+              "incoming_rank": 2,
+              "normalized_rival_margin": -0.019723707226858567,
+              "distinctive": false,
+              "left_id": "4e930387dfc85763",
+              "right_id": "607c311170da6ea3"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 1,
+              "normalized_rival_margin": 0.11323053521620241,
+              "distinctive": true,
+              "left_id": "607c311170da6ea3",
+              "right_id": "16037f7c5c73465e"
+            },
+            {
+              "outgoing_rank": 2,
+              "incoming_rank": 25,
+              "normalized_rival_margin": -0.33902988716756466,
+              "distinctive": false,
+              "left_id": "16037f7c5c73465e",
+              "right_id": "8c3c9c7670dac318"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 1,
+              "normalized_rival_margin": 0.008576951536098942,
+              "distinctive": false,
+              "left_id": "8c3c9c7670dac318",
+              "right_id": "603baae306eb8a09"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 1,
+              "normalized_rival_margin": 0.07875907448149144,
+              "distinctive": true,
+              "left_id": "603baae306eb8a09",
+              "right_id": "f68db0293e664be6"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 1,
+              "normalized_rival_margin": 0.030250274900736285,
+              "distinctive": false,
+              "left_id": "f68db0293e664be6",
+              "right_id": "64a4266135e1e2c4"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 1,
+              "normalized_rival_margin": 0.013103649015281604,
+              "distinctive": false,
+              "left_id": "64a4266135e1e2c4",
+              "right_id": "3327b64409dddf07"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 1,
+              "normalized_rival_margin": 0.0831121475117268,
+              "distinctive": true,
+              "left_id": "3327b64409dddf07",
+              "right_id": "0665b5322a5422f0"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 1,
+              "normalized_rival_margin": 0.05209847121970557,
+              "distinctive": true,
+              "left_id": "0665b5322a5422f0",
+              "right_id": "e6297abab990c603"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 1,
+              "normalized_rival_margin": 0.07662207770128027,
+              "distinctive": true,
+              "left_id": "e6297abab990c603",
+              "right_id": "ac32eacb3b1b5e2e"
+            },
+            {
+              "outgoing_rank": 2,
+              "incoming_rank": 6,
+              "normalized_rival_margin": -0.04114319723243598,
+              "distinctive": false,
+              "left_id": "ac32eacb3b1b5e2e",
+              "right_id": "4774d77501f2216f"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 1,
+              "normalized_rival_margin": 0.09153651919732919,
+              "distinctive": true,
+              "left_id": "4774d77501f2216f",
+              "right_id": "767e5ce789455618"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 1,
+              "normalized_rival_margin": 0.02179619558618162,
+              "distinctive": false,
+              "left_id": "767e5ce789455618",
+              "right_id": "c9c23757c073da03"
+            },
+            {
+              "outgoing_rank": 2,
+              "incoming_rank": 1,
+              "normalized_rival_margin": -0.00909242956296652,
+              "distinctive": false,
+              "left_id": "c9c23757c073da03",
+              "right_id": "acdd38dc2e218868"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 1,
+              "normalized_rival_margin": 0.13192351773197275,
+              "distinctive": true,
+              "left_id": "acdd38dc2e218868",
+              "right_id": "6ae81b95af916880"
+            }
+          ],
+          "seam_evidence_kind": "reciprocal ranks and normalized rival margins; not probabilities",
+          "patch_recurrence": true,
+          "edge_inset_px": 1,
+          "profile_depth_px": 2,
+          "reciprocal_top3_joins": 22,
+          "total_joins": 26,
+          "local_shadow_normalization": true,
+          "margin_prior_used": true,
+          "global_path": {
+            "method": "assignment-subtour-branch-and-bound",
+            "initial_energy": 22.949425006842674,
+            "selected_energy": 22.949425006842674,
+            "accepted": false,
+            "status": "shortlist-optimal",
+            "iterations": 1,
+            "candidate_arcs": 321
+          },
+          "vertical_registration": {
+            "applied": false,
+            "shifted_count": 0,
+            "max_abs_shift_px": 0,
+            "row_consensus": 0.8219665884971619,
+            "suggested_shift_px": {
+              "0665b5322a5422f0": 0,
+              "0dfea92f517f6073": 0,
+              "12ee81c406070c15": 0,
+              "16037f7c5c73465e": 0,
+              "21655017033c08cb": 0,
+              "3327b64409dddf07": 0,
+              "4774d77501f2216f": 0,
+              "4e930387dfc85763": 0,
+              "5a4c726b8a38d9fe": 0,
+              "603baae306eb8a09": 0,
+              "607c311170da6ea3": 0,
+              "622cf11908823f9f": 0,
+              "622f0694bfa04f10": 0,
+              "64a4266135e1e2c4": 0,
+              "6ae81b95af916880": 0,
+              "6fbe87d8a0b8e6cd": 0,
+              "767e5ce789455618": 0,
+              "7c9cb89deebb5b84": 0,
+              "8c3c9c7670dac318": 0,
+              "ac32eacb3b1b5e2e": 0,
+              "acdd38dc2e218868": 0,
+              "b697ff4bb8815320": 0,
+              "c9c23757c073da03": 0,
+              "cc5714b6364854fe": 0,
+              "e5f4dfd16b2583c2": 0,
+              "e6297abab990c603": 0,
+              "f68db0293e664be6": 0
+            },
+            "output_alignment_applied": false
+          },
+          "cut_loss_hypotheses": {
+            "selected": "gap-2-weight-1",
+            "candidates": [
+              {
+                "hypothesis": "coarse",
+                "distinctiveness_cost": 1.969742203114686
+              },
+              {
+                "hypothesis": "gap-2-weight-0.3",
+                "distinctiveness_cost": 1.2463036318967022
+              },
+              {
+                "hypothesis": "gap-2-weight-0.6",
+                "distinctiveness_cost": 1.0467789599919124
+              },
+              {
+                "hypothesis": "gap-2-weight-1",
+                "distinctiveness_cost": 0.8527629324145202
+              },
+              {
+                "hypothesis": "gap-3-weight-0.3",
+                "distinctiveness_cost": 1.4072203933587673
+              },
+              {
+                "hypothesis": "gap-3-weight-0.6",
+                "distinctiveness_cost": 1.1690705880905259
+              },
+              {
+                "hypothesis": "gap-3-weight-1",
+                "distinctiveness_cost": 0.9045053291060472
+              }
+            ]
+          },
+          "matching_scale": 1.0,
+          "matching_x_scale": 1.0,
+          "relative_orientation_flips": 0
+        }
+      },
+      {
+        "case": "real2_56",
+        "pixel_only": {
+          "directed_correct": 55,
+          "undirected_correct": 55,
+          "positions_correct": 56,
+          "total_joins": 55,
+          "total_pieces": 56
+        },
+        "runtime_seconds": 26.79548143700049,
+        "matching": {
+          "seam_evidence": [
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 1,
+              "normalized_rival_margin": 0.008082854537973002,
+              "distinctive": false,
+              "left_id": "d3ccb6642d1830bf",
+              "right_id": "9b6b5d91384bf3de"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 1,
+              "normalized_rival_margin": 0.07266147533809118,
+              "distinctive": true,
+              "left_id": "9b6b5d91384bf3de",
+              "right_id": "6eea98e780c03c53"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 1,
+              "normalized_rival_margin": 0.06870146113737871,
+              "distinctive": true,
+              "left_id": "6eea98e780c03c53",
+              "right_id": "e1e8035bcb631334"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 1,
+              "normalized_rival_margin": 0.06266599338131883,
+              "distinctive": true,
+              "left_id": "e1e8035bcb631334",
+              "right_id": "536275a6295d0bd3"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 1,
+              "normalized_rival_margin": 0.09703687398429515,
+              "distinctive": true,
+              "left_id": "536275a6295d0bd3",
+              "right_id": "63fbca7a85ec5981"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 1,
+              "normalized_rival_margin": 0.0075420815541157125,
+              "distinctive": false,
+              "left_id": "63fbca7a85ec5981",
+              "right_id": "3cf7c60bb9160f56"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 1,
+              "normalized_rival_margin": 0.04769843489998434,
+              "distinctive": false,
+              "left_id": "3cf7c60bb9160f56",
+              "right_id": "622f0694bfa04f10"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 1,
+              "normalized_rival_margin": 0.01770417437457156,
+              "distinctive": false,
+              "left_id": "622f0694bfa04f10",
+              "right_id": "64a4266135e1e2c4"
+            },
+            {
+              "outgoing_rank": 2,
+              "incoming_rank": 7,
+              "normalized_rival_margin": -0.03264416388280279,
+              "distinctive": false,
+              "left_id": "64a4266135e1e2c4",
+              "right_id": "8c3c9c7670dac318"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 1,
+              "normalized_rival_margin": 0.10482978250153008,
+              "distinctive": true,
+              "left_id": "8c3c9c7670dac318",
+              "right_id": "c9c23757c073da03"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 1,
+              "normalized_rival_margin": 0.02311848042871158,
+              "distinctive": false,
+              "left_id": "c9c23757c073da03",
+              "right_id": "6ae81b95af916880"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 1,
+              "normalized_rival_margin": 0.12879766323478664,
+              "distinctive": true,
+              "left_id": "6ae81b95af916880",
+              "right_id": "767e5ce789455618"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 2,
+              "normalized_rival_margin": -0.012001013705043721,
+              "distinctive": false,
+              "left_id": "767e5ce789455618",
+              "right_id": "622cf11908823f9f"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 1,
+              "normalized_rival_margin": 0.020002928166191838,
+              "distinctive": false,
+              "left_id": "622cf11908823f9f",
+              "right_id": "7c9cb89deebb5b84"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 1,
+              "normalized_rival_margin": 0.053268954445800175,
+              "distinctive": true,
+              "left_id": "7c9cb89deebb5b84",
+              "right_id": "6fbe87d8a0b8e6cd"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 1,
+              "normalized_rival_margin": 0.029141540218108716,
+              "distinctive": false,
+              "left_id": "6fbe87d8a0b8e6cd",
+              "right_id": "5a4c726b8a38d9fe"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 1,
+              "normalized_rival_margin": 0.01221007373530464,
+              "distinctive": false,
+              "left_id": "5a4c726b8a38d9fe",
+              "right_id": "c9e04974cdbaa83f"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 1,
+              "normalized_rival_margin": 0.02439394562091338,
+              "distinctive": false,
+              "left_id": "c9e04974cdbaa83f",
+              "right_id": "1c352fdff00b052c"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 1,
+              "normalized_rival_margin": 0.015027181471611185,
+              "distinctive": false,
+              "left_id": "1c352fdff00b052c",
+              "right_id": "4774d77501f2216f"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 1,
+              "normalized_rival_margin": 0.11116689218330209,
+              "distinctive": true,
+              "left_id": "4774d77501f2216f",
+              "right_id": "b697ff4bb8815320"
+            },
+            {
+              "outgoing_rank": 4,
+              "incoming_rank": 8,
+              "normalized_rival_margin": -0.04350071202710491,
+              "distinctive": false,
+              "left_id": "b697ff4bb8815320",
+              "right_id": "0665b5322a5422f0"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 2,
+              "normalized_rival_margin": -0.03673841846995557,
+              "distinctive": false,
+              "left_id": "0665b5322a5422f0",
+              "right_id": "ac32eacb3b1b5e2e"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 1,
+              "normalized_rival_margin": 0.12640833572753943,
+              "distinctive": true,
+              "left_id": "ac32eacb3b1b5e2e",
+              "right_id": "3ff61b97744773f8"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 1,
+              "normalized_rival_margin": 0.002610627005539057,
+              "distinctive": false,
+              "left_id": "3ff61b97744773f8",
+              "right_id": "e052f75f9a7a899a"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 1,
+              "normalized_rival_margin": 0.01656414995451146,
+              "distinctive": false,
+              "left_id": "e052f75f9a7a899a",
+              "right_id": "0f5dbadd41e25dc9"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 1,
+              "normalized_rival_margin": 0.016487978865014092,
+              "distinctive": false,
+              "left_id": "0f5dbadd41e25dc9",
+              "right_id": "16037f7c5c73465e"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 1,
+              "normalized_rival_margin": 0.02414290341092425,
+              "distinctive": false,
+              "left_id": "16037f7c5c73465e",
+              "right_id": "f68db0293e664be6"
+            },
+            {
+              "outgoing_rank": 11,
+              "incoming_rank": 1,
+              "normalized_rival_margin": -0.0780144043925939,
+              "distinctive": false,
+              "left_id": "f68db0293e664be6",
+              "right_id": "4e930387dfc85763"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 1,
+              "normalized_rival_margin": 0.07237802245653521,
+              "distinctive": true,
+              "left_id": "4e930387dfc85763",
+              "right_id": "891ee5d67f3e412e"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 1,
+              "normalized_rival_margin": 0.05647605123214622,
+              "distinctive": true,
+              "left_id": "891ee5d67f3e412e",
+              "right_id": "07fa8ceb57eed2c2"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 1,
+              "normalized_rival_margin": 0.04176778559012584,
+              "distinctive": false,
+              "left_id": "07fa8ceb57eed2c2",
+              "right_id": "cc5714b6364854fe"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 1,
+              "normalized_rival_margin": 0.03102706891732734,
+              "distinctive": false,
+              "left_id": "cc5714b6364854fe",
+              "right_id": "0dfea92f517f6073"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 2,
+              "normalized_rival_margin": -0.034193649948331316,
+              "distinctive": false,
+              "left_id": "0dfea92f517f6073",
+              "right_id": "607c311170da6ea3"
+            },
+            {
+              "outgoing_rank": 5,
+              "incoming_rank": 3,
+              "normalized_rival_margin": -0.036341340668615954,
+              "distinctive": false,
+              "left_id": "607c311170da6ea3",
+              "right_id": "e5f4dfd16b2583c2"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 1,
+              "normalized_rival_margin": 0.06524518617221044,
+              "distinctive": true,
+              "left_id": "e5f4dfd16b2583c2",
+              "right_id": "e6297abab990c603"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 1,
+              "normalized_rival_margin": 0.08256860554206484,
+              "distinctive": true,
+              "left_id": "e6297abab990c603",
+              "right_id": "21655017033c08cb"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 1,
+              "normalized_rival_margin": 0.007306256359529498,
+              "distinctive": false,
+              "left_id": "21655017033c08cb",
+              "right_id": "603baae306eb8a09"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 1,
+              "normalized_rival_margin": 0.0633112987092106,
+              "distinctive": true,
+              "left_id": "603baae306eb8a09",
+              "right_id": "acdd38dc2e218868"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 1,
+              "normalized_rival_margin": 0.07854538257657537,
+              "distinctive": true,
+              "left_id": "acdd38dc2e218868",
+              "right_id": "fce7fc9ba3a28e1f"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 1,
+              "normalized_rival_margin": 0.09230665679350306,
+              "distinctive": true,
+              "left_id": "fce7fc9ba3a28e1f",
+              "right_id": "7c5a31f52971a251"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 4,
+              "normalized_rival_margin": -0.02036033508201087,
+              "distinctive": false,
+              "left_id": "7c5a31f52971a251",
+              "right_id": "5635d43b8dc088f6"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 1,
+              "normalized_rival_margin": 0.09897822363748374,
+              "distinctive": true,
+              "left_id": "5635d43b8dc088f6",
+              "right_id": "f6e7dd985b0a91f4"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 1,
+              "normalized_rival_margin": 0.0021763614732777346,
+              "distinctive": false,
+              "left_id": "f6e7dd985b0a91f4",
+              "right_id": "1e2f3fbd4600d8eb"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 1,
+              "normalized_rival_margin": 0.038545595063068816,
+              "distinctive": false,
+              "left_id": "1e2f3fbd4600d8eb",
+              "right_id": "3d9e6607bdecb601"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 1,
+              "normalized_rival_margin": 0.013611464285267218,
+              "distinctive": false,
+              "left_id": "3d9e6607bdecb601",
+              "right_id": "3e38a26f88ca083e"
+            },
+            {
+              "outgoing_rank": 2,
+              "incoming_rank": 2,
+              "normalized_rival_margin": -0.007051925922291324,
+              "distinctive": false,
+              "left_id": "3e38a26f88ca083e",
+              "right_id": "df7283fb847da4b1"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 1,
+              "normalized_rival_margin": 0.04887404700207478,
+              "distinctive": false,
+              "left_id": "df7283fb847da4b1",
+              "right_id": "3327b64409dddf07"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 1,
+              "normalized_rival_margin": 0.04808851360193786,
+              "distinctive": false,
+              "left_id": "3327b64409dddf07",
+              "right_id": "12ee81c406070c15"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 2,
+              "normalized_rival_margin": -0.0081377083311909,
+              "distinctive": false,
+              "left_id": "12ee81c406070c15",
+              "right_id": "09fe0345c0b3b068"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 2,
+              "normalized_rival_margin": -0.020011297605314848,
+              "distinctive": false,
+              "left_id": "09fe0345c0b3b068",
+              "right_id": "f0c339c65f3c79c8"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 1,
+              "normalized_rival_margin": 0.021356489428909317,
+              "distinctive": false,
+              "left_id": "f0c339c65f3c79c8",
+              "right_id": "c82fc978340bb347"
+            },
+            {
+              "outgoing_rank": 5,
+              "incoming_rank": 1,
+              "normalized_rival_margin": -0.022040016519286807,
+              "distinctive": false,
+              "left_id": "c82fc978340bb347",
+              "right_id": "ee2f03197b415407"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 1,
+              "normalized_rival_margin": 0.07169711520920417,
+              "distinctive": true,
+              "left_id": "ee2f03197b415407",
+              "right_id": "c227dc1f70e7e5f2"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 1,
+              "normalized_rival_margin": 0.06444275145495275,
+              "distinctive": true,
+              "left_id": "c227dc1f70e7e5f2",
+              "right_id": "4f4374d3bb1821e0"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 1,
+              "normalized_rival_margin": 0.14670823295396687,
+              "distinctive": true,
+              "left_id": "4f4374d3bb1821e0",
+              "right_id": "3c8adaf394b37df7"
+            }
+          ],
+          "seam_evidence_kind": "reciprocal ranks and normalized rival margins; not probabilities",
+          "patch_recurrence": true,
+          "edge_inset_px": 3,
+          "profile_depth_px": 4,
+          "reciprocal_top3_joins": 49,
+          "total_joins": 55,
+          "local_shadow_normalization": true,
+          "margin_prior_used": false,
+          "global_path": {
+            "method": "assignment-subtour-branch-and-bound",
+            "initial_energy": 47.78497942098457,
+            "selected_energy": 47.78497942098457,
+            "accepted": false,
+            "status": "shortlist-optimal",
+            "iterations": 35,
+            "candidate_arcs": 724
+          },
+          "vertical_registration": {
+            "applied": true,
+            "shifted_count": 29,
+            "max_abs_shift_px": 6,
+            "row_consensus": 0.526115745306015,
+            "suggested_shift_px": {
+              "0665b5322a5422f0": -2,
+              "07fa8ceb57eed2c2": 0,
+              "09fe0345c0b3b068": 0,
+              "0dfea92f517f6073": 0,
+              "0f5dbadd41e25dc9": 0,
+              "12ee81c406070c15": 2,
+              "16037f7c5c73465e": 0,
+              "1c352fdff00b052c": 0,
+              "1e2f3fbd4600d8eb": 0,
+              "21655017033c08cb": 0,
+              "3327b64409dddf07": 2,
+              "3c8adaf394b37df7": -3,
+              "3cf7c60bb9160f56": 0,
+              "3d9e6607bdecb601": 1,
+              "3e38a26f88ca083e": 0,
+              "3ff61b97744773f8": -1,
+              "4774d77501f2216f": -2,
+              "4e930387dfc85763": 0,
+              "4f4374d3bb1821e0": -5,
+              "536275a6295d0bd3": 2,
+              "5635d43b8dc088f6": -3,
+              "5a4c726b8a38d9fe": 4,
+              "603baae306eb8a09": 0,
+              "607c311170da6ea3": 0,
+              "622cf11908823f9f": 4,
+              "622f0694bfa04f10": 0,
+              "63fbca7a85ec5981": 0,
+              "64a4266135e1e2c4": 0,
+              "6ae81b95af916880": 0,
+              "6eea98e780c03c53": 2,
+              "6fbe87d8a0b8e6cd": 5,
+              "767e5ce789455618": 0,
+              "7c5a31f52971a251": -2,
+              "7c9cb89deebb5b84": 6,
+              "891ee5d67f3e412e": 0,
+              "8c3c9c7670dac318": 0,
+              "9b6b5d91384bf3de": 2,
+              "ac32eacb3b1b5e2e": 0,
+              "acdd38dc2e218868": 0,
+              "b697ff4bb8815320": -3,
+              "c227dc1f70e7e5f2": -5,
+              "c82fc978340bb347": -2,
+              "c9c23757c073da03": 0,
+              "c9e04974cdbaa83f": 1,
+              "cc5714b6364854fe": 2,
+              "d3ccb6642d1830bf": 2,
+              "df7283fb847da4b1": 0,
+              "e052f75f9a7a899a": 0,
+              "e1e8035bcb631334": 3,
+              "e5f4dfd16b2583c2": -2,
+              "e6297abab990c603": 0,
+              "ee2f03197b415407": -6,
+              "f0c339c65f3c79c8": -2,
+              "f68db0293e664be6": 0,
+              "f6e7dd985b0a91f4": -1,
+              "fce7fc9ba3a28e1f": -4
+            },
+            "output_alignment_applied": false
+          },
+          "cut_loss_hypotheses": {
+            "selected": "gap-2-weight-0.6",
+            "candidates": [
+              {
+                "hypothesis": "coarse",
+                "distinctiveness_cost": 1.4513652013975418
+              },
+              {
+                "hypothesis": "gap-2-weight-0.3",
+                "distinctiveness_cost": 0.4712945204890895
+              },
+              {
+                "hypothesis": "gap-2-weight-0.6",
+                "distinctiveness_cost": 0.21080557583983317
+              },
+              {
+                "hypothesis": "gap-2-weight-1",
+                "distinctiveness_cost": 0.9811170105148433
+              },
+              {
+                "hypothesis": "gap-3-weight-0.3",
+                "distinctiveness_cost": 0.23272441272612548
+              },
+              {
+                "hypothesis": "gap-3-weight-0.6",
+                "distinctiveness_cost": 0.8444868931506604
+              },
+              {
+                "hypothesis": "gap-3-weight-1",
+                "distinctiveness_cost": 2.420991197908782
+              }
+            ]
+          },
+          "matching_scale": 1.0,
+          "matching_x_scale": 1.0,
+          "relative_orientation_flips": 0
+        }
+      },
+      {
+        "case": "real3_39",
+        "pixel_only": {
+          "directed_correct": 38,
+          "undirected_correct": 38,
+          "positions_correct": 39,
+          "total_joins": 38,
+          "total_pieces": 39
+        },
+        "runtime_seconds": 15.137190123999972,
+        "matching": {
+          "seam_evidence": [
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 1,
+              "normalized_rival_margin": 0.04110059174105392,
+              "distinctive": false,
+              "left_id": "536275a6295d0bd3",
+              "right_id": "5635d43b8dc088f6"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 5,
+              "normalized_rival_margin": -0.04453279889208409,
+              "distinctive": false,
+              "left_id": "5635d43b8dc088f6",
+              "right_id": "f6e7dd985b0a91f4"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 2,
+              "normalized_rival_margin": -0.016509388129246596,
+              "distinctive": false,
+              "left_id": "f6e7dd985b0a91f4",
+              "right_id": "e052f75f9a7a899a"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 1,
+              "normalized_rival_margin": 0.1073927153115334,
+              "distinctive": true,
+              "left_id": "e052f75f9a7a899a",
+              "right_id": "07fa8ceb57eed2c2"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 1,
+              "normalized_rival_margin": 0.08005056128337429,
+              "distinctive": true,
+              "left_id": "07fa8ceb57eed2c2",
+              "right_id": "e1e8035bcb631334"
+            },
+            {
+              "outgoing_rank": 2,
+              "incoming_rank": 1,
+              "normalized_rival_margin": -0.005599038492819404,
+              "distinctive": false,
+              "left_id": "e1e8035bcb631334",
+              "right_id": "1c352fdff00b052c"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 1,
+              "normalized_rival_margin": 0.07937139637271214,
+              "distinctive": true,
+              "left_id": "1c352fdff00b052c",
+              "right_id": "3327b64409dddf07"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 1,
+              "normalized_rival_margin": 0.09543282361110027,
+              "distinctive": true,
+              "left_id": "3327b64409dddf07",
+              "right_id": "12ee81c406070c15"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 1,
+              "normalized_rival_margin": 0.004146798481780236,
+              "distinctive": false,
+              "left_id": "12ee81c406070c15",
+              "right_id": "767e5ce789455618"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 1,
+              "normalized_rival_margin": 0.06106152729165965,
+              "distinctive": true,
+              "left_id": "767e5ce789455618",
+              "right_id": "6ae81b95af916880"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 1,
+              "normalized_rival_margin": 0.1083548156060267,
+              "distinctive": true,
+              "left_id": "6ae81b95af916880",
+              "right_id": "5a4c726b8a38d9fe"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 1,
+              "normalized_rival_margin": 0.02966046961057838,
+              "distinctive": false,
+              "left_id": "5a4c726b8a38d9fe",
+              "right_id": "6fbe87d8a0b8e6cd"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 1,
+              "normalized_rival_margin": 0.06337139118583869,
+              "distinctive": true,
+              "left_id": "6fbe87d8a0b8e6cd",
+              "right_id": "622f0694bfa04f10"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 1,
+              "normalized_rival_margin": 0.02556334434781364,
+              "distinctive": false,
+              "left_id": "622f0694bfa04f10",
+              "right_id": "f68db0293e664be6"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 1,
+              "normalized_rival_margin": 0.047631855417961784,
+              "distinctive": false,
+              "left_id": "f68db0293e664be6",
+              "right_id": "7c9cb89deebb5b84"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 1,
+              "normalized_rival_margin": 0.09453757281600683,
+              "distinctive": true,
+              "left_id": "7c9cb89deebb5b84",
+              "right_id": "4e930387dfc85763"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 1,
+              "normalized_rival_margin": 0.04910433079529853,
+              "distinctive": false,
+              "left_id": "4e930387dfc85763",
+              "right_id": "0dfea92f517f6073"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 1,
+              "normalized_rival_margin": 0.07443832862456422,
+              "distinctive": true,
+              "left_id": "0dfea92f517f6073",
+              "right_id": "3ff61b97744773f8"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 1,
+              "normalized_rival_margin": 0.03054867018577579,
+              "distinctive": false,
+              "left_id": "3ff61b97744773f8",
+              "right_id": "603baae306eb8a09"
+            },
+            {
+              "outgoing_rank": 2,
+              "incoming_rank": 1,
+              "normalized_rival_margin": -0.014175523617177888,
+              "distinctive": false,
+              "left_id": "603baae306eb8a09",
+              "right_id": "8c3c9c7670dac318"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 1,
+              "normalized_rival_margin": 0.10843658882209319,
+              "distinctive": true,
+              "left_id": "8c3c9c7670dac318",
+              "right_id": "b697ff4bb8815320"
+            },
+            {
+              "outgoing_rank": 3,
+              "incoming_rank": 8,
+              "normalized_rival_margin": -0.06338355598852517,
+              "distinctive": false,
+              "left_id": "b697ff4bb8815320",
+              "right_id": "0665b5322a5422f0"
+            },
+            {
+              "outgoing_rank": 2,
+              "incoming_rank": 2,
+              "normalized_rival_margin": -0.009741449637741838,
+              "distinctive": false,
+              "left_id": "0665b5322a5422f0",
+              "right_id": "0f5dbadd41e25dc9"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 1,
+              "normalized_rival_margin": 0.07694553310890263,
+              "distinctive": true,
+              "left_id": "0f5dbadd41e25dc9",
+              "right_id": "c9e04974cdbaa83f"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 1,
+              "normalized_rival_margin": 0.07320728329816807,
+              "distinctive": true,
+              "left_id": "c9e04974cdbaa83f",
+              "right_id": "16037f7c5c73465e"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 1,
+              "normalized_rival_margin": 0.02097492138052261,
+              "distinctive": false,
+              "left_id": "16037f7c5c73465e",
+              "right_id": "e6297abab990c603"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 1,
+              "normalized_rival_margin": 0.05380117835511288,
+              "distinctive": true,
+              "left_id": "e6297abab990c603",
+              "right_id": "64a4266135e1e2c4"
+            },
+            {
+              "outgoing_rank": 3,
+              "incoming_rank": 3,
+              "normalized_rival_margin": -0.06303050097118987,
+              "distinctive": false,
+              "left_id": "64a4266135e1e2c4",
+              "right_id": "622cf11908823f9f"
+            },
+            {
+              "outgoing_rank": 6,
+              "incoming_rank": 1,
+              "normalized_rival_margin": -0.025904599136770606,
+              "distinctive": false,
+              "left_id": "622cf11908823f9f",
+              "right_id": "cc5714b6364854fe"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 1,
+              "normalized_rival_margin": 0.01611309815515376,
+              "distinctive": false,
+              "left_id": "cc5714b6364854fe",
+              "right_id": "891ee5d67f3e412e"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 1,
+              "normalized_rival_margin": 0.06493642695369856,
+              "distinctive": true,
+              "left_id": "891ee5d67f3e412e",
+              "right_id": "ac32eacb3b1b5e2e"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 1,
+              "normalized_rival_margin": 0.03475034532410635,
+              "distinctive": false,
+              "left_id": "ac32eacb3b1b5e2e",
+              "right_id": "21655017033c08cb"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 1,
+              "normalized_rival_margin": 0.012753664486797399,
+              "distinctive": false,
+              "left_id": "21655017033c08cb",
+              "right_id": "e5f4dfd16b2583c2"
+            },
+            {
+              "outgoing_rank": 12,
+              "incoming_rank": 13,
+              "normalized_rival_margin": -0.06281289735162622,
+              "distinctive": false,
+              "left_id": "e5f4dfd16b2583c2",
+              "right_id": "c9c23757c073da03"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 1,
+              "normalized_rival_margin": 0.024034628377403257,
+              "distinctive": false,
+              "left_id": "c9c23757c073da03",
+              "right_id": "4774d77501f2216f"
+            },
+            {
+              "outgoing_rank": 3,
+              "incoming_rank": 3,
+              "normalized_rival_margin": -0.04231217128477558,
+              "distinctive": false,
+              "left_id": "4774d77501f2216f",
+              "right_id": "607c311170da6ea3"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 1,
+              "normalized_rival_margin": 0.013065101277438526,
+              "distinctive": false,
+              "left_id": "607c311170da6ea3",
+              "right_id": "acdd38dc2e218868"
+            },
+            {
+              "outgoing_rank": 1,
+              "incoming_rank": 1,
+              "normalized_rival_margin": 0.05760200072054453,
+              "distinctive": true,
+              "left_id": "acdd38dc2e218868",
+              "right_id": "7c5a31f52971a251"
+            }
+          ],
+          "seam_evidence_kind": "reciprocal ranks and normalized rival margins; not probabilities",
+          "patch_recurrence": true,
+          "edge_inset_px": 3,
+          "profile_depth_px": 4,
+          "reciprocal_top3_joins": 34,
+          "total_joins": 38,
+          "local_shadow_normalization": true,
+          "margin_prior_used": false,
+          "global_path": {
+            "method": "assignment-subtour-branch-and-bound",
+            "initial_energy": 34.500581130639986,
+            "selected_energy": 34.500581130639986,
+            "accepted": false,
+            "status": "shortlist-optimal",
+            "iterations": 3,
+            "candidate_arcs": 495
+          },
+          "vertical_registration": {
+            "applied": false,
+            "shifted_count": 0,
+            "max_abs_shift_px": 0,
+            "row_consensus": 0.7967104315757751,
+            "suggested_shift_px": {
+              "0665b5322a5422f0": 0,
+              "07fa8ceb57eed2c2": 0,
+              "0dfea92f517f6073": 0,
+              "0f5dbadd41e25dc9": 0,
+              "12ee81c406070c15": 0,
+              "16037f7c5c73465e": 0,
+              "1c352fdff00b052c": 0,
+              "21655017033c08cb": 0,
+              "3327b64409dddf07": 0,
+              "3ff61b97744773f8": 0,
+              "4774d77501f2216f": 0,
+              "4e930387dfc85763": 0,
+              "536275a6295d0bd3": 0,
+              "5635d43b8dc088f6": 0,
+              "5a4c726b8a38d9fe": 0,
+              "603baae306eb8a09": 0,
+              "607c311170da6ea3": 0,
+              "622cf11908823f9f": 0,
+              "622f0694bfa04f10": 0,
+              "64a4266135e1e2c4": 0,
+              "6ae81b95af916880": 0,
+              "6fbe87d8a0b8e6cd": 0,
+              "767e5ce789455618": 0,
+              "7c5a31f52971a251": 0,
+              "7c9cb89deebb5b84": 0,
+              "891ee5d67f3e412e": 0,
+              "8c3c9c7670dac318": 0,
+              "ac32eacb3b1b5e2e": 0,
+              "acdd38dc2e218868": 0,
+              "b697ff4bb8815320": 0,
+              "c9c23757c073da03": 0,
+              "c9e04974cdbaa83f": 0,
+              "cc5714b6364854fe": 0,
+              "e052f75f9a7a899a": 0,
+              "e1e8035bcb631334": 0,
+              "e5f4dfd16b2583c2": 0,
+              "e6297abab990c603": 0,
+              "f68db0293e664be6": 0,
+              "f6e7dd985b0a91f4": 0
+            },
+            "output_alignment_applied": false
+          },
+          "cut_loss_hypotheses": {
+            "selected": "gap-3-weight-0.6",
+            "candidates": [
+              {
+                "hypothesis": "coarse",
+                "distinctiveness_cost": 1.7320149158896334
+              },
+              {
+                "hypothesis": "gap-2-weight-0.3",
+                "distinctiveness_cost": 1.0900060323075609
+              },
+              {
+                "hypothesis": "gap-2-weight-0.6",
+                "distinctiveness_cost": 0.8289180328270314
+              },
+              {
+                "hypothesis": "gap-2-weight-1",
+                "distinctiveness_cost": 1.0832364985575715
+              },
+              {
+                "hypothesis": "gap-3-weight-0.3",
+                "distinctiveness_cost": 0.8347178440762127
+              },
+              {
+                "hypothesis": "gap-3-weight-0.6",
+                "distinctiveness_cost": 0.4619114166319753
+              },
+              {
+                "hypothesis": "gap-3-weight-1",
+                "distinctiveness_cost": 0.47233965268944983
+              }
+            ]
+          },
+          "matching_scale": 1.0,
+          "matching_x_scale": 1.0,
+          "relative_orientation_flips": 0
+        }
+      }
+    ]
+  }
+}
