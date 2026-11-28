@@ -18,7 +18,7 @@ historical generated experiment; see [V12 results](../docs/V12_RESULTS.md).
 External datasets (DocDataset, mechanical document datasets, DAFNE and
 others) are not bundled. Obtain them from the original authors and observe
 the applicable terms in the [dataset documentation](../docs/DATASETS.md).
-The repository's licensing status does not grant rights to third-party
+The [MIT License](../LICENSE) for Shardelix does not grant rights to third-party
 datasets, dependencies or imagery.
 
 Use ignored directories for local data and results:

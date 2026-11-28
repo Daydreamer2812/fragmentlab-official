@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=68"]
+requires = ["setuptools>=77.0.3"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -7,6 +7,8 @@ name = "shardelix"
 version = "15.0.0"
 description = "Classical digital image and document fragment reconstruction, blind by default"
 readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
 requires-python = ">=3.11"
 authors = [{ name = "Daydreamer2812" }]
 keywords = ["computer-vision", "jigsaw", "document-reconstruction", "opencv"]

@@ -2,6 +2,7 @@ cff-version: 1.2.0
 message: "If you use Shardelix in research, please cite the exact release or commit."
 title: "Shardelix: Blind Digital Image and Document Fragment Reconstruction"
 type: software
+license: MIT
 authors:
   - name: "Daydreamer2812"
 version: "15.0.0"

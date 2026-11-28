@@ -9,6 +9,7 @@ and incomplete fragments. Blind reconstruction uses observed geometry and
 pixels — no original image, OCR, trained model, or GPU required.
 
 [![Version](https://img.shields.io/badge/version-15.0.0-2463eb?style=flat-square)](pyproject.toml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green?style=flat-square)](LICENSE)
 [![Python](https://img.shields.io/badge/Python-3.11%2B-3776ab?style=flat-square&logo=python&logoColor=white)](pyproject.toml)
 [![C++20](https://img.shields.io/badge/C%2B%2B-20-00599C?style=flat-square&logo=cplusplus)](cpp/)
 [![WebAssembly](https://img.shields.io/badge/WebAssembly-SIMD-654FF0?style=flat-square&logo=webassembly)](docs/WEB.md)
@@ -319,7 +320,7 @@ For research, cite the exact release or commit using [CITATION.cff](CITATION.cff
 
 ## License
 
-No open-source license has yet been assigned by the maintainer.
-Public visibility is not permission to redistribute or reuse the repository.
+Shardelix source code and original documentation are released under the
+[MIT License](LICENSE). Copyright (c) 2026 Daydreamer2812.
 External datasets, dependencies, and third-party assets have separate rights
 and must be obtained under their applicable terms. See [data provenance](data/README.md).

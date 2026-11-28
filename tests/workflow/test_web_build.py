@@ -7,6 +7,7 @@ class WebBuildTests(unittest.TestCase):
             d=Path(t)
             subprocess.run([sys.executable,str(ROOT/"scripts/build_web.py"),"--out",str(d)],check=True,capture_output=True)
             self.assertTrue((d/".nojekyll").exists())
+            self.assertEqual((d/"LICENSE").read_bytes(),(ROOT/"LICENSE").read_bytes())
             html=(d/"index.html").read_text()
             for text in ("Fragment generator","Reconstruction","Ground truth","Benchmark generated cases","Performance profile","Use original image for matching (optional)","./worker.js","__SESSION_TOKEN__"):
                 self.assertIn(text,html)
@@ -22,6 +23,7 @@ class WebBuildTests(unittest.TestCase):
             self.assertNotIn("tesseract",worker.lower())
             self.assertNotIn("refineScan",worker)
             with zipfile.ZipFile(d/"engine.zip") as z:
+                self.assertEqual(z.read("LICENSE"),(ROOT/"LICENSE").read_bytes())
                 self.assertNotIn("shardelix/reconstruction/physical_ocr.py",z.namelist())
                 for f in ("shardelix/api.py","shardelix/native_core.py","shardelix/workflow.py","shardelix/uploads.py","shardelix/reconstruction/case_io.py","shardelix/reconstruction/pose.py","shardelix/reconstruction/rectification.py","shardelix/reconstruction/irregular/frame_anchor.py","shardelix/reconstruction/strips/multi_gap.py","shardelix/reconstruction/tiles/verification.py","shardelix/reconstruction/strips/physical.py","shardelix/reconstruction/strips/document_patches.py","shardelix/reconstruction/irregular/eroded.py","shardelix/reconstruction/irregular/offset_contours.py","shardelix/reconstruction/irregular/component_graph.py","shardelix/reconstruction/irregular/continuation.py","shardelix/reconstruction/irregular/spectral_gap.py","shardelix/reconstruction/reference/fft.py","shardelix/reconstruction/reference/index.py"):
                     self.assertEqual(z.read(f),(ROOT/"src"/f).read_bytes())

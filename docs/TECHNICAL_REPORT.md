@@ -96,7 +96,7 @@ evaluation; no result is claimed for them.
 | Reproducible evaluation | Frozen manifest runner, anonymized inputs, per-case pose and adjacency; full independent external suites pending |
 | Framework distribution | CLI, Python and browser share the engine; portable/native wheel builds; cross-platform CI and actual browser WASM execution need CI confirmation |
 | Research publication | Citation, methods, metrics, reproducible reports; no full comparative ablation or SOTA proof |
-| Licensing | Maintainer decision pending; no license is assigned automatically |
+| Licensing | MIT assigned by the maintainer; see [LICENSE](../LICENSE) |
 
 To establish a defensible SOTA claim, evaluate the full mechanical corpus
 and genuinely torn, physically scanned documents, including disconnected
