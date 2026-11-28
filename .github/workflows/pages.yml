@@ -25,7 +25,7 @@ jobs:
           version: '4.0.15'
       - run: python scripts/build_web.py --out build/pages --wasm
       - uses: actions/configure-pages@v5
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@v5
         with:
           path: build/pages
   deploy:
