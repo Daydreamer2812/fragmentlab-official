@@ -1,0 +1,2594 @@
+{
+  "baseline_commit": "8b8ffc4b52f5ef4dfe9de8fef240d7d0df350366",
+  "candidate_version": "14.4.0",
+  "environment": {
+    "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+    "python": "3.12.14",
+    "numpy": "2.3.5",
+    "scipy": "1.17.0",
+    "cpu_available": 9,
+    "native_patch_workers_max": 4,
+    "blas_threads": 1,
+    "timing_note": "Single runs on shared CPU. Real seed-624 speed pair was measured before expanding the matching geometry; all three inputs are <=1800 rows, so resize behavior is unchanged. Later runs had concurrent work; timing is illustrative, not an isolated median."
+  },
+  "protocol": "Blind anonymous strip pixels and optional observed masks only. Truth read after solving. Mechanical matching-only times exclude conversion, render, workflow and export. Relative strip orientations are not scored. Rejections count as zero.",
+  "docdataset": {
+    "baseline624": {
+      "dataset": "DocDataset, physical stripes",
+      "seed": 624,
+      "profile": "balanced",
+      "source": "https://people.tamu.edu/~xinli/DocReassembly/data/DocDataset.zip",
+      "protocol": "Anonymized scan pixels + foreground masks only; truth read after reconstruction.",
+      "results": [
+        {
+          "case": "real1_27",
+          "pixel_only": {
+            "directed_correct": 26,
+            "undirected_correct": 26,
+            "positions_correct": 27,
+            "total_joins": 26,
+            "total_pieces": 27
+          },
+          "runtime_seconds": 14.029309490999822,
+          "matching": {
+            "patch_recurrence": true,
+            "edge_inset_px": 1,
+            "profile_depth_px": 2,
+            "reciprocal_top3_joins": 22,
+            "total_joins": 26,
+            "local_shadow_normalization": true,
+            "margin_prior_used": true,
+            "global_path": {
+              "method": "sparse-subtour-elimination",
+              "initial_energy": 22.949425006842674,
+              "selected_energy": 22.949425006842674,
+              "accepted": false,
+              "status": "shortlist-optimal",
+              "candidate_arcs": 321,
+              "iterations": 1
+            },
+            "vertical_registration": {
+              "applied": false,
+              "shifted_count": 0,
+              "max_abs_shift_px": 0,
+              "row_consensus": 0.8219665884971619
+            },
+            "relative_orientation_flips": 0,
+            "cut_loss_selected": "gap-2-weight-1"
+          }
+        },
+        {
+          "case": "real2_56",
+          "pixel_only": {
+            "directed_correct": 55,
+            "undirected_correct": 55,
+            "positions_correct": 56,
+            "total_joins": 55,
+            "total_pieces": 56
+          },
+          "runtime_seconds": 47.608972558999994,
+          "matching": {
+            "patch_recurrence": true,
+            "edge_inset_px": 3,
+            "profile_depth_px": 4,
+            "reciprocal_top3_joins": 49,
+            "total_joins": 55,
+            "local_shadow_normalization": true,
+            "margin_prior_used": false,
+            "global_path": {
+              "method": "sparse-subtour-elimination",
+              "initial_energy": 47.78497942098457,
+              "selected_energy": 47.78497942098457,
+              "accepted": false,
+              "status": "shortlist-optimal",
+              "candidate_arcs": 724,
+              "iterations": 2
+            },
+            "vertical_registration": {
+              "applied": true,
+              "shifted_count": 29,
+              "max_abs_shift_px": 6,
+              "row_consensus": 0.526115745306015
+            },
+            "relative_orientation_flips": 0,
+            "cut_loss_selected": "gap-2-weight-0.6"
+          }
+        },
+        {
+          "case": "real3_39",
+          "pixel_only": {
+            "directed_correct": 38,
+            "undirected_correct": 38,
+            "positions_correct": 39,
+            "total_joins": 38,
+            "total_pieces": 39
+          },
+          "runtime_seconds": 27.78319366000005,
+          "matching": {
+            "patch_recurrence": true,
+            "edge_inset_px": 3,
+            "profile_depth_px": 4,
+            "reciprocal_top3_joins": 34,
+            "total_joins": 38,
+            "local_shadow_normalization": true,
+            "margin_prior_used": false,
+            "global_path": {
+              "method": "sparse-subtour-elimination",
+              "initial_energy": 34.500581130639986,
+              "selected_energy": 34.500581130639986,
+              "accepted": false,
+              "status": "shortlist-optimal",
+              "candidate_arcs": 495,
+              "iterations": 2
+            },
+            "vertical_registration": {
+              "applied": false,
+              "shifted_count": 0,
+              "max_abs_shift_px": 0,
+              "row_consensus": 0.7967104315757751
+            },
+            "relative_orientation_flips": 0,
+            "cut_loss_selected": "gap-3-weight-0.6"
+          }
+        }
+      ]
+    },
+    "speed_only624": {
+      "dataset": "DocDataset, physical stripes",
+      "seed": 624,
+      "profile": "balanced",
+      "source": "https://people.tamu.edu/~xinli/DocReassembly/data/DocDataset.zip",
+      "protocol": "Anonymized scan pixels + foreground masks only; truth read after reconstruction.",
+      "results": [
+        {
+          "case": "real1_27",
+          "pixel_only": {
+            "directed_correct": 26,
+            "undirected_correct": 26,
+            "positions_correct": 27,
+            "total_joins": 26,
+            "total_pieces": 27
+          },
+          "runtime_seconds": 8.11896232800018,
+          "matching": {
+            "patch_recurrence": true,
+            "edge_inset_px": 1,
+            "profile_depth_px": 2,
+            "reciprocal_top3_joins": 22,
+            "total_joins": 26,
+            "local_shadow_normalization": true,
+            "margin_prior_used": true,
+            "global_path": {
+              "method": "assignment-subtour-branch-and-bound",
+              "initial_energy": 22.949425006842674,
+              "selected_energy": 22.949425006842674,
+              "accepted": false,
+              "status": "shortlist-optimal",
+              "iterations": 1,
+              "candidate_arcs": 321
+            },
+            "vertical_registration": {
+              "applied": false,
+              "shifted_count": 0,
+              "max_abs_shift_px": 0,
+              "row_consensus": 0.8219665884971619
+            },
+            "relative_orientation_flips": 0,
+            "cut_loss_selected": "gap-2-weight-1"
+          }
+        },
+        {
+          "case": "real2_56",
+          "pixel_only": {
+            "directed_correct": 55,
+            "undirected_correct": 55,
+            "positions_correct": 56,
+            "total_joins": 55,
+            "total_pieces": 56
+          },
+          "runtime_seconds": 28.514667439999812,
+          "matching": {
+            "patch_recurrence": true,
+            "edge_inset_px": 3,
+            "profile_depth_px": 4,
+            "reciprocal_top3_joins": 49,
+            "total_joins": 55,
+            "local_shadow_normalization": true,
+            "margin_prior_used": false,
+            "global_path": {
+              "method": "assignment-subtour-branch-and-bound",
+              "initial_energy": 47.78497942098457,
+              "selected_energy": 47.78497942098457,
+              "accepted": false,
+              "status": "shortlist-optimal",
+              "iterations": 35,
+              "candidate_arcs": 724
+            },
+            "vertical_registration": {
+              "applied": true,
+              "shifted_count": 29,
+              "max_abs_shift_px": 6,
+              "row_consensus": 0.526115745306015
+            },
+            "relative_orientation_flips": 0,
+            "cut_loss_selected": "gap-2-weight-0.6"
+          }
+        },
+        {
+          "case": "real3_39",
+          "pixel_only": {
+            "directed_correct": 38,
+            "undirected_correct": 38,
+            "positions_correct": 39,
+            "total_joins": 38,
+            "total_pieces": 39
+          },
+          "runtime_seconds": 16.423600568999973,
+          "matching": {
+            "patch_recurrence": true,
+            "edge_inset_px": 3,
+            "profile_depth_px": 4,
+            "reciprocal_top3_joins": 34,
+            "total_joins": 38,
+            "local_shadow_normalization": true,
+            "margin_prior_used": false,
+            "global_path": {
+              "method": "assignment-subtour-branch-and-bound",
+              "initial_energy": 34.500581130639986,
+              "selected_energy": 34.500581130639986,
+              "accepted": false,
+              "status": "shortlist-optimal",
+              "iterations": 3,
+              "candidate_arcs": 495
+            },
+            "vertical_registration": {
+              "applied": false,
+              "shifted_count": 0,
+              "max_abs_shift_px": 0,
+              "row_consensus": 0.7967104315757751
+            },
+            "relative_orientation_flips": 0,
+            "cut_loss_selected": "gap-3-weight-0.6"
+          }
+        }
+      ]
+    },
+    "final2026": {
+      "dataset": "DocDataset, physical stripes",
+      "seed": 2026,
+      "profile": "balanced",
+      "source": "https://people.tamu.edu/~xinli/DocReassembly/data/DocDataset.zip",
+      "protocol": "Anonymized scan pixels + foreground masks only; truth read after reconstruction.",
+      "results": [
+        {
+          "case": "real1_27",
+          "pixel_only": {
+            "directed_correct": 26,
+            "undirected_correct": 26,
+            "positions_correct": 27,
+            "total_joins": 26,
+            "total_pieces": 27
+          },
+          "runtime_seconds": 10.299230757999794,
+          "matching": {
+            "patch_recurrence": true,
+            "edge_inset_px": 1,
+            "profile_depth_px": 2,
+            "reciprocal_top3_joins": 22,
+            "total_joins": 26,
+            "local_shadow_normalization": true,
+            "margin_prior_used": true,
+            "global_path": {
+              "method": "assignment-subtour-branch-and-bound",
+              "initial_energy": 22.961456684098685,
+              "selected_energy": 22.961456684098685,
+              "accepted": false,
+              "status": "shortlist-optimal",
+              "iterations": 1,
+              "candidate_arcs": 321
+            },
+            "vertical_registration": {
+              "applied": false,
+              "shifted_count": 0,
+              "max_abs_shift_px": 0,
+              "row_consensus": 0.8219665884971619
+            },
+            "matching_scale": 1.0,
+            "matching_x_scale": 1.0,
+            "relative_orientation_flips": 0,
+            "cut_loss_selected": "gap-2-weight-1"
+          }
+        },
+        {
+          "case": "real2_56",
+          "pixel_only": {
+            "directed_correct": 55,
+            "undirected_correct": 55,
+            "positions_correct": 56,
+            "total_joins": 55,
+            "total_pieces": 56
+          },
+          "runtime_seconds": 41.91240219099973,
+          "matching": {
+            "patch_recurrence": true,
+            "edge_inset_px": 3,
+            "profile_depth_px": 4,
+            "reciprocal_top3_joins": 52,
+            "total_joins": 55,
+            "local_shadow_normalization": true,
+            "margin_prior_used": false,
+            "global_path": {
+              "method": "assignment-subtour-branch-and-bound",
+              "initial_energy": 47.75830048435318,
+              "selected_energy": 47.75830048435318,
+              "accepted": false,
+              "status": "shortlist-optimal",
+              "iterations": 1,
+              "candidate_arcs": 718
+            },
+            "vertical_registration": {
+              "applied": true,
+              "shifted_count": 29,
+              "max_abs_shift_px": 6,
+              "row_consensus": 0.526115745306015
+            },
+            "matching_scale": 1.0,
+            "matching_x_scale": 1.0,
+            "relative_orientation_flips": 0,
+            "cut_loss_selected": "gap-3-weight-0.3"
+          }
+        },
+        {
+          "case": "real3_39",
+          "pixel_only": {
+            "directed_correct": 38,
+            "undirected_correct": 38,
+            "positions_correct": 39,
+            "total_joins": 38,
+            "total_pieces": 39
+          },
+          "runtime_seconds": 19.54899709099982,
+          "matching": {
+            "patch_recurrence": true,
+            "edge_inset_px": 3,
+            "profile_depth_px": 4,
+            "reciprocal_top3_joins": 33,
+            "total_joins": 38,
+            "local_shadow_normalization": true,
+            "margin_prior_used": false,
+            "global_path": {
+              "method": "assignment-subtour-branch-and-bound",
+              "initial_energy": 34.205424344300134,
+              "selected_energy": 34.205424344300134,
+              "accepted": false,
+              "status": "shortlist-optimal",
+              "iterations": 4,
+              "candidate_arcs": 497
+            },
+            "vertical_registration": {
+              "applied": false,
+              "shifted_count": 0,
+              "max_abs_shift_px": 0,
+              "row_consensus": 0.7967104315757751
+            },
+            "matching_scale": 1.0,
+            "matching_x_scale": 1.0,
+            "relative_orientation_flips": 0,
+            "cut_loss_selected": "gap-3-weight-1"
+          }
+        }
+      ]
+    }
+  },
+  "mechanical_development": {
+    "baseline": {
+      "profile": "balanced",
+      "seed": 624,
+      "source": "https://github.com/thiagopx/deeprec-pr20",
+      "results": [
+        {
+          "case": "D1/D001",
+          "pieces": 29,
+          "joins": 28,
+          "directed_correct": 5,
+          "gauge_aligned_correct": 15,
+          "positions_correct": 1,
+          "gauge_aligned_positions": 15,
+          "relative_orientation_flips": 25,
+          "route": "physical-document",
+          "matching_seconds": 12.191917939000177,
+          "matching": {
+            "patch_recurrence": true,
+            "edge_inset_px": 1,
+            "profile_depth_px": 2,
+            "reciprocal_top3_joins": 17,
+            "total_joins": 28,
+            "local_shadow_normalization": true,
+            "margin_prior_used": true,
+            "global_path": {
+              "method": "sparse-subtour-elimination",
+              "initial_energy": 26.127261988481038,
+              "selected_energy": 26.127261988481038,
+              "accepted": false,
+              "status": "shortlist-optimal",
+              "candidate_arcs": 392,
+              "iterations": 2
+            },
+            "vertical_registration": {
+              "applied": false,
+              "shifted_count": 0,
+              "max_abs_shift_px": 0,
+              "row_consensus": 0.9040362238883972
+            },
+            "cut_loss_selected": "gap-2-weight-0.3"
+          }
+        },
+        {
+          "case": "D1/D021",
+          "pieces": 24,
+          "joins": 23,
+          "directed_correct": 22,
+          "gauge_aligned_correct": 22,
+          "positions_correct": 0,
+          "gauge_aligned_positions": 2,
+          "relative_orientation_flips": 0,
+          "route": "physical-document",
+          "matching_seconds": 9.488641064000149,
+          "matching": {
+            "patch_recurrence": true,
+            "edge_inset_px": 1,
+            "profile_depth_px": 2,
+            "reciprocal_top3_joins": 22,
+            "total_joins": 23,
+            "local_shadow_normalization": true,
+            "margin_prior_used": true,
+            "global_path": {
+              "method": "sparse-subtour-elimination",
+              "initial_energy": 19.79813161102855,
+              "selected_energy": 19.79813161102855,
+              "accepted": false,
+              "status": "shortlist-optimal",
+              "candidate_arcs": 314,
+              "iterations": 2
+            },
+            "vertical_registration": {
+              "applied": false,
+              "shifted_count": 0,
+              "max_abs_shift_px": 0,
+              "row_consensus": 0.9487142562866211
+            },
+            "cut_loss_selected": "gap-2-weight-0.6"
+          }
+        },
+        {
+          "case": "D1/D041",
+          "pieces": 23,
+          "joins": 22,
+          "directed_correct": 22,
+          "gauge_aligned_correct": 22,
+          "positions_correct": 23,
+          "gauge_aligned_positions": 23,
+          "relative_orientation_flips": 0,
+          "route": "physical-document",
+          "matching_seconds": 10.785761326999818,
+          "matching": {
+            "patch_recurrence": true,
+            "edge_inset_px": 1,
+            "profile_depth_px": 2,
+            "reciprocal_top3_joins": 16,
+            "total_joins": 22,
+            "local_shadow_normalization": true,
+            "margin_prior_used": true,
+            "global_path": {
+              "method": "sparse-subtour-elimination",
+              "initial_energy": 20.33964052772695,
+              "selected_energy": 20.33964052772695,
+              "accepted": false,
+              "status": "shortlist-optimal",
+              "candidate_arcs": 308,
+              "iterations": 1
+            },
+            "vertical_registration": {
+              "applied": false,
+              "shifted_count": 0,
+              "max_abs_shift_px": 0,
+              "row_consensus": 0.8859331607818604
+            },
+            "cut_loss_selected": "gap-2-weight-0.6"
+          }
+        },
+        {
+          "case": "D1/D061",
+          "pieces": 23,
+          "joins": 22,
+          "directed_correct": 22,
+          "gauge_aligned_correct": 22,
+          "positions_correct": 23,
+          "gauge_aligned_positions": 23,
+          "relative_orientation_flips": 0,
+          "route": "physical-document",
+          "matching_seconds": 11.770246608999969,
+          "matching": {
+            "patch_recurrence": true,
+            "edge_inset_px": 1,
+            "profile_depth_px": 2,
+            "reciprocal_top3_joins": 19,
+            "total_joins": 22,
+            "local_shadow_normalization": true,
+            "margin_prior_used": true,
+            "global_path": {
+              "method": "sparse-subtour-elimination",
+              "initial_energy": 19.212672553028483,
+              "selected_energy": 19.212672553028483,
+              "accepted": false,
+              "status": "shortlist-optimal",
+              "candidate_arcs": 280,
+              "iterations": 1
+            },
+            "vertical_registration": {
+              "applied": false,
+              "shifted_count": 0,
+              "max_abs_shift_px": 0,
+              "row_consensus": 0.8710880279541016
+            },
+            "cut_loss_selected": "gap-2-weight-0.6"
+          }
+        },
+        {
+          "case": "D2/D001",
+          "pieces": 26,
+          "joins": 25,
+          "directed_correct": 0,
+          "gauge_aligned_correct": 25,
+          "positions_correct": 0,
+          "gauge_aligned_positions": 26,
+          "relative_orientation_flips": 25,
+          "route": "physical-document",
+          "matching_seconds": 19.78724358599993,
+          "matching": {
+            "patch_recurrence": true,
+            "edge_inset_px": 1,
+            "profile_depth_px": 2,
+            "reciprocal_top3_joins": 18,
+            "total_joins": 25,
+            "local_shadow_normalization": true,
+            "margin_prior_used": false,
+            "global_path": {
+              "method": "sparse-subtour-elimination",
+              "initial_energy": 23.38330920535125,
+              "selected_energy": 23.38330920535125,
+              "accepted": false,
+              "status": "shortlist-optimal",
+              "candidate_arcs": 355,
+              "iterations": 1
+            },
+            "vertical_registration": {
+              "applied": true,
+              "shifted_count": 16,
+              "max_abs_shift_px": 5,
+              "row_consensus": 0.7929252982139587
+            },
+            "cut_loss_selected": "gap-2-weight-0.6"
+          }
+        },
+        {
+          "case": "D2/D007",
+          "pieces": 27,
+          "error": "Scan silhouette is not a near-uniform strip",
+          "matching_seconds": 0.026244918999964284,
+          "joins": 26,
+          "directed_correct": 0,
+          "gauge_aligned_correct": 0,
+          "positions_correct": 0,
+          "gauge_aligned_positions": 0
+        },
+        {
+          "case": "D2/D014",
+          "pieces": 25,
+          "joins": 24,
+          "directed_correct": 23,
+          "gauge_aligned_correct": 23,
+          "positions_correct": 0,
+          "gauge_aligned_positions": 1,
+          "relative_orientation_flips": 0,
+          "route": "physical-document",
+          "matching_seconds": 11.057876525999745,
+          "matching": {
+            "patch_recurrence": true,
+            "edge_inset_px": 1,
+            "profile_depth_px": 2,
+            "reciprocal_top3_joins": 20,
+            "total_joins": 24,
+            "local_shadow_normalization": true,
+            "margin_prior_used": false,
+            "global_path": {
+              "method": "sparse-subtour-elimination",
+              "initial_energy": 21.69970011035541,
+              "selected_energy": 21.69970011035541,
+              "accepted": false,
+              "status": "shortlist-optimal",
+              "candidate_arcs": 306,
+              "iterations": 1
+            },
+            "vertical_registration": {
+              "applied": true,
+              "shifted_count": 14,
+              "max_abs_shift_px": 6,
+              "row_consensus": 0.6096135973930359
+            },
+            "cut_loss_selected": "coarse"
+          }
+        },
+        {
+          "case": "D2/D020",
+          "pieces": 23,
+          "joins": 22,
+          "directed_correct": 19,
+          "gauge_aligned_correct": 19,
+          "positions_correct": 20,
+          "gauge_aligned_positions": 20,
+          "relative_orientation_flips": 0,
+          "route": "physical-document",
+          "matching_seconds": 11.410149155999989,
+          "matching": {
+            "patch_recurrence": true,
+            "edge_inset_px": 1,
+            "profile_depth_px": 2,
+            "reciprocal_top3_joins": 20,
+            "total_joins": 22,
+            "local_shadow_normalization": true,
+            "margin_prior_used": false,
+            "global_path": {
+              "method": "sparse-subtour-elimination",
+              "initial_energy": 19.76996013822799,
+              "selected_energy": 19.76996013822799,
+              "accepted": false,
+              "status": "shortlist-optimal",
+              "candidate_arcs": 271,
+              "iterations": 1
+            },
+            "vertical_registration": {
+              "applied": false,
+              "shifted_count": 0,
+              "max_abs_shift_px": 0,
+              "row_consensus": 0.724760115146637
+            },
+            "cut_loss_selected": "coarse"
+          }
+        },
+        {
+          "case": "D3/D005",
+          "pieces": 26,
+          "joins": 25,
+          "directed_correct": 5,
+          "gauge_aligned_correct": 5,
+          "positions_correct": 5,
+          "gauge_aligned_positions": 5,
+          "relative_orientation_flips": 0,
+          "route": "physical-document",
+          "matching_seconds": 13.490951537,
+          "matching": {
+            "patch_recurrence": true,
+            "edge_inset_px": 1,
+            "profile_depth_px": 2,
+            "reciprocal_top3_joins": 10,
+            "total_joins": 25,
+            "local_shadow_normalization": true,
+            "margin_prior_used": false,
+            "global_path": {
+              "method": "sparse-subtour-elimination",
+              "initial_energy": 24.293084145265624,
+              "selected_energy": 24.293084145265624,
+              "accepted": false,
+              "status": "shortlist-optimal",
+              "candidate_arcs": 338,
+              "iterations": 1
+            },
+            "vertical_registration": {
+              "applied": true,
+              "shifted_count": 18,
+              "max_abs_shift_px": 4,
+              "row_consensus": 0.8622155785560608
+            },
+            "cut_loss_selected": "coarse"
+          }
+        },
+        {
+          "case": "D3/D015",
+          "pieces": 21,
+          "joins": 20,
+          "directed_correct": 0,
+          "gauge_aligned_correct": 2,
+          "positions_correct": 1,
+          "gauge_aligned_positions": 1,
+          "relative_orientation_flips": 0,
+          "route": "physical-document",
+          "matching_seconds": 7.48339107899983,
+          "matching": {
+            "patch_recurrence": true,
+            "edge_inset_px": 1,
+            "profile_depth_px": 2,
+            "reciprocal_top3_joins": 7,
+            "total_joins": 20,
+            "local_shadow_normalization": true,
+            "margin_prior_used": false,
+            "global_path": {
+              "method": "sparse-subtour-elimination",
+              "initial_energy": 19.577137894371553,
+              "selected_energy": 19.572607442318844,
+              "accepted": true,
+              "status": "shortlist-optimal",
+              "candidate_arcs": 262,
+              "iterations": 4
+            },
+            "vertical_registration": {
+              "applied": false,
+              "shifted_count": 0,
+              "max_abs_shift_px": 0,
+              "row_consensus": 0.7758157849311829
+            },
+            "cut_loss_selected": "coarse"
+          }
+        },
+        {
+          "case": "D3/D025",
+          "pieces": 23,
+          "joins": 22,
+          "directed_correct": 6,
+          "gauge_aligned_correct": 6,
+          "positions_correct": 1,
+          "gauge_aligned_positions": 1,
+          "relative_orientation_flips": 0,
+          "route": "physical-document",
+          "matching_seconds": 12.026732809999885,
+          "matching": {
+            "patch_recurrence": true,
+            "edge_inset_px": 1,
+            "profile_depth_px": 2,
+            "reciprocal_top3_joins": 14,
+            "total_joins": 22,
+            "local_shadow_normalization": true,
+            "margin_prior_used": false,
+            "global_path": {
+              "method": "sparse-subtour-elimination",
+              "initial_energy": 21.136949150039165,
+              "selected_energy": 21.13486675997305,
+              "accepted": true,
+              "status": "shortlist-optimal",
+              "candidate_arcs": 282,
+              "iterations": 7
+            },
+            "vertical_registration": {
+              "applied": true,
+              "shifted_count": 12,
+              "max_abs_shift_px": 9,
+              "row_consensus": 0.5018325448036194
+            },
+            "cut_loss_selected": "coarse"
+          }
+        },
+        {
+          "case": "D3/D035",
+          "pieces": 21,
+          "joins": 20,
+          "directed_correct": 5,
+          "gauge_aligned_correct": 5,
+          "positions_correct": 1,
+          "gauge_aligned_positions": 2,
+          "relative_orientation_flips": 0,
+          "route": "physical-document",
+          "matching_seconds": 10.799083560999861,
+          "matching": {
+            "patch_recurrence": true,
+            "edge_inset_px": 1,
+            "profile_depth_px": 2,
+            "reciprocal_top3_joins": 9,
+            "total_joins": 20,
+            "local_shadow_normalization": true,
+            "margin_prior_used": false,
+            "global_path": {
+              "method": "sparse-subtour-elimination",
+              "initial_energy": 19.60126744394584,
+              "selected_energy": 19.60126744394584,
+              "accepted": false,
+              "status": "shortlist-optimal",
+              "candidate_arcs": 268,
+              "iterations": 2
+            },
+            "vertical_registration": {
+              "applied": true,
+              "shifted_count": 11,
+              "max_abs_shift_px": 6,
+              "row_consensus": 0.8556394577026367
+            },
+            "cut_loss_selected": "gap-3-weight-0.3"
+          }
+        },
+        {
+          "case": "D3/D045",
+          "pieces": 24,
+          "joins": 23,
+          "directed_correct": 8,
+          "gauge_aligned_correct": 8,
+          "positions_correct": 2,
+          "gauge_aligned_positions": 2,
+          "relative_orientation_flips": 0,
+          "route": "physical-document",
+          "matching_seconds": 16.2653012640003,
+          "matching": {
+            "patch_recurrence": true,
+            "edge_inset_px": 1,
+            "profile_depth_px": 2,
+            "reciprocal_top3_joins": 16,
+            "total_joins": 23,
+            "local_shadow_normalization": true,
+            "margin_prior_used": false,
+            "global_path": {
+              "method": "sparse-subtour-elimination",
+              "initial_energy": 21.578338374931988,
+              "selected_energy": 21.578338374931988,
+              "accepted": false,
+              "status": "shortlist-optimal",
+              "candidate_arcs": 307,
+              "iterations": 3
+            },
+            "vertical_registration": {
+              "applied": true,
+              "shifted_count": 9,
+              "max_abs_shift_px": 7,
+              "row_consensus": 0.3498810976743698
+            },
+            "cut_loss_selected": "coarse"
+          }
+        },
+        {
+          "case": "D3/D055",
+          "pieces": 20,
+          "joins": 19,
+          "directed_correct": 0,
+          "gauge_aligned_correct": 1,
+          "positions_correct": 2,
+          "gauge_aligned_positions": 2,
+          "relative_orientation_flips": 0,
+          "route": "physical-document",
+          "matching_seconds": 10.86338933099978,
+          "matching": {
+            "patch_recurrence": true,
+            "edge_inset_px": 1,
+            "profile_depth_px": 2,
+            "reciprocal_top3_joins": 9,
+            "total_joins": 19,
+            "local_shadow_normalization": true,
+            "margin_prior_used": false,
+            "global_path": {
+              "method": "sparse-subtour-elimination",
+              "initial_energy": 18.368153179848047,
+              "selected_energy": 18.366567538236282,
+              "accepted": true,
+              "status": "shortlist-optimal",
+              "candidate_arcs": 248,
+              "iterations": 6
+            },
+            "vertical_registration": {
+              "applied": false,
+              "shifted_count": 0,
+              "max_abs_shift_px": 0,
+              "row_consensus": 0.8853864371776581
+            },
+            "cut_loss_selected": "coarse"
+          }
+        },
+        {
+          "case": "D3/D065",
+          "pieces": 24,
+          "joins": 23,
+          "directed_correct": 7,
+          "gauge_aligned_correct": 7,
+          "positions_correct": 2,
+          "gauge_aligned_positions": 2,
+          "relative_orientation_flips": 0,
+          "route": "physical-document",
+          "matching_seconds": 9.564622065000094,
+          "matching": {
+            "patch_recurrence": true,
+            "edge_inset_px": 1,
+            "profile_depth_px": 2,
+            "reciprocal_top3_joins": 11,
+            "total_joins": 23,
+            "local_shadow_normalization": true,
+            "margin_prior_used": false,
+            "global_path": {
+              "method": "sparse-subtour-elimination",
+              "initial_energy": 22.03934735128188,
+              "selected_energy": 22.03934735128188,
+              "accepted": false,
+              "status": "shortlist-optimal",
+              "candidate_arcs": 297,
+              "iterations": 3
+            },
+            "vertical_registration": {
+              "applied": true,
+              "shifted_count": 16,
+              "max_abs_shift_px": 4,
+              "row_consensus": 0.8200198113918304
+            },
+            "cut_loss_selected": "coarse"
+          }
+        },
+        {
+          "case": "D3/D075",
+          "pieces": 25,
+          "joins": 24,
+          "directed_correct": 8,
+          "gauge_aligned_correct": 8,
+          "positions_correct": 3,
+          "gauge_aligned_positions": 3,
+          "relative_orientation_flips": 0,
+          "route": "physical-document",
+          "matching_seconds": 11.813391435000085,
+          "matching": {
+            "patch_recurrence": true,
+            "edge_inset_px": 1,
+            "profile_depth_px": 2,
+            "reciprocal_top3_joins": 14,
+            "total_joins": 24,
+            "local_shadow_normalization": true,
+            "margin_prior_used": false,
+            "global_path": {
+              "method": "sparse-subtour-elimination",
+              "initial_energy": 22.763822389180994,
+              "selected_energy": 22.763822389180994,
+              "accepted": false,
+              "status": "shortlist-optimal",
+              "candidate_arcs": 322,
+              "iterations": 1
+            },
+            "vertical_registration": {
+              "applied": false,
+              "shifted_count": 0,
+              "max_abs_shift_px": 0,
+              "row_consensus": 0.11840126663446426
+            },
+            "cut_loss_selected": "coarse"
+          }
+        },
+        {
+          "case": "D3/D085",
+          "pieces": 24,
+          "joins": 23,
+          "directed_correct": 9,
+          "gauge_aligned_correct": 9,
+          "positions_correct": 9,
+          "gauge_aligned_positions": 9,
+          "relative_orientation_flips": 0,
+          "route": "physical-document",
+          "matching_seconds": 10.138509287000034,
+          "matching": {
+            "patch_recurrence": true,
+            "edge_inset_px": 1,
+            "profile_depth_px": 2,
+            "reciprocal_top3_joins": 14,
+            "total_joins": 23,
+            "local_shadow_normalization": true,
+            "margin_prior_used": false,
+            "global_path": {
+              "method": "sparse-subtour-elimination",
+              "initial_energy": 21.95221070937242,
+              "selected_energy": 21.924782097553447,
+              "accepted": true,
+              "status": "shortlist-optimal",
+              "candidate_arcs": 306,
+              "iterations": 3
+            },
+            "vertical_registration": {
+              "applied": true,
+              "shifted_count": 13,
+              "max_abs_shift_px": 6,
+              "row_consensus": 0.7176722884178162
+            },
+            "cut_loss_selected": "coarse"
+          }
+        },
+        {
+          "case": "D3/D095",
+          "pieces": 27,
+          "error": "Scan silhouette is not a near-uniform strip",
+          "matching_seconds": 1.6045885039998211,
+          "joins": 26,
+          "directed_correct": 0,
+          "gauge_aligned_correct": 0,
+          "positions_correct": 0,
+          "gauge_aligned_positions": 0
+        }
+      ]
+    },
+    "candidate": {
+      "profile": "balanced",
+      "seed": 624,
+      "source": "https://github.com/thiagopx/deeprec-pr20",
+      "results": [
+        {
+          "case": "D1/D001",
+          "pieces": 29,
+          "joins": 28,
+          "directed_correct": 5,
+          "gauge_aligned_correct": 15,
+          "positions_correct": 1,
+          "gauge_aligned_positions": 15,
+          "relative_orientation_flips": 25,
+          "route": "physical-document",
+          "matching_seconds": 9.848006496999915,
+          "matching": {
+            "patch_recurrence": true,
+            "edge_inset_px": 1,
+            "profile_depth_px": 2,
+            "reciprocal_top3_joins": 17,
+            "total_joins": 28,
+            "local_shadow_normalization": true,
+            "margin_prior_used": true,
+            "global_path": {
+              "method": "assignment-subtour-branch-and-bound",
+              "initial_energy": 26.127261988481038,
+              "selected_energy": 26.127261988481038,
+              "accepted": false,
+              "status": "shortlist-optimal",
+              "iterations": 3,
+              "candidate_arcs": 392
+            },
+            "vertical_registration": {
+              "applied": false,
+              "shifted_count": 0,
+              "max_abs_shift_px": 0,
+              "row_consensus": 0.9040362238883972
+            },
+            "matching_scale": 0.5128205128205128,
+            "matching_x_scale": 1.0,
+            "cut_loss_selected": "gap-2-weight-0.3"
+          }
+        },
+        {
+          "case": "D1/D021",
+          "pieces": 24,
+          "joins": 23,
+          "directed_correct": 22,
+          "gauge_aligned_correct": 22,
+          "positions_correct": 0,
+          "gauge_aligned_positions": 2,
+          "relative_orientation_flips": 0,
+          "route": "physical-document",
+          "matching_seconds": 7.17018047900001,
+          "matching": {
+            "patch_recurrence": true,
+            "edge_inset_px": 1,
+            "profile_depth_px": 2,
+            "reciprocal_top3_joins": 22,
+            "total_joins": 23,
+            "local_shadow_normalization": true,
+            "margin_prior_used": true,
+            "global_path": {
+              "method": "assignment-subtour-branch-and-bound",
+              "initial_energy": 19.79813161102855,
+              "selected_energy": 19.79813161102855,
+              "accepted": false,
+              "status": "shortlist-optimal",
+              "iterations": 3,
+              "candidate_arcs": 314
+            },
+            "vertical_registration": {
+              "applied": false,
+              "shifted_count": 0,
+              "max_abs_shift_px": 0,
+              "row_consensus": 0.9487142562866211
+            },
+            "matching_scale": 0.5128205128205128,
+            "matching_x_scale": 1.0,
+            "cut_loss_selected": "gap-2-weight-0.6"
+          }
+        },
+        {
+          "case": "D1/D041",
+          "pieces": 23,
+          "joins": 22,
+          "directed_correct": 22,
+          "gauge_aligned_correct": 22,
+          "positions_correct": 23,
+          "gauge_aligned_positions": 23,
+          "relative_orientation_flips": 0,
+          "route": "physical-document",
+          "matching_seconds": 7.284424118000061,
+          "matching": {
+            "patch_recurrence": true,
+            "edge_inset_px": 1,
+            "profile_depth_px": 2,
+            "reciprocal_top3_joins": 16,
+            "total_joins": 22,
+            "local_shadow_normalization": true,
+            "margin_prior_used": true,
+            "global_path": {
+              "method": "assignment-subtour-branch-and-bound",
+              "initial_energy": 20.33964052772695,
+              "selected_energy": 20.33964052772695,
+              "accepted": false,
+              "status": "shortlist-optimal",
+              "iterations": 1,
+              "candidate_arcs": 308
+            },
+            "vertical_registration": {
+              "applied": false,
+              "shifted_count": 0,
+              "max_abs_shift_px": 0,
+              "row_consensus": 0.8859331607818604
+            },
+            "matching_scale": 0.5128205128205128,
+            "matching_x_scale": 1.0,
+            "cut_loss_selected": "gap-2-weight-0.6"
+          }
+        },
+        {
+          "case": "D1/D061",
+          "pieces": 23,
+          "joins": 22,
+          "directed_correct": 22,
+          "gauge_aligned_correct": 22,
+          "positions_correct": 23,
+          "gauge_aligned_positions": 23,
+          "relative_orientation_flips": 0,
+          "route": "physical-document",
+          "matching_seconds": 7.861030074000155,
+          "matching": {
+            "patch_recurrence": true,
+            "edge_inset_px": 1,
+            "profile_depth_px": 2,
+            "reciprocal_top3_joins": 19,
+            "total_joins": 22,
+            "local_shadow_normalization": true,
+            "margin_prior_used": true,
+            "global_path": {
+              "method": "assignment-subtour-branch-and-bound",
+              "initial_energy": 19.212672553028483,
+              "selected_energy": 19.212672553028483,
+              "accepted": false,
+              "status": "shortlist-optimal",
+              "iterations": 1,
+              "candidate_arcs": 280
+            },
+            "vertical_registration": {
+              "applied": false,
+              "shifted_count": 0,
+              "max_abs_shift_px": 0,
+              "row_consensus": 0.8710880279541016
+            },
+            "matching_scale": 0.5128205128205128,
+            "matching_x_scale": 1.0,
+            "cut_loss_selected": "gap-2-weight-0.6"
+          }
+        },
+        {
+          "case": "D2/D001",
+          "pieces": 26,
+          "joins": 25,
+          "directed_correct": 0,
+          "gauge_aligned_correct": 25,
+          "positions_correct": 0,
+          "gauge_aligned_positions": 26,
+          "relative_orientation_flips": 25,
+          "route": "physical-document",
+          "matching_seconds": 10.298390311000276,
+          "matching": {
+            "patch_recurrence": true,
+            "edge_inset_px": 1,
+            "profile_depth_px": 2,
+            "reciprocal_top3_joins": 16,
+            "total_joins": 25,
+            "local_shadow_normalization": true,
+            "margin_prior_used": false,
+            "global_path": {
+              "method": "assignment-subtour-branch-and-bound",
+              "initial_energy": 23.856447273701466,
+              "selected_energy": 23.856447273701466,
+              "accepted": false,
+              "status": "shortlist-optimal",
+              "iterations": 1,
+              "candidate_arcs": 355
+            },
+            "vertical_registration": {
+              "applied": true,
+              "shifted_count": 16,
+              "max_abs_shift_px": 5,
+              "row_consensus": 0.7975008189678192
+            },
+            "matching_scale": 0.5185825410544511,
+            "matching_x_scale": 0.5185825410544511,
+            "cut_loss_selected": "gap-2-weight-0.6"
+          }
+        },
+        {
+          "case": "D2/D007",
+          "pieces": 27,
+          "joins": 26,
+          "directed_correct": 14,
+          "gauge_aligned_correct": 14,
+          "positions_correct": 14,
+          "gauge_aligned_positions": 14,
+          "relative_orientation_flips": 0,
+          "route": "physical-document",
+          "matching_seconds": 15.117787983000198,
+          "matching": {
+            "patch_recurrence": true,
+            "edge_inset_px": 1,
+            "profile_depth_px": 2,
+            "reciprocal_top3_joins": 16,
+            "total_joins": 26,
+            "local_shadow_normalization": true,
+            "margin_prior_used": false,
+            "global_path": {
+              "method": "assignment-subtour-branch-and-bound",
+              "initial_energy": 23.16487695442396,
+              "selected_energy": 23.151888337526383,
+              "accepted": true,
+              "status": "shortlist-optimal",
+              "iterations": 61,
+              "candidate_arcs": 353
+            },
+            "vertical_registration": {
+              "applied": true,
+              "shifted_count": 11,
+              "max_abs_shift_px": 5,
+              "row_consensus": 0.7454609870910645
+            },
+            "matching_scale": 0.5176876617773943,
+            "matching_x_scale": 0.5176876617773943,
+            "cut_loss_selected": "coarse"
+          }
+        },
+        {
+          "case": "D2/D014",
+          "pieces": 25,
+          "joins": 24,
+          "directed_correct": 24,
+          "gauge_aligned_correct": 24,
+          "positions_correct": 25,
+          "gauge_aligned_positions": 25,
+          "relative_orientation_flips": 0,
+          "route": "physical-document",
+          "matching_seconds": 8.545744942000056,
+          "matching": {
+            "patch_recurrence": true,
+            "edge_inset_px": 1,
+            "profile_depth_px": 2,
+            "reciprocal_top3_joins": 19,
+            "total_joins": 24,
+            "local_shadow_normalization": true,
+            "margin_prior_used": true,
+            "global_path": {
+              "method": "assignment-subtour-branch-and-bound",
+              "initial_energy": 24.957156878518873,
+              "selected_energy": 24.957156878518873,
+              "accepted": false,
+              "status": "shortlist-optimal",
+              "iterations": 1,
+              "candidate_arcs": 293
+            },
+            "vertical_registration": {
+              "applied": true,
+              "shifted_count": 14,
+              "max_abs_shift_px": 6,
+              "row_consensus": 0.6150213479995728
+            },
+            "matching_scale": 0.5176876617773943,
+            "matching_x_scale": 0.5176876617773943,
+            "cut_loss_selected": "coarse"
+          }
+        },
+        {
+          "case": "D2/D020",
+          "pieces": 23,
+          "joins": 22,
+          "directed_correct": 19,
+          "gauge_aligned_correct": 19,
+          "positions_correct": 20,
+          "gauge_aligned_positions": 20,
+          "relative_orientation_flips": 0,
+          "route": "physical-document",
+          "matching_seconds": 9.180670823999662,
+          "matching": {
+            "patch_recurrence": true,
+            "edge_inset_px": 1,
+            "profile_depth_px": 2,
+            "reciprocal_top3_joins": 17,
+            "total_joins": 22,
+            "local_shadow_normalization": true,
+            "margin_prior_used": false,
+            "global_path": {
+              "method": "assignment-subtour-branch-and-bound",
+              "initial_energy": 20.047934198544016,
+              "selected_energy": 20.047934198544016,
+              "accepted": false,
+              "status": "shortlist-optimal",
+              "iterations": 1,
+              "candidate_arcs": 278
+            },
+            "vertical_registration": {
+              "applied": false,
+              "shifted_count": 0,
+              "max_abs_shift_px": 0,
+              "row_consensus": 0.7253555059432983
+            },
+            "matching_scale": 0.5185825410544511,
+            "matching_x_scale": 0.5185825410544511,
+            "cut_loss_selected": "coarse"
+          }
+        },
+        {
+          "case": "D3/D005",
+          "pieces": 26,
+          "joins": 25,
+          "directed_correct": 4,
+          "gauge_aligned_correct": 4,
+          "positions_correct": 6,
+          "gauge_aligned_positions": 6,
+          "relative_orientation_flips": 0,
+          "route": "physical-document",
+          "matching_seconds": 15.714725015000113,
+          "matching": {
+            "patch_recurrence": true,
+            "edge_inset_px": 1,
+            "profile_depth_px": 2,
+            "reciprocal_top3_joins": 7,
+            "total_joins": 25,
+            "local_shadow_normalization": true,
+            "margin_prior_used": false,
+            "global_path": {
+              "method": "assignment-subtour-branch-and-bound",
+              "initial_energy": 24.089841780308895,
+              "selected_energy": 24.088234187207092,
+              "accepted": true,
+              "status": "shortlist-optimal",
+              "iterations": 30,
+              "candidate_arcs": 358
+            },
+            "vertical_registration": {
+              "applied": true,
+              "shifted_count": 18,
+              "max_abs_shift_px": 4,
+              "row_consensus": 0.867673397064209
+            },
+            "matching_scale": 0.5363528009535161,
+            "matching_x_scale": 0.5363528009535161,
+            "cut_loss_selected": "coarse"
+          }
+        },
+        {
+          "case": "D3/D015",
+          "pieces": 21,
+          "joins": 20,
+          "directed_correct": 10,
+          "gauge_aligned_correct": 10,
+          "positions_correct": 11,
+          "gauge_aligned_positions": 11,
+          "relative_orientation_flips": 0,
+          "route": "physical-document",
+          "matching_seconds": 6.921917473999656,
+          "matching": {
+            "patch_recurrence": true,
+            "edge_inset_px": 1,
+            "profile_depth_px": 2,
+            "reciprocal_top3_joins": 11,
+            "total_joins": 20,
+            "local_shadow_normalization": true,
+            "margin_prior_used": true,
+            "global_path": {
+              "method": "assignment-subtour-branch-and-bound",
+              "initial_energy": 22.44548782366551,
+              "selected_energy": 22.44548782366551,
+              "accepted": false,
+              "status": "shortlist-optimal",
+              "iterations": 16,
+              "candidate_arcs": 269
+            },
+            "vertical_registration": {
+              "applied": false,
+              "shifted_count": 0,
+              "max_abs_shift_px": 0,
+              "row_consensus": 0.7790688276290894
+            },
+            "matching_scale": 0.5363528009535161,
+            "matching_x_scale": 0.5363528009535161,
+            "cut_loss_selected": "coarse"
+          }
+        },
+        {
+          "case": "D3/D025",
+          "pieces": 23,
+          "joins": 22,
+          "directed_correct": 15,
+          "gauge_aligned_correct": 15,
+          "positions_correct": 7,
+          "gauge_aligned_positions": 7,
+          "relative_orientation_flips": 0,
+          "route": "physical-document",
+          "matching_seconds": 8.320223869999609,
+          "matching": {
+            "patch_recurrence": true,
+            "edge_inset_px": 1,
+            "profile_depth_px": 2,
+            "reciprocal_top3_joins": 14,
+            "total_joins": 22,
+            "local_shadow_normalization": true,
+            "margin_prior_used": true,
+            "global_path": {
+              "method": "assignment-subtour-branch-and-bound",
+              "initial_energy": 22.72990650055691,
+              "selected_energy": 22.72990650055691,
+              "accepted": false,
+              "status": "shortlist-optimal",
+              "iterations": 9,
+              "candidate_arcs": 266
+            },
+            "vertical_registration": {
+              "applied": true,
+              "shifted_count": 12,
+              "max_abs_shift_px": 9,
+              "row_consensus": 0.5048563480377197
+            },
+            "matching_scale": 0.5363528009535161,
+            "matching_x_scale": 0.5363528009535161,
+            "cut_loss_selected": "coarse"
+          }
+        },
+        {
+          "case": "D3/D035",
+          "pieces": 21,
+          "joins": 20,
+          "directed_correct": 17,
+          "gauge_aligned_correct": 17,
+          "positions_correct": 4,
+          "gauge_aligned_positions": 4,
+          "relative_orientation_flips": 0,
+          "route": "physical-document",
+          "matching_seconds": 7.89220595200004,
+          "matching": {
+            "patch_recurrence": true,
+            "edge_inset_px": 1,
+            "profile_depth_px": 2,
+            "reciprocal_top3_joins": 10,
+            "total_joins": 20,
+            "local_shadow_normalization": true,
+            "margin_prior_used": true,
+            "global_path": {
+              "method": "assignment-subtour-branch-and-bound",
+              "initial_energy": 22.604996590397707,
+              "selected_energy": 22.604996590397707,
+              "accepted": false,
+              "status": "shortlist-optimal",
+              "iterations": 33,
+              "candidate_arcs": 264
+            },
+            "vertical_registration": {
+              "applied": true,
+              "shifted_count": 11,
+              "max_abs_shift_px": 6,
+              "row_consensus": 0.8562349081039429
+            },
+            "matching_scale": 0.5363528009535161,
+            "matching_x_scale": 0.5363528009535161,
+            "cut_loss_selected": "coarse"
+          }
+        },
+        {
+          "case": "D3/D045",
+          "pieces": 24,
+          "joins": 23,
+          "directed_correct": 19,
+          "gauge_aligned_correct": 19,
+          "positions_correct": 0,
+          "gauge_aligned_positions": 0,
+          "relative_orientation_flips": 0,
+          "route": "physical-document",
+          "matching_seconds": 9.388437003000035,
+          "matching": {
+            "patch_recurrence": true,
+            "edge_inset_px": 1,
+            "profile_depth_px": 2,
+            "reciprocal_top3_joins": 20,
+            "total_joins": 23,
+            "local_shadow_normalization": true,
+            "margin_prior_used": false,
+            "global_path": {
+              "method": "assignment-subtour-branch-and-bound",
+              "initial_energy": 20.323889512928684,
+              "selected_energy": 20.323889512928684,
+              "accepted": false,
+              "status": "shortlist-optimal",
+              "iterations": 87,
+              "candidate_arcs": 294
+            },
+            "vertical_registration": {
+              "applied": true,
+              "shifted_count": 9,
+              "max_abs_shift_px": 7,
+              "row_consensus": 0.35341981053352356
+            },
+            "matching_scale": 0.5363528009535161,
+            "matching_x_scale": 0.5363528009535161,
+            "cut_loss_selected": "coarse"
+          }
+        },
+        {
+          "case": "D3/D055",
+          "pieces": 20,
+          "joins": 19,
+          "directed_correct": 8,
+          "gauge_aligned_correct": 8,
+          "positions_correct": 4,
+          "gauge_aligned_positions": 4,
+          "relative_orientation_flips": 0,
+          "route": "physical-document",
+          "matching_seconds": 7.7342051109999375,
+          "matching": {
+            "patch_recurrence": true,
+            "edge_inset_px": 1,
+            "profile_depth_px": 2,
+            "reciprocal_top3_joins": 11,
+            "total_joins": 19,
+            "local_shadow_normalization": true,
+            "margin_prior_used": true,
+            "global_path": {
+              "method": "assignment-subtour-branch-and-bound",
+              "initial_energy": 20.189638947725662,
+              "selected_energy": 20.167760630991197,
+              "accepted": true,
+              "status": "shortlist-optimal",
+              "iterations": 96,
+              "candidate_arcs": 245
+            },
+            "vertical_registration": {
+              "applied": false,
+              "shifted_count": 0,
+              "max_abs_shift_px": 0,
+              "row_consensus": 0.886803150177002
+            },
+            "matching_scale": 0.5363528009535161,
+            "matching_x_scale": 0.5363528009535161,
+            "cut_loss_selected": "coarse"
+          }
+        },
+        {
+          "case": "D3/D065",
+          "pieces": 24,
+          "joins": 23,
+          "directed_correct": 16,
+          "gauge_aligned_correct": 16,
+          "positions_correct": 15,
+          "gauge_aligned_positions": 15,
+          "relative_orientation_flips": 0,
+          "route": "physical-document",
+          "matching_seconds": 8.53769434700007,
+          "matching": {
+            "patch_recurrence": true,
+            "edge_inset_px": 1,
+            "profile_depth_px": 2,
+            "reciprocal_top3_joins": 18,
+            "total_joins": 23,
+            "local_shadow_normalization": true,
+            "margin_prior_used": true,
+            "global_path": {
+              "method": "assignment-subtour-branch-and-bound",
+              "initial_energy": 24.273814673195464,
+              "selected_energy": 24.23829095053277,
+              "accepted": true,
+              "status": "shortlist-optimal",
+              "iterations": 7,
+              "candidate_arcs": 302
+            },
+            "vertical_registration": {
+              "applied": true,
+              "shifted_count": 16,
+              "max_abs_shift_px": 4,
+              "row_consensus": 0.8212770223617554
+            },
+            "matching_scale": 0.5363528009535161,
+            "matching_x_scale": 0.5363528009535161,
+            "cut_loss_selected": "coarse"
+          }
+        },
+        {
+          "case": "D3/D075",
+          "pieces": 25,
+          "joins": 24,
+          "directed_correct": 22,
+          "gauge_aligned_correct": 22,
+          "positions_correct": 23,
+          "gauge_aligned_positions": 23,
+          "relative_orientation_flips": 0,
+          "route": "physical-document",
+          "matching_seconds": 8.745282450000104,
+          "matching": {
+            "patch_recurrence": true,
+            "edge_inset_px": 1,
+            "profile_depth_px": 2,
+            "reciprocal_top3_joins": 20,
+            "total_joins": 24,
+            "local_shadow_normalization": true,
+            "margin_prior_used": false,
+            "global_path": {
+              "method": "assignment-subtour-branch-and-bound",
+              "initial_energy": 21.532571839684348,
+              "selected_energy": 21.532571839684348,
+              "accepted": false,
+              "status": "shortlist-optimal",
+              "iterations": 1,
+              "candidate_arcs": 313
+            },
+            "vertical_registration": {
+              "applied": false,
+              "shifted_count": 0,
+              "max_abs_shift_px": 0,
+              "row_consensus": 0.1202453002333641
+            },
+            "matching_scale": 0.5363528009535161,
+            "matching_x_scale": 0.5363528009535161,
+            "cut_loss_selected": "coarse"
+          }
+        },
+        {
+          "case": "D3/D085",
+          "pieces": 24,
+          "joins": 23,
+          "directed_correct": 14,
+          "gauge_aligned_correct": 14,
+          "positions_correct": 0,
+          "gauge_aligned_positions": 0,
+          "relative_orientation_flips": 0,
+          "route": "physical-document",
+          "matching_seconds": 6.42429791099994,
+          "matching": {
+            "patch_recurrence": true,
+            "edge_inset_px": 1,
+            "profile_depth_px": 2,
+            "reciprocal_top3_joins": 15,
+            "total_joins": 23,
+            "local_shadow_normalization": true,
+            "margin_prior_used": true,
+            "global_path": {
+              "method": "assignment-subtour-branch-and-bound",
+              "initial_energy": 23.500909393973647,
+              "selected_energy": 23.500909393973647,
+              "accepted": false,
+              "status": "shortlist-optimal",
+              "iterations": 3,
+              "candidate_arcs": 298
+            },
+            "vertical_registration": {
+              "applied": true,
+              "shifted_count": 14,
+              "max_abs_shift_px": 6,
+              "row_consensus": 0.7211532294750214
+            },
+            "matching_scale": 0.5363528009535161,
+            "matching_x_scale": 0.5363528009535161,
+            "cut_loss_selected": "coarse"
+          }
+        },
+        {
+          "case": "D3/D095",
+          "pieces": 27,
+          "joins": 26,
+          "directed_correct": 7,
+          "gauge_aligned_correct": 7,
+          "positions_correct": 0,
+          "gauge_aligned_positions": 5,
+          "relative_orientation_flips": 2,
+          "route": "physical-document",
+          "matching_seconds": 10.058039062999796,
+          "matching": {
+            "patch_recurrence": true,
+            "edge_inset_px": 1,
+            "profile_depth_px": 2,
+            "reciprocal_top3_joins": 8,
+            "total_joins": 26,
+            "local_shadow_normalization": true,
+            "margin_prior_used": true,
+            "global_path": {
+              "method": "assignment-subtour-branch-and-bound",
+              "initial_energy": 27.238003020432476,
+              "selected_energy": 27.22904542469582,
+              "accepted": true,
+              "status": "shortlist-optimal",
+              "iterations": 3,
+              "candidate_arcs": 364
+            },
+            "vertical_registration": {
+              "applied": true,
+              "shifted_count": 18,
+              "max_abs_shift_px": 12,
+              "row_consensus": 0.6025537252426147
+            },
+            "matching_scale": 0.5363528009535161,
+            "matching_x_scale": 0.5363528009535161,
+            "cut_loss_selected": "coarse"
+          }
+        }
+      ]
+    },
+    "fast_baseline": {
+      "profile": "fast",
+      "seed": 624,
+      "source": "https://github.com/thiagopx/deeprec-pr20",
+      "results": [
+        {
+          "case": "D1/D001",
+          "pieces": 29,
+          "joins": 28,
+          "directed_correct": 4,
+          "gauge_aligned_correct": 5,
+          "positions_correct": 1,
+          "gauge_aligned_positions": 1,
+          "relative_orientation_flips": 25,
+          "route": "physical-document",
+          "matching_seconds": 2.7713478519999626,
+          "matching": {
+            "patch_recurrence": false,
+            "edge_inset_px": 1,
+            "profile_depth_px": 2,
+            "reciprocal_top3_joins": 15,
+            "total_joins": 28,
+            "local_shadow_normalization": false,
+            "margin_prior_used": true,
+            "global_path": {
+              "status": "not-run"
+            },
+            "vertical_registration": {
+              "applied": false,
+              "shifted_count": 0,
+              "max_abs_shift_px": 0
+            },
+            "cut_loss_selected": "not-run"
+          }
+        },
+        {
+          "case": "D1/D021",
+          "pieces": 24,
+          "joins": 23,
+          "directed_correct": 5,
+          "gauge_aligned_correct": 5,
+          "positions_correct": 2,
+          "gauge_aligned_positions": 2,
+          "relative_orientation_flips": 0,
+          "route": "physical-document",
+          "matching_seconds": 2.1286552599999595,
+          "matching": {
+            "patch_recurrence": false,
+            "edge_inset_px": 1,
+            "profile_depth_px": 2,
+            "reciprocal_top3_joins": 20,
+            "total_joins": 23,
+            "local_shadow_normalization": false,
+            "margin_prior_used": true,
+            "global_path": {
+              "status": "not-run"
+            },
+            "vertical_registration": {
+              "applied": false,
+              "shifted_count": 0,
+              "max_abs_shift_px": 0
+            },
+            "cut_loss_selected": "not-run"
+          }
+        },
+        {
+          "case": "D1/D041",
+          "pieces": 23,
+          "joins": 22,
+          "directed_correct": 2,
+          "gauge_aligned_correct": 2,
+          "positions_correct": 2,
+          "gauge_aligned_positions": 2,
+          "relative_orientation_flips": 0,
+          "route": "physical-document",
+          "matching_seconds": 2.003920248000213,
+          "matching": {
+            "patch_recurrence": false,
+            "edge_inset_px": 1,
+            "profile_depth_px": 2,
+            "reciprocal_top3_joins": 14,
+            "total_joins": 22,
+            "local_shadow_normalization": false,
+            "margin_prior_used": true,
+            "global_path": {
+              "status": "not-run"
+            },
+            "vertical_registration": {
+              "applied": false,
+              "shifted_count": 0,
+              "max_abs_shift_px": 0
+            },
+            "cut_loss_selected": "not-run"
+          }
+        },
+        {
+          "case": "D1/D061",
+          "pieces": 23,
+          "joins": 22,
+          "directed_correct": 4,
+          "gauge_aligned_correct": 4,
+          "positions_correct": 4,
+          "gauge_aligned_positions": 4,
+          "relative_orientation_flips": 0,
+          "route": "physical-document",
+          "matching_seconds": 2.1928467259999707,
+          "matching": {
+            "patch_recurrence": false,
+            "edge_inset_px": 1,
+            "profile_depth_px": 2,
+            "reciprocal_top3_joins": 11,
+            "total_joins": 22,
+            "local_shadow_normalization": false,
+            "margin_prior_used": true,
+            "global_path": {
+              "status": "not-run"
+            },
+            "vertical_registration": {
+              "applied": false,
+              "shifted_count": 0,
+              "max_abs_shift_px": 0
+            },
+            "cut_loss_selected": "not-run"
+          }
+        },
+        {
+          "case": "D2/D001",
+          "pieces": 26,
+          "joins": 25,
+          "directed_correct": 0,
+          "gauge_aligned_correct": 17,
+          "positions_correct": 2,
+          "gauge_aligned_positions": 2,
+          "relative_orientation_flips": 25,
+          "route": "physical-document",
+          "matching_seconds": 2.6592437909998807,
+          "matching": {
+            "patch_recurrence": false,
+            "edge_inset_px": 1,
+            "profile_depth_px": 2,
+            "reciprocal_top3_joins": 21,
+            "total_joins": 25,
+            "local_shadow_normalization": false,
+            "margin_prior_used": true,
+            "global_path": {
+              "status": "not-run"
+            },
+            "vertical_registration": {
+              "applied": false,
+              "shifted_count": 0,
+              "max_abs_shift_px": 0
+            },
+            "cut_loss_selected": "not-run"
+          }
+        },
+        {
+          "case": "D2/D007",
+          "pieces": 27,
+          "error": "Scan silhouette is not a near-uniform strip",
+          "matching_seconds": 0.024253220000446163,
+          "joins": 26,
+          "directed_correct": 0,
+          "gauge_aligned_correct": 0,
+          "positions_correct": 0,
+          "gauge_aligned_positions": 0
+        },
+        {
+          "case": "D2/D014",
+          "pieces": 25,
+          "joins": 24,
+          "directed_correct": 15,
+          "gauge_aligned_correct": 15,
+          "positions_correct": 1,
+          "gauge_aligned_positions": 1,
+          "relative_orientation_flips": 0,
+          "route": "physical-document",
+          "matching_seconds": 2.5158769599997868,
+          "matching": {
+            "patch_recurrence": false,
+            "edge_inset_px": 1,
+            "profile_depth_px": 2,
+            "reciprocal_top3_joins": 22,
+            "total_joins": 24,
+            "local_shadow_normalization": false,
+            "margin_prior_used": true,
+            "global_path": {
+              "status": "not-run"
+            },
+            "vertical_registration": {
+              "applied": false,
+              "shifted_count": 0,
+              "max_abs_shift_px": 0
+            },
+            "cut_loss_selected": "not-run"
+          }
+        },
+        {
+          "case": "D2/D020",
+          "pieces": 23,
+          "joins": 22,
+          "directed_correct": 14,
+          "gauge_aligned_correct": 14,
+          "positions_correct": 1,
+          "gauge_aligned_positions": 1,
+          "relative_orientation_flips": 0,
+          "route": "physical-document",
+          "matching_seconds": 2.3645720300000903,
+          "matching": {
+            "patch_recurrence": false,
+            "edge_inset_px": 1,
+            "profile_depth_px": 2,
+            "reciprocal_top3_joins": 19,
+            "total_joins": 22,
+            "local_shadow_normalization": false,
+            "margin_prior_used": true,
+            "global_path": {
+              "status": "not-run"
+            },
+            "vertical_registration": {
+              "applied": false,
+              "shifted_count": 0,
+              "max_abs_shift_px": 0
+            },
+            "cut_loss_selected": "not-run"
+          }
+        },
+        {
+          "case": "D3/D005",
+          "pieces": 26,
+          "joins": 25,
+          "directed_correct": 3,
+          "gauge_aligned_correct": 3,
+          "positions_correct": 1,
+          "gauge_aligned_positions": 1,
+          "relative_orientation_flips": 0,
+          "route": "physical-document",
+          "matching_seconds": 2.5087774660000832,
+          "matching": {
+            "patch_recurrence": false,
+            "edge_inset_px": 1,
+            "profile_depth_px": 2,
+            "reciprocal_top3_joins": 13,
+            "total_joins": 25,
+            "local_shadow_normalization": false,
+            "margin_prior_used": true,
+            "global_path": {
+              "status": "not-run"
+            },
+            "vertical_registration": {
+              "applied": false,
+              "shifted_count": 0,
+              "max_abs_shift_px": 0
+            },
+            "cut_loss_selected": "not-run"
+          }
+        },
+        {
+          "case": "D3/D015",
+          "pieces": 21,
+          "joins": 20,
+          "directed_correct": 1,
+          "gauge_aligned_correct": 2,
+          "positions_correct": 3,
+          "gauge_aligned_positions": 3,
+          "relative_orientation_flips": 0,
+          "route": "physical-document",
+          "matching_seconds": 2.051904338999975,
+          "matching": {
+            "patch_recurrence": false,
+            "edge_inset_px": 1,
+            "profile_depth_px": 2,
+            "reciprocal_top3_joins": 15,
+            "total_joins": 20,
+            "local_shadow_normalization": false,
+            "margin_prior_used": true,
+            "global_path": {
+              "status": "not-run"
+            },
+            "vertical_registration": {
+              "applied": false,
+              "shifted_count": 0,
+              "max_abs_shift_px": 0
+            },
+            "cut_loss_selected": "not-run"
+          }
+        },
+        {
+          "case": "D3/D025",
+          "pieces": 23,
+          "joins": 22,
+          "directed_correct": 11,
+          "gauge_aligned_correct": 11,
+          "positions_correct": 7,
+          "gauge_aligned_positions": 7,
+          "relative_orientation_flips": 0,
+          "route": "physical-document",
+          "matching_seconds": 2.2757802510000147,
+          "matching": {
+            "patch_recurrence": false,
+            "edge_inset_px": 1,
+            "profile_depth_px": 2,
+            "reciprocal_top3_joins": 14,
+            "total_joins": 22,
+            "local_shadow_normalization": false,
+            "margin_prior_used": true,
+            "global_path": {
+              "status": "not-run"
+            },
+            "vertical_registration": {
+              "applied": false,
+              "shifted_count": 0,
+              "max_abs_shift_px": 0
+            },
+            "cut_loss_selected": "not-run"
+          }
+        },
+        {
+          "case": "D3/D035",
+          "pieces": 21,
+          "joins": 20,
+          "directed_correct": 7,
+          "gauge_aligned_correct": 7,
+          "positions_correct": 3,
+          "gauge_aligned_positions": 3,
+          "relative_orientation_flips": 0,
+          "route": "physical-document",
+          "matching_seconds": 2.055935429999863,
+          "matching": {
+            "patch_recurrence": false,
+            "edge_inset_px": 1,
+            "profile_depth_px": 2,
+            "reciprocal_top3_joins": 13,
+            "total_joins": 20,
+            "local_shadow_normalization": false,
+            "margin_prior_used": true,
+            "global_path": {
+              "status": "not-run"
+            },
+            "vertical_registration": {
+              "applied": false,
+              "shifted_count": 0,
+              "max_abs_shift_px": 0
+            },
+            "cut_loss_selected": "not-run"
+          }
+        },
+        {
+          "case": "D3/D045",
+          "pieces": 24,
+          "joins": 23,
+          "directed_correct": 15,
+          "gauge_aligned_correct": 15,
+          "positions_correct": 19,
+          "gauge_aligned_positions": 19,
+          "relative_orientation_flips": 0,
+          "route": "physical-document",
+          "matching_seconds": 2.859525212000335,
+          "matching": {
+            "patch_recurrence": false,
+            "edge_inset_px": 1,
+            "profile_depth_px": 2,
+            "reciprocal_top3_joins": 19,
+            "total_joins": 23,
+            "local_shadow_normalization": false,
+            "margin_prior_used": true,
+            "global_path": {
+              "status": "not-run"
+            },
+            "vertical_registration": {
+              "applied": false,
+              "shifted_count": 0,
+              "max_abs_shift_px": 0
+            },
+            "cut_loss_selected": "not-run"
+          }
+        },
+        {
+          "case": "D3/D055",
+          "pieces": 20,
+          "joins": 19,
+          "directed_correct": 3,
+          "gauge_aligned_correct": 3,
+          "positions_correct": 3,
+          "gauge_aligned_positions": 3,
+          "relative_orientation_flips": 0,
+          "route": "physical-document",
+          "matching_seconds": 2.715014291999978,
+          "matching": {
+            "patch_recurrence": false,
+            "edge_inset_px": 1,
+            "profile_depth_px": 2,
+            "reciprocal_top3_joins": 9,
+            "total_joins": 19,
+            "local_shadow_normalization": false,
+            "margin_prior_used": true,
+            "global_path": {
+              "status": "not-run"
+            },
+            "vertical_registration": {
+              "applied": false,
+              "shifted_count": 0,
+              "max_abs_shift_px": 0
+            },
+            "cut_loss_selected": "not-run"
+          }
+        },
+        {
+          "case": "D3/D065",
+          "pieces": 24,
+          "joins": 23,
+          "directed_correct": 6,
+          "gauge_aligned_correct": 6,
+          "positions_correct": 4,
+          "gauge_aligned_positions": 4,
+          "relative_orientation_flips": 0,
+          "route": "physical-document",
+          "matching_seconds": 3.108750387999862,
+          "matching": {
+            "patch_recurrence": false,
+            "edge_inset_px": 1,
+            "profile_depth_px": 2,
+            "reciprocal_top3_joins": 15,
+            "total_joins": 23,
+            "local_shadow_normalization": false,
+            "margin_prior_used": true,
+            "global_path": {
+              "status": "not-run"
+            },
+            "vertical_registration": {
+              "applied": false,
+              "shifted_count": 0,
+              "max_abs_shift_px": 0
+            },
+            "cut_loss_selected": "not-run"
+          }
+        },
+        {
+          "case": "D3/D075",
+          "pieces": 25,
+          "joins": 24,
+          "directed_correct": 10,
+          "gauge_aligned_correct": 10,
+          "positions_correct": 2,
+          "gauge_aligned_positions": 2,
+          "relative_orientation_flips": 0,
+          "route": "physical-document",
+          "matching_seconds": 2.794480709000254,
+          "matching": {
+            "patch_recurrence": false,
+            "edge_inset_px": 1,
+            "profile_depth_px": 2,
+            "reciprocal_top3_joins": 13,
+            "total_joins": 24,
+            "local_shadow_normalization": false,
+            "margin_prior_used": true,
+            "global_path": {
+              "status": "not-run"
+            },
+            "vertical_registration": {
+              "applied": false,
+              "shifted_count": 0,
+              "max_abs_shift_px": 0
+            },
+            "cut_loss_selected": "not-run"
+          }
+        },
+        {
+          "case": "D3/D085",
+          "pieces": 24,
+          "joins": 23,
+          "directed_correct": 4,
+          "gauge_aligned_correct": 4,
+          "positions_correct": 3,
+          "gauge_aligned_positions": 3,
+          "relative_orientation_flips": 0,
+          "route": "physical-document",
+          "matching_seconds": 3.324810279999838,
+          "matching": {
+            "patch_recurrence": false,
+            "edge_inset_px": 1,
+            "profile_depth_px": 2,
+            "reciprocal_top3_joins": 16,
+            "total_joins": 23,
+            "local_shadow_normalization": false,
+            "margin_prior_used": true,
+            "global_path": {
+              "status": "not-run"
+            },
+            "vertical_registration": {
+              "applied": false,
+              "shifted_count": 0,
+              "max_abs_shift_px": 0
+            },
+            "cut_loss_selected": "not-run"
+          }
+        },
+        {
+          "case": "D3/D095",
+          "pieces": 27,
+          "error": "Scan silhouette is not a near-uniform strip",
+          "matching_seconds": 2.077220140999998,
+          "joins": 26,
+          "directed_correct": 0,
+          "gauge_aligned_correct": 0,
+          "positions_correct": 0,
+          "gauge_aligned_positions": 0
+        }
+      ]
+    }
+  },
+  "mechanical_additional_pages": {
+    "baseline": {
+      "profile": "balanced",
+      "seed": 624,
+      "source": "https://github.com/thiagopx/deeprec-pr20",
+      "results": [
+        {
+          "case": "D1/D010",
+          "pieces": 29,
+          "joins": 28,
+          "directed_correct": 2,
+          "gauge_aligned_correct": 12,
+          "positions_correct": 4,
+          "gauge_aligned_positions": 4,
+          "relative_orientation_flips": 26,
+          "route": "physical-document",
+          "matching_seconds": 23.96698116200014,
+          "matching": {
+            "patch_recurrence": true,
+            "edge_inset_px": 1,
+            "profile_depth_px": 2,
+            "reciprocal_top3_joins": 16,
+            "total_joins": 28,
+            "local_shadow_normalization": true,
+            "margin_prior_used": true,
+            "global_path": {
+              "method": "sparse-subtour-elimination",
+              "initial_energy": 25.752426942908706,
+              "selected_energy": 25.752426942908706,
+              "accepted": false,
+              "status": "shortlist-optimal",
+              "candidate_arcs": 381,
+              "iterations": 8
+            },
+            "vertical_registration": {
+              "applied": false,
+              "shifted_count": 0,
+              "max_abs_shift_px": 0,
+              "row_consensus": 0.8854626417160034
+            },
+            "cut_loss_selected": "coarse"
+          }
+        },
+        {
+          "case": "D2/D010",
+          "pieces": 26,
+          "joins": 25,
+          "error": "Scan silhouette is not a near-uniform strip",
+          "matching_seconds": 0.17851305099975434,
+          "directed_correct": 0,
+          "gauge_aligned_correct": 0,
+          "positions_correct": 0,
+          "gauge_aligned_positions": 0
+        },
+        {
+          "case": "D3/D050",
+          "pieces": 22,
+          "joins": 21,
+          "directed_correct": 8,
+          "gauge_aligned_correct": 8,
+          "positions_correct": 2,
+          "gauge_aligned_positions": 2,
+          "relative_orientation_flips": 0,
+          "route": "physical-document",
+          "matching_seconds": 17.093829594,
+          "matching": {
+            "patch_recurrence": true,
+            "edge_inset_px": 1,
+            "profile_depth_px": 2,
+            "reciprocal_top3_joins": 11,
+            "total_joins": 21,
+            "local_shadow_normalization": true,
+            "margin_prior_used": false,
+            "global_path": {
+              "method": "sparse-subtour-elimination",
+              "initial_energy": 20.294374326343483,
+              "selected_energy": 20.293468461604625,
+              "accepted": true,
+              "status": "shortlist-optimal",
+              "candidate_arcs": 299,
+              "iterations": 3
+            },
+            "vertical_registration": {
+              "applied": false,
+              "shifted_count": 0,
+              "max_abs_shift_px": 0,
+              "row_consensus": 0.6007887423038483
+            },
+            "cut_loss_selected": "coarse"
+          }
+        }
+      ]
+    },
+    "candidate": {
+      "profile": "balanced",
+      "seed": 624,
+      "source": "https://github.com/thiagopx/deeprec-pr20",
+      "results": [
+        {
+          "case": "D1/D010",
+          "pieces": 29,
+          "joins": 28,
+          "directed_correct": 2,
+          "gauge_aligned_correct": 12,
+          "positions_correct": 4,
+          "gauge_aligned_positions": 4,
+          "relative_orientation_flips": 26,
+          "route": "physical-document",
+          "matching_seconds": 10.24225259800005,
+          "matching": {
+            "patch_recurrence": true,
+            "edge_inset_px": 1,
+            "profile_depth_px": 2,
+            "reciprocal_top3_joins": 16,
+            "total_joins": 28,
+            "local_shadow_normalization": true,
+            "margin_prior_used": true,
+            "global_path": {
+              "method": "assignment-subtour-branch-and-bound",
+              "initial_energy": 25.752426942908706,
+              "selected_energy": 25.752426942908706,
+              "accepted": false,
+              "status": "shortlist-optimal",
+              "iterations": 3,
+              "candidate_arcs": 381
+            },
+            "vertical_registration": {
+              "applied": false,
+              "shifted_count": 0,
+              "max_abs_shift_px": 0,
+              "row_consensus": 0.8854626417160034
+            },
+            "matching_scale": 0.5128205128205128,
+            "matching_x_scale": 1.0,
+            "cut_loss_selected": "coarse"
+          }
+        },
+        {
+          "case": "D2/D010",
+          "pieces": 26,
+          "joins": 25,
+          "error": "Scan silhouette is not a near-uniform strip",
+          "matching_seconds": 0.10058622299993658,
+          "directed_correct": 0,
+          "gauge_aligned_correct": 0,
+          "positions_correct": 0,
+          "gauge_aligned_positions": 0
+        },
+        {
+          "case": "D3/D050",
+          "pieces": 22,
+          "joins": 21,
+          "directed_correct": 14,
+          "gauge_aligned_correct": 14,
+          "positions_correct": 10,
+          "gauge_aligned_positions": 10,
+          "relative_orientation_flips": 0,
+          "route": "physical-document",
+          "matching_seconds": 7.013202961999923,
+          "matching": {
+            "patch_recurrence": true,
+            "edge_inset_px": 1,
+            "profile_depth_px": 2,
+            "reciprocal_top3_joins": 14,
+            "total_joins": 21,
+            "local_shadow_normalization": true,
+            "margin_prior_used": true,
+            "global_path": {
+              "method": "assignment-subtour-branch-and-bound",
+              "initial_energy": 22.579525880528205,
+              "selected_energy": 22.579525880528205,
+              "accepted": false,
+              "status": "shortlist-optimal",
+              "iterations": 79,
+              "candidate_arcs": 281
+            },
+            "vertical_registration": {
+              "applied": false,
+              "shifted_count": 0,
+              "max_abs_shift_px": 0,
+              "row_consensus": 0.6042975783348083
+            },
+            "matching_scale": 0.5363528009535161,
+            "matching_x_scale": 0.5363528009535161,
+            "cut_loss_selected": "coarse"
+          }
+        }
+      ]
+    }
+  },
+  "simulated_damage": {
+    "baseline": [
+      {
+        "case": "pageA-20",
+        "seed": 617,
+        "severity": 1,
+        "correct": 16,
+        "total": 19,
+        "positions_aligned": 9,
+        "seconds": 3.101077671999974,
+        "algorithm": "physical-document-foreground-multiscale"
+      },
+      {
+        "case": "pageA-32",
+        "seed": 619,
+        "severity": 2,
+        "correct": 12,
+        "total": 31,
+        "positions_aligned": 4,
+        "seconds": 3.0147854599999846,
+        "algorithm": "physical-document-foreground-multiscale"
+      },
+      {
+        "case": "pageB-24",
+        "seed": 721,
+        "severity": 1,
+        "correct": 20,
+        "total": 23,
+        "positions_aligned": 19,
+        "seconds": 1.7936651859999984,
+        "algorithm": "physical-document-foreground-multiscale"
+      },
+      {
+        "case": "pageB-36",
+        "seed": 725,
+        "severity": 2,
+        "correct": 6,
+        "total": 35,
+        "positions_aligned": 6,
+        "seconds": 1.1168988340000396,
+        "algorithm": "physical-document-foreground-multiscale"
+      },
+      {
+        "case": "pageC-24",
+        "seed": 813,
+        "severity": 1,
+        "correct": 5,
+        "total": 23,
+        "positions_aligned": 3,
+        "seconds": 2.138467708999997,
+        "algorithm": "physical-document-foreground-multiscale"
+      },
+      {
+        "case": "pageC-40",
+        "seed": 819,
+        "severity": 2,
+        "correct": 8,
+        "total": 39,
+        "positions_aligned": 4,
+        "seconds": 1.3084093990000838,
+        "algorithm": "physical-document-foreground-multiscale"
+      },
+      {
+        "case": "pageD-32",
+        "seed": 917,
+        "severity": 1,
+        "correct": 7,
+        "total": 31,
+        "positions_aligned": 5,
+        "seconds": 1.8697898109999187,
+        "algorithm": "physical-document-foreground-multiscale"
+      },
+      {
+        "case": "pageD-48",
+        "seed": 919,
+        "severity": 2,
+        "correct": 3,
+        "total": 47,
+        "positions_aligned": 2,
+        "seconds": 1.4608246010002404,
+        "algorithm": "physical-document-foreground-multiscale"
+      }
+    ],
+    "candidate": [
+      {
+        "case": "pageA-20",
+        "seed": 617,
+        "severity": 1,
+        "correct": 16,
+        "total": 19,
+        "positions_aligned": 9,
+        "seconds": 2.6558119749997786,
+        "algorithm": "physical-document-foreground-multiscale"
+      },
+      {
+        "case": "pageA-32",
+        "seed": 619,
+        "severity": 2,
+        "correct": 8,
+        "total": 31,
+        "positions_aligned": 5,
+        "seconds": 1.527671539000039,
+        "algorithm": "physical-document-foreground-multiscale"
+      },
+      {
+        "case": "pageB-24",
+        "seed": 721,
+        "severity": 1,
+        "correct": 20,
+        "total": 23,
+        "positions_aligned": 19,
+        "seconds": 1.91808124399995,
+        "algorithm": "physical-document-foreground-multiscale"
+      },
+      {
+        "case": "pageB-36",
+        "seed": 725,
+        "severity": 2,
+        "correct": 6,
+        "total": 35,
+        "positions_aligned": 6,
+        "seconds": 1.2056223899999168,
+        "algorithm": "physical-document-foreground-multiscale"
+      },
+      {
+        "case": "pageC-24",
+        "seed": 813,
+        "severity": 1,
+        "correct": 5,
+        "total": 23,
+        "positions_aligned": 3,
+        "seconds": 1.8375168190000295,
+        "algorithm": "physical-document-foreground-multiscale"
+      },
+      {
+        "case": "pageC-40",
+        "seed": 819,
+        "severity": 2,
+        "correct": 8,
+        "total": 39,
+        "positions_aligned": 4,
+        "seconds": 1.3923026900001787,
+        "algorithm": "physical-document-foreground-multiscale"
+      },
+      {
+        "case": "pageD-32",
+        "seed": 917,
+        "severity": 1,
+        "correct": 7,
+        "total": 31,
+        "positions_aligned": 5,
+        "seconds": 1.4376404129998264,
+        "algorithm": "physical-document-foreground-multiscale"
+      },
+      {
+        "case": "pageD-48",
+        "seed": 919,
+        "severity": 2,
+        "correct": 3,
+        "total": 47,
+        "positions_aligned": 2,
+        "seconds": 1.780219087000205,
+        "algorithm": "physical-document-foreground-multiscale"
+      }
+    ]
+  },
+  "verification": {
+    "native": {
+      "passed": 140,
+      "skipped": 0
+    },
+    "python_fallback": {
+      "passed": 134,
+      "skipped": 6
+    },
+    "workflow": {
+      "passed": 2,
+      "skipped": 0
+    }
+  }
+}

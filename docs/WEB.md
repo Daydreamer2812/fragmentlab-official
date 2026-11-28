@@ -202,8 +202,13 @@ V14.3 adds a bounded explicit cut-loss hypothesis bank on high-resolution
 document strips (Balanced/High accuracy), reusing observed interior pixel
 patches. Reciprocal edge ranks and alternative-edge margins select a candidate
 chain without labels.
-A budgeted sparse global path refinement competes with the existing chain;
-it does not replace it unless the observed objective improves.
+V14.4 uses a bounded assignment/subtour branch-and-bound path refinement
+instead of MILP. It preserves the incumbent and always returns a valid chain.
+Native patch queries use at most four workers; WebAssembly stays single-threaded.
+Matching-only scaling retains horizontal detail on equal-width strips and
+uses isotropic anti-aliased downsampling on tall varying-width scans.
+A guarded elongated-mask tolerance handles some tapered cuts.
+The exported strip pixels remain at rectified source resolution.
 Color photographs use chromatic strip matching instead. Fast skips the patch index.
 The solver optimizes a directed chain. It supports 2–128 scanned strips. For other
 shapes, the irregular scan route remains available. Physical strip ordering
@@ -228,7 +233,9 @@ see the [paired scan report](../reports/v14/scan_document_v141.json).
 V14.3 reaches 119/119 directed joins and 122/122 exact positions on those same
 three real development pages, for both filename seeds 624 and 2026.
 See the [V14.3 report](../reports/v14/scan_document_v143.json).
-The stronger search costs more CPU time. These are native pixel-only
+V14.4 reduces native processing time and adds three independent external
+mechanical-strip collections. See [paired sample evidence](../reports/v14/scan_document_v144.json).
+These are native pixel-only
 development results, not a claim of identical browser performance or verified
 accuracy on arbitrary uploads.
 

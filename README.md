@@ -10,7 +10,7 @@ A CPU-first, training-free classical computer vision framework for shuffled,
 rotated, irregular and incomplete fragments. No original image, ground-truth
 poses, OCR, trained model or GPU is required for blind reconstruction.
 
-[![Version](https://img.shields.io/badge/version-14.3.0-2463eb?style=flat-square)](pyproject.toml)
+[![Version](https://img.shields.io/badge/version-14.4.0-2463eb?style=flat-square)](pyproject.toml)
 [![Python](https://img.shields.io/badge/Python-3.11%2B-3776ab?style=flat-square&logo=python&logoColor=white)](pyproject.toml)
 [![C++20](https://img.shields.io/badge/C%2B%2B-20-00599C?style=flat-square&logo=cplusplus)](cpp/)
 [![WebAssembly](https://img.shields.io/badge/WebAssembly-SIMD-654FF0?style=flat-square&logo=webassembly)](docs/WEB.md)
@@ -36,6 +36,16 @@ poses, OCR, trained model or GPU is required for blind reconstruction.
 ---
 
 ## What's new in V14
+
+**14.4.0 physical-scan performance and coverage update:** bounded parallel
+same-page patch queries and assignment-based subtour branching replace the
+MILP path refinement. High-resolution scans with unequal strip widths retain
+stroke aspect ratio in matching; regular equal-width cuts keep horizontal
+detail. Very long tapered strips with contiguous masks are accepted more
+often. An independent mechanical-strip benchmark covers S-MARQUES,
+S-ISRI-OCR and S-CDIP, including damaged edges and heterogeneous content.
+The accuracy and time claims are limited to the measured samples.
+[Measurements and limitations](docs/releases/v14.4.0.md).
 
 **14.3.0 real-document update:** all **119/119 directed joins and 122/122 exact
 strip positions** are correct on the three real DocDataset development scans,
@@ -81,7 +91,7 @@ Studio workflow and output contracts remain stable. See [architecture and migrat
 - **Unified UI/API:** a generator and reconstruction tab, direct ZIP transfer,
   optional evaluation-only ground truth and a separately enabled matching image.
 
-[Detailed V14 results](docs/V14_RESULTS.md) · [Release notes](docs/releases/v14.3.0.md)
+[Detailed V14 results](docs/V14_RESULTS.md) · [Release notes](docs/releases/v14.4.0.md)
 
 ## What makes Shardelix blind?
 
@@ -361,7 +371,7 @@ python scripts/smoke_studio.py
 
 | Topic | Docs |
 |:--|:--|
-| Current release / evidence | [V14 results](docs/V14_RESULTS.md) · [Release notes](docs/releases/v14.3.0.md) |
+| Current release / evidence | [V14 results](docs/V14_RESULTS.md) · [Release notes](docs/releases/v14.4.0.md) |
 | Engine | [Architecture](docs/ARCHITECTURE.md) · [Framework](docs/FRAMEWORK.md) · [API](docs/FRAMEWORK_API.md) · [Optimization](docs/OPTIMIZATION.md) |
 | Difficult inputs | [Eroded recovery](docs/ERODED_RECOVERY.md) · [Irregular scaling](docs/IRREGULAR_SCALE.md) · [DAFNE](docs/DAFNE_INDEXED.md) |
 | Deployment | [Web Studio](docs/WEB.md) · [Resource policy](docs/RESOURCE_SCALING.md) |

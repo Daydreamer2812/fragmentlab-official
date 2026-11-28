@@ -148,6 +148,34 @@ class PhysicalDocumentWorkflowTests(unittest.TestCase):
         self.assertFalse(d["applied"])
         self.assertFalse(offsets.any())
 
+    def test_high_resolution_matching_preserves_horizontal_detail_when_requested(self):
+        from shardelix.reconstruction.strips.physical import _matching_scale
+        im=np.random.default_rng(83).random((200,41),dtype=np.float32)
+        self.assertIs(_matching_scale(im,200,1.0),im)
+        by_height=_matching_scale(im,100,1.0)
+        isotropic=_matching_scale(im,100,.5)
+        self.assertEqual(by_height.shape,(100,41))
+        self.assertEqual(isotropic.shape,(100,20))
+        np.testing.assert_allclose(by_height[0],im[0])
+        self.assertTrue(np.isfinite(isotropic).all())
+
+    def test_rectify_long_tapered_scan_without_accepting_holes(self):
+        from shardelix.reconstruction.strips.physical import _rectify, NotDocumentStrips
+        with tempfile.TemporaryDirectory() as t:
+            path=Path(t)/"strip.png"
+            a=np.full((700,55,4),255,np.uint8)
+            a[:,:,3]=0
+            for y in range(700):
+                a[y,:int(round(28+24*y/699)),3]=255
+            Image.fromarray(a).save(path)
+            piece,record=_rectify(path)
+            self.assertEqual(piece.rgba.shape,(700,40,4))
+            self.assertTrue(record["masked"])
+            a[100:600,8:18,3]=0
+            Image.fromarray(a).save(path)
+            with self.assertRaises(NotDocumentStrips):
+                _rectify(path)
+
     def test_global_chain_matches_small_exhaustive_oracle(self):
         import itertools
         from shardelix.reconstruction.strips.ordering import (
@@ -168,6 +196,27 @@ class PhysicalDocumentWorkflowTests(unittest.TestCase):
         fallback,diag=refine_chain_global(costs,initial,seconds=0)
         np.testing.assert_array_equal(fallback,initial)
         self.assertFalse(diag["accepted"])
+
+    def test_global_refinement_with_borders_and_forbidden_arcs(self):
+        import itertools
+        from shardelix.reconstruction.strips.ordering import (
+            _chain_energy, _priority, refine_chain_global,
+        )
+        for seed in (8,14,62):
+            rng=np.random.default_rng(seed)
+            costs=rng.uniform(.05,2,(6,6))
+            np.fill_diagonal(costs,np.inf)
+            costs[5,2]=costs[2,5]=np.inf
+            borders=tuple(rng.uniform(0,1,6) for _ in range(2))
+            initial=np.arange(6)
+            priority=np.zeros((7,7))
+            priority[:6,:6]=_priority(costs,.5)
+            priority[6,:6],priority[:6,6]=borders
+            result,diag=refine_chain_global(costs,initial,borders,top_k=6,seconds=5)
+            oracle=min(_chain_energy(priority,np.asarray(o)) for o in itertools.permutations(range(6)))
+            self.assertAlmostEqual(_chain_energy(priority,result),oracle)
+            self.assertEqual(diag["status"],"shortlist-optimal")
+            self.assertLessEqual(diag["selected_energy"],diag["initial_energy"])
 
 
 if __name__ == "__main__":

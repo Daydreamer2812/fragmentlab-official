@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "shardelix"
-version = "14.3.0"
+version = "14.4.0"
 description = "Classical digital image and document fragment reconstruction, blind by default"
 readme = "README.md"
 requires-python = ">=3.11"

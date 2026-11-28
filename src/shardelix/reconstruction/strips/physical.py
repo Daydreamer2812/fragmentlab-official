@@ -56,7 +56,11 @@ def _rectify(path):
     left=np.interp(y,y[valid],left[valid]);right=np.interp(y,y[valid],right[valid])
     width=right-left+1
     W=int(round(np.median(width)))
-    if len(mask)<4*W or W<5 or np.percentile(abs(width-W),95)>max(3,.22*W):
+    # Long, contiguous machine-cut strips can have tapered or worn rims.
+    # Allow extra width variation only for very elongated silhouettes;
+    # the interior-hole guard below still rejects multi-piece masks.
+    tolerance=.38 if len(mask)>=15*max(1,W) else .22
+    if len(mask)<4*W or W<5 or np.percentile(abs(width-W),95)>max(3,tolerance*W):
         raise NotDocumentStrips("Scan silhouette is not a near-uniform strip")
     if mask.sum()/max(1,width.sum())<.96:
         raise NotDocumentStrips("Strip mask has substantial interior holes or multiple pieces")
@@ -179,14 +183,29 @@ def _line_cost(left,right):
     return .5*_unit_cost(a)+.5*_unit_cost(b)
 
 
+def _matching_scale(im,h,x_scale):
+    """Resize only the matching raster; preserve the observed export.
+
+    A 300 dpi scan often has twice the working height and width. Scaling
+    only y distorts printed strokes and the assumed missing-cut widths.
+    Use a common x scale for strips of varying rectified widths.
+    For equal-width cuts retain the native horizontal detail.
+    """
+    w=max(2,int(round(im.shape[1]*x_scale)))
+    if (h,w)==im.shape:return im
+    if x_scale<.99:
+        sigma=.5*math.sqrt(max(0.,1/x_scale**2-1))
+        im=gaussian_filter(im,sigma)
+    y=np.broadcast_to(np.linspace(0,len(im)-1,h)[:,None],(h,w))
+    x=np.broadcast_to(np.linspace(0,im.shape[1]-1,w),(h,w))
+    return map_coordinates(im,[y,x],order=1,prefilter=False)
+
+
 def _stroke_order(images,profile,update):
     # Common-height normalized evidence; only estimation, no resizing of output.
-    h=min(1800,max(map(len,images)))
-    cleaned=[_clean_ink(im) for im in images]
-    if any(len(im)!=h for im in cleaned):
-        cleaned=[map_coordinates(im,[np.broadcast_to(np.linspace(0,len(im)-1,h)[:,None],(h,im.shape[1])),
-                                    np.broadcast_to(np.arange(im.shape[1]),(h,im.shape[1]))],order=1)
-                 if len(im)!=h else im for im in cleaned]
+    height=max(map(len,images));h=min(1800,height);match_scale=h/height
+    x_scale=match_scale if len({im.shape[1] for im in images})>1 else 1.0
+    cleaned=[_matching_scale(_clean_ink(im),h,x_scale) for im in images]
     offsets,alignment=_align_text_rows(cleaned) if profile!="fast" else (
         np.zeros(len(cleaned),dtype=int),{"applied":False,"shifted_count":0,"max_abs_shift_px":0})
     if offsets.any():cleaned=[_shift_rows(im,int(d)) for im,d in zip(cleaned,offsets)]
@@ -210,11 +229,7 @@ def _stroke_order(images,profile,update):
         half,gap=(6,0) if inset==1 else (8,2)
         # Preserve the original column-normalized ink for direct matching:
         # the local shadow estimate is most useful for interior-patch search.
-        local=[_local_ink(im) for im in images]
-        if any(len(im)!=h for im in local):
-            local=[map_coordinates(im,[np.broadcast_to(np.linspace(0,len(im)-1,h)[:,None],(h,im.shape[1])),
-                                       np.broadcast_to(np.arange(im.shape[1]),(h,im.shape[1]))],order=1)
-                   if len(im)!=h else im for im in local]
+        local=[_matching_scale(_local_ink(im),h,x_scale) for im in images]
         if offsets.any():local=[_shift_rows(im,int(d)) for im,d in zip(local,offsets)]
         q=_patch_recurrence(local,half,gap)
         if q is not None:
@@ -250,7 +265,7 @@ def _stroke_order(images,profile,update):
                   "reciprocal_top3_joins":int(np.count_nonzero((rowrank[a,b]<3)&(colrank[a,b]<3))),
                   "total_joins":len(a),"local_shadow_normalization":patch,
                   "margin_prior_used":margin_used,"global_path":optimization,"vertical_registration":alignment,
-                  "cut_loss_hypotheses":cut_hypotheses}
+                  "cut_loss_hypotheses":cut_hypotheses,"matching_scale":float(match_scale),"matching_x_scale":float(x_scale)}
 
 
 def reconstruct_strips(paths,target:Path,out:Path,update=lambda _:None,*,pixel_cap=8_000_000,profile="balanced"):

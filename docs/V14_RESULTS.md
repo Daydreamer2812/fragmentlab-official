@@ -7,10 +7,11 @@ Python / C++20 / WebAssembly framework, not a C++-only rewrite.
 No OCR, ML, pretrained weights or intact source image are used in blind
 reconstruction. Reference-assisted registration is optional and explicit.
 
-## Physical document strips — V14.3
+## Physical document strips — V14.4
 
-See the [current document-strip release](releases/v14.3.0.md) and
-[paired real-scan measurements](../reports/v14/scan_document_v143.json).
+See the [current document-strip release](releases/v14.4.0.md) and
+[paired real-scan and external mechanical-strip measurements](../reports/v14/scan_document_v144.json).
+Historical V14.3 [release](releases/v14.3.0.md) and [report](../reports/v14/scan_document_v143.json).
 This is a separate pixel-only protocol, not an irregular-pose benchmark.
 
 ## 1. New V14 paired native benchmark

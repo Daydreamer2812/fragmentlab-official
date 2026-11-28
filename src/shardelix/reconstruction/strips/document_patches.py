@@ -6,6 +6,8 @@ reference page, external training corpus, or synthetic pixel export.
 from __future__ import annotations
 
 import math
+import os
+import sys
 import numpy as np
 from scipy.ndimage import gaussian_filter, map_coordinates
 from scipy.spatial import cKDTree
@@ -73,15 +75,23 @@ def _patch_recurrence(images,half,gap,*,inset=None):
     e=np.asarray(edges);L,R=e[:,1],e[:,0]
     def predict(source,target,query):
         tree=cKDTree(source)
+        # Independent KD-tree queries release the GIL. Use a bounded worker
+        # pool on native CPUs, never threads in the browser/Wasm runtime.
+        # Scheduling and chunk size do not alter search distances or eps.
+        try:cores=len(os.sched_getaffinity(0))
+        except (AttributeError,OSError):cores=os.cpu_count() or 1
+        workers=1 if sys.platform=="emscripten" else min(4,cores)
+        def search(q,eps):
+            return tree.query(q,k=8,eps=eps,workers=workers if len(q)>=2048 else 1)
         q=query.reshape(-1,query.shape[-1])
         if inset is not None:
             # Deduplicate identical observed half patches, especially empty
             # paper. Chunk queries to bound neighbor memory on long pages.
             unique, inverse=np.unique(q,axis=0,return_inverse=True)
             result=np.empty_like(unique)
-            for start in range(0,len(unique),2048):
-                u=unique[start:start+2048]
-                d,nn=tree.query(u,k=8,eps=.12)
+            for start in range(0,len(unique),8192):
+                u=unique[start:start+8192]
+                d,nn=search(u,.12)
                 weight=np.exp(-d*d/(.06+d[:,0:1]**2))
                 result[start:start+len(u)]=(weight[...,None]*target[nn]).sum(1)/weight.sum(1)[:,None]
             return result[inverse].reshape(query.shape)
@@ -90,12 +100,12 @@ def _patch_recurrence(images,half,gap,*,inset=None):
         # repeatedly traversing the high-dimensional tree over blank paper.
         nonzero=np.any(q!=0,axis=1);indices=np.flatnonzero(nonzero)
         if not nonzero.all():
-            d,nn=tree.query(np.zeros((1,q.shape[1]),dtype=q.dtype),k=8,eps=.08)
+            d,nn=search(np.zeros((1,q.shape[1]),dtype=q.dtype),.08)
             weight=np.exp(-d*d/(.06+d[:,0:1]**2))
             result[~nonzero]=(weight[...,None]*target[nn]).sum(1)/weight.sum(1)[:,None]
         # Bound working memory, including the neighbor tensor.
-        for start in range(0,len(indices),2048):
-            ii=indices[start:start+2048];d,nn=tree.query(q[ii],k=8,eps=.08)
+        for start in range(0,len(indices),8192):
+            ii=indices[start:start+8192];d,nn=search(q[ii],.08)
             weight=np.exp(-d*d/(.06+d[:,0:1]**2))
             result[ii]=(weight[...,None]*target[nn]).sum(1)/weight.sum(1)[:,None]
         return result.reshape(query.shape)

@@ -41,3 +41,35 @@
 - Baseline V5 measured on identical anonymous inputs and rotations. Duplicate
   metrics are diagnostic; strict ID DPA/F1 never adjusted for identical pixels.
 - User-supplied archive not redistributed; all outputs reproducible locally.
+
+## Mechanical shredding collections (V14.4)
+- Paixão et al., *Self-supervised deep reconstruction of mixed
+  strip-shredded text documents*, Pattern Recognition (2020):
+  https://www.sciencedirect.com/science/article/pii/S0031320320303381
+- Author repository and dataset download instructions:
+  https://github.com/thiagopx/deeprec-pr20 (see `scripts/get_dataset.sh`).
+  Use the datasets only; no training code, weights or intact documents
+  are needed by Shardelix.
+- The native matching-only evaluator reads each page's `strips/`, converts
+  optional author-provided `masks/*.npy` to alpha, and substitutes random
+  file aliases before rectification. Sequential strip identifiers are
+  decoded for scoring only after inference. Whole pages, model weights
+  and truth never enter matching.
+- Development sample: D1/S-MARQUES D001,D021,D041,D061;
+  D2/S-ISRI-OCR D001,D007,D014,D020; D3/S-CDIP D005,D015,D025,D035,
+  D045,D055,D065,D075,D085,D095. Additional sampled pages not used in
+  deciding the scaling rule: D1/D010, D2/D010, D3/D050.
+  These 21 selected pages are not the complete published dataset.
+- Primary metric: directed adjacency after at most one global reversal
+  (maximum of forward and reversed-chain counts). Report direct adjacency,
+  direct and reversal-aligned position accuracy separately. This does not
+  verify individual strip orientation, pixel accuracy or subpixel pose.
+  A rejected page contributes zero correct joins/positions, retaining
+  its full denominator.
+- Runtime is rectification plus matching, not conversion, rendering,
+  UI routing, export or full workflow. Output canvases may exceed the
+  configured application pixel budget at full source resolution.
+- Reproduce locally after extracting the external archive:
+  `PYTHONPATH=src python scripts/benchmark_mechanical_strips.py /path/datasets --out result.json`.
+  Use `--cases D1/D001 D2/D007` for a subset. No raw external scan data is
+  stored or redistributed in this repository.
